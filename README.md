@@ -129,7 +129,8 @@ Frontend runs at `http://localhost:3000`
 | [docs/ROADMAP.md](docs/ROADMAP.md) | Development roadmap |
 | [docs/BACKEND_SETUP.md](docs/BACKEND_SETUP.md) | Backend architecture |
 | [docs/FRONTEND_SETUP.md](docs/FRONTEND_SETUP.md) | Frontend architecture |
-| [docs/ONLINE_DEPLOYMENT_GUIDE.md](docs/ONLINE_DEPLOYMENT_GUIDE.md) | Production deployment guide |
+| [docs/PRODUCTION_DEPLOYMENT.md](docs/PRODUCTION_DEPLOYMENT.md) | **Production: Vercel + Railway + Supabase** ⭐ |
+| [docs/ONLINE_DEPLOYMENT_GUIDE.md](docs/ONLINE_DEPLOYMENT_GUIDE.md) | Alternative deployment options |
 | [docs/TESTING_GUIDE.md](docs/TESTING_GUIDE.md) | E2E testing with Playwright |
 
 ## 🧪 Testing
@@ -152,24 +153,31 @@ pnpm test:cov       # Coverage report
 
 ## 🚀 Deployment
 
-### Production Deployment
+### Production Stack
 
-**Frontend (Vercel)**
-```bash
-vercel --prod
-```
+**Recommended for MVP & Scale:**
+- **Frontend:** Vercel (auto-deploy from GitHub)
+- **Backend:** Railway (containerized NestJS)
+- **Database:** Supabase (PostgreSQL)
+- **Storage:** Supabase Storage (images & files)
 
-**Backend (Railway)**
-```bash
-railway up
-```
+See [docs/PRODUCTION_DEPLOYMENT.md](docs/PRODUCTION_DEPLOYMENT.md) for complete step-by-step guide (30-45 minutes to live!)
 
-See [docs/ONLINE_DEPLOYMENT_GUIDE.md](docs/ONLINE_DEPLOYMENT_GUIDE.md) for detailed instructions.
+### Alternative Deployments
 
-### Docker Deployment
-```bash
-docker-compose up -d
-```
+- **Docker:** [DEPLOYMENT.md](DEPLOYMENT.md)
+- **Other platforms:** [docs/ONLINE_DEPLOYMENT_GUIDE.md](docs/ONLINE_DEPLOYMENT_GUIDE.md)
+
+### Quick Deployment Checklist
+
+- [ ] Create Supabase project & setup database
+- [ ] Deploy backend to Railway
+- [ ] Deploy frontend to Vercel
+- [ ] Configure environment variables
+- [ ] Test all services
+- [ ] Setup custom domain (optional)
+
+**Estimated Cost:** $5-10/month (free tier) or $50-100/month at scale
 
 ## 🗺️ Roadmap
 

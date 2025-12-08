@@ -57,7 +57,10 @@ Complete guide to all documentation files for the project.
 
 | Document | Purpose | Audience |
 |----------|---------|----------|
-| [ONLINE_DEPLOYMENT_GUIDE.md](./ONLINE_DEPLOYMENT_GUIDE.md) | Production deployment (Vercel, Railway, AWS), DNS, SSL, monitoring | DevOps, Developers |
+| [PRODUCTION_DEPLOYMENT.md](./PRODUCTION_DEPLOYMENT.md) | ⭐ **RECOMMENDED** Production stack: Vercel + Railway + Supabase | DevOps, Developers |
+| [PRE_DEPLOYMENT_CHECKLIST.md](./PRE_DEPLOYMENT_CHECKLIST.md) | Go/No-Go checklist before production deployment | Project Lead, DevOps |
+| [ONLINE_DEPLOYMENT_GUIDE.md](./ONLINE_DEPLOYMENT_GUIDE.md) | Alternative deployment options (AWS, DigitalOcean, etc.) | DevOps, Developers |
+| [DEPLOYMENT.md](./DEPLOYMENT.md) | Docker deployment guide for any platform | DevOps, Developers |
 | [DEPLOYMENT.md](./DEPLOYMENT.md) | Local development setup (also in root) | Developers |
 
 ---
