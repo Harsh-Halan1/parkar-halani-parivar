@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: parivar_postgres
+    environment:
+      POSTGRES_USER: parivar_user
+      POSTGRES_PASSWORD: secure_password
+      POSTGRES_DB: parivar_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U parivar_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - parivar_network
+
+  # Backend NestJS Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: parivar_backend
+    environment:
+      NODE_ENV: development
+      PORT: 3001
+      DATABASE_URL: postgresql://parivar_user:secure_password@postgres:5432/parivar_db
+      JWT_SECRET: dev-secret-key
+      CORS_ORIGIN: http://localhost:3000
+    ports:
+      - "3001:3001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./backend/src:/app/src
+    networks:
+      - parivar_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Frontend Next.js Service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: parivar_frontend
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:3001/api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - parivar_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres_data:
+
+networks:
+  parivar_network:
+    driver: bridge
