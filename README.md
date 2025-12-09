@@ -179,7 +179,7 @@ See [docs/PRODUCTION_DEPLOYMENT.md](docs/PRODUCTION_DEPLOYMENT.md) for complete 
 - [ ] Test all services
 - [ ] Setup custom domain (optional)
 
-**Estimated Cost:** $5-10/month (free tier) or $50-100/month at scale
+**Estimated Cost:** $5-10/month (free tier) or $50-100/month at larger scale
 
 ## 🗺️ Roadmap
 
