@@ -1,13 +1,20 @@
 # Production Deployment Guide - Vercel + Railway + Supabase
 
 Complete guide for deploying **Parkar Halani Parivar** to production using:
-- **Frontend:** Vercel
-- **Backend:** Railway
-- **Database:** Supabase (PostgreSQL)
-- **Storage:** Supabase Storage
+- **Frontend:** Vercel (Next.js hosting)
+- **Backend:** Railway (NestJS API)
+- **Database:** Supabase (PostgreSQL - managed, RLS, backups)
+- **Storage:** Supabase (File storage for avatars & images)
+
+**Why this stack?**
+- Supabase provides superior database management, RLS, and integrated storage
+- Railway focuses on backend API with excellent GitHub integration
+- Best developer experience and observability
 
 **Estimated Time:** 30-45 minutes  
 **Cost:** Free tier available for all services
+
+> **Note:** Mobile app deployment will be handled after web deployment is live.
 
 ---
 

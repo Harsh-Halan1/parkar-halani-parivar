@@ -37,7 +37,7 @@
 
 ---
 
-## 🔄 Phase 2: Enhancements (January - February 2026)
+## 🔄 Phase 2: Enhancements
 
 **Timeline:** 6-8 weeks
 
@@ -72,19 +72,23 @@
 - [ ] Activity feed
 - [ ] Recent changes timeline
 
-### Mobile App
+### Mobile App (Flutter)
+> **Status:** Queued for post-web-deployment  
+> **Timeline:** After web platform goes live
+
 - [ ] Flutter project setup
-- [ ] Authentication screens
+- [ ] Authentication screens (reuse existing API)
 - [ ] Dashboard
 - [ ] Family & person management
 - [ ] Events feed
 - [ ] Basic family tree view
-- [ ] Push notifications
+- [ ] Push notifications (FCM)
 - [ ] Offline data caching
+- [ ] App store submission (iOS & Android)
 
 ---
 
-## 🚀 Phase 3: Advanced Features (March - April 2026)
+## 🚀 Phase 3: Advanced Features
 
 **Timeline:** 8-10 weeks
 
@@ -122,7 +126,7 @@
 
 ---
 
-## 🌟 Phase 4: Community Features (May - June 2026)
+## 🌟 Phase 4: Community Features
 
 **Timeline:** 6-8 weeks
 
@@ -149,7 +153,7 @@
 
 ---
 
-## 📱 Phase 5: Mobile App Polish (July 2026)
+## 📱 Phase 5: Mobile App Polish
 
 **Timeline:** 4-6 weeks
 
@@ -171,7 +175,7 @@
 
 ---
 
-## 🔧 Phase 6: Platform Maturity (August - September 2026)
+## 🔧 Phase 6: Platform Maturity
 
 **Timeline:** 6-8 weeks
 
@@ -197,7 +201,7 @@
 
 ---
 
-## 🎯 Future Considerations (2027+)
+## 🎯 Future Considerations
 
 ### AI & ML
 - [ ] Auto-tagging photos with facial recognition

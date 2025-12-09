@@ -153,13 +153,15 @@ pnpm test:cov       # Coverage report
 
 ## 🚀 Deployment
 
-### Production Stack
+### Production Stack (Finalized)
 
-**Recommended for MVP & Scale:**
-- **Frontend:** Vercel (auto-deploy from GitHub)
-- **Backend:** Railway (containerized NestJS)
-- **Database:** Supabase (PostgreSQL)
-- **Storage:** Supabase Storage (images & files)
+**Stack Architecture:**
+- **Frontend:** Vercel (Next.js hosting with auto-deploy)
+- **Backend:** Railway (NestJS API with GitHub integration)
+- **Database:** Supabase PostgreSQL (managed, RLS, backups)
+- **Storage:** Supabase Storage (avatars & event images)
+
+**Rationale:** Supabase provides superior database DX with RLS, SQL editor, and integrated storage. Railway handles backend API deployment seamlessly.
 
 See [docs/PRODUCTION_DEPLOYMENT.md](docs/PRODUCTION_DEPLOYMENT.md) for complete step-by-step guide (30-45 minutes to live!)
 
