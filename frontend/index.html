@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parakar Halani Parivar - Family Tree Management</title>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav id="navbar" class="navbar">
+      <div class="container">
+        <div class="navbar-brand">
+          <span class="logo">🌳 Parakar Halani Parivar</span>
+        </div>
+        <ul id="nav-menu" class="nav-menu">
+          <li><a href="#home" data-i18n="nav.home">Home</a></li>
+          <li><a href="#families" data-i18n="nav.families">Families</a></li>
+          <li><a href="#events" data-i18n="nav.events">Events</a></li>
+          <li><a href="#members" data-i18n="nav.members">Members</a></li>
+        </ul>
+        <div class="nav-actions">
+          <select id="language-selector" class="language-selector">
+            <option value="gu">Gujarati (ગુજરાતી)</option>
+            <option value="en">English</option>
+            <option value="hi">Hindi (हिन्दी)</option>
+          </select>
+          <button id="login-btn" class="btn btn-primary" data-i18n="nav.login">Login</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1 id="hero-title" data-i18n="hero.title">Family Tree Management</h1>
+          <p id="hero-subtitle" data-i18n="hero.subtitle">Connect, organize, and share your family's stories</p>
+          <button id="cta-btn" class="btn btn-lg" data-i18n="hero.cta">Get Started</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+      <div class="container">
+        <h2 id="features-title" data-i18n="features.title">Features</h2>
+        <div class="features-grid">
+          <!-- Family Management Card -->
+          <div class="feature-card">
+            <div class="feature-icon">👨‍👩‍👧‍👦</div>
+            <h3 id="feature-family-title" data-i18n="features.family">Family Management</h3>
+            <p id="feature-family-desc" data-i18n="features.familyDesc">Create and manage multiple family trees with ease</p>
+          </div>
+
+          <!-- Events Card -->
+          <div class="feature-card">
+            <div class="feature-icon">🎉</div>
+            <h3 id="feature-events-title" data-i18n="features.events">Event Tracking</h3>
+            <p id="feature-events-desc" data-i18n="features.eventsDesc">Track important family events and celebrations</p>
+          </div>
+
+          <!-- Relationships Card -->
+          <div class="feature-card">
+            <div class="feature-icon">🔗</div>
+            <h3 id="feature-relationships-title" data-i18n="features.relationships">Relationships</h3>
+            <p id="feature-relationships-desc" data-i18n="features.relationshipsDesc">Map connections and relationships between members</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p id="footer-copyright" data-i18n="footer.copyright">© 2025 Parakar Halani Parivar. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

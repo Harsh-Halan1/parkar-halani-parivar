@@ -1,0 +1,28 @@
+{
+  "nav": {
+    "home": "Home",
+    "families": "Families",
+    "events": "Events",
+    "members": "Members",
+    "logout": "Logout",
+    "login": "Login",
+    "signup": "Sign Up"
+  },
+  "hero": {
+    "title": "Family Tree Management",
+    "subtitle": "Connect, organize, and share your family's stories",
+    "cta": "Get Started"
+  },
+  "features": {
+    "title": "Features",
+    "family": "Family Management",
+    "familyDesc": "Create and manage multiple family trees with ease",
+    "events": "Event Tracking",
+    "eventsDesc": "Track important family events and celebrations",
+    "relationships": "Relationships",
+    "relationshipsDesc": "Map connections and relationships between members"
+  },
+  "footer": {
+    "copyright": "© 2025 Parakar Halani Parivar. All rights reserved."
+  }
+}

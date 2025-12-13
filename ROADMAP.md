@@ -2,7 +2,7 @@
 
 **Project Start Date:** December 10, 2025  
 **Current Phase:** Phase 1 - MVP Frontend UI Development  
-**Last Updated:** December 10, 2025
+**Last Updated:** December 13, 2025
 
 ---
 
@@ -21,9 +21,9 @@ This roadmap tracks the development progress of the Parkar Halani Parivar family
 
 ## 🎯 Phase 1 - MVP Frontend UI Development
 
-### Status: NOT STARTED (0%)
+### Status: IN PROGRESS (15%)
 
-**Goal:** Create beautiful, functional UI for all essential pages using Next.js, Tailwind CSS, and shadcn/ui
+**Goal:** Create beautiful, functional UI for all essential pages using HTML/CSS/JS with Vite and i18next
 
 **Start Date:** December 10, 2025  
 **Target Completion:** January 5, 2026 (4 weeks)
@@ -46,171 +46,107 @@ This roadmap tracks the development progress of the Parkar Halani Parivar family
 
 ## 🚧 IN PROGRESS TASKS
 
-### Current Sprint: Project Initialization (Week 1)
-
-**Tasks in this batch:**
-
-1. **Initialize Next.js Frontend Project**
-   - Description: Setup Next.js 14+ project with TypeScript
-   - Requirements:
-     - Create Next.js app with App Router
-     - Configure TypeScript with strict mode
-     - Setup project structure (src folder, app directory)
-     - Install core dependencies
-   - Priority: CRITICAL
-   - Expected Time: 30 minutes
-
-2. **Configure Tailwind CSS & Styling**
-   - Status: PENDING
-   - Description: Setup Tailwind CSS with custom configuration
-   - Requirements:
-     - Install and configure Tailwind CSS
-     - Setup globals.css with base styles
-     - Configure color scheme (blue-purple gradient theme)
-     - Setup dark mode support
-     - Add custom Tailwind utilities
-   - Priority: CRITICAL
-   - Expected Time: 30 minutes
-
-2. **Install shadcn/ui Components**
-   - Status: PENDING
-   - Description: Setup shadcn/ui component library
-   - Requirements:
-     - Initialize shadcn/ui
-     - Install base components (Button, Card, Input)
-     - Configure component styling
-   - Priority: HIGH
-   - Expected Time: 20 minutes
-
-3. **Setup Internationalization (i18n)**
-   - Status: PENDING
-   - Description: Configure next-intl for multi-language support
-   - Requirements:
-     - Install next-intl
-     - Create [locale] routing structure
-     - Setup message files (en.json, gu.json, hi.json)
-     - Configure middleware for locale detection
-     - Set Gujarati as default locale
-   - Priority: HIGH
-   - Expected Time: 1 hour
-
-4. **Create Base Layout & Theme Provider**
-   - Status: PENDING
-   - Description: Setup root layout with theme support
-   - Requirements:
-     - Create layout.tsx with HTML structure
-     - Add theme provider for dark mode
-     - Setup font configuration
-     - Add metadata and SEO tags
-   - Priority: HIGH
-   - Expected Time: 30 minutes
+None currently
 
 ---
 
 ## ⏳ PENDING TASKS
 
-### Phase 1A - Home Page & Navigation (Week 1-2)
+### Phase 1A - Additional Pages & Features (Week 2)
 
-#### Login Page  
-- [ ] Create login page layout
-- [ ] Create login form with email/phone input
-- [ ] Add feature cards (6 cards in responsive grid)
-- [ ] Add call-to-action section
-- [ ] Implement smooth animations and transitions
-- [ ] Test responsive design (mobile, tablet, desktop)
+#### Create New Pages
+- [ ] Create login.html page
+- [ ] Create signup.html page  
+- [ ] Create app.html (dashboard skeleton)
+- [ ] Create families.html page
+- [ ] Create events.html page
+- [ ] Create members.html page
+- [ ] Create 404.html error page
+
+#### Home Page Enhancements
+- [ ] Add smooth scroll animations
+- [ ] Add fade-in animations to sections
+- [ ] Add hover effects to feature cards
+- [ ] Optimize CSS/JS loading performance
+- [ ] Add loading skeleton states
 - [ ] Verify Lighthouse score > 90
 
-#### Navigation Components
-- [ ] Create Header component with logo
-- [ ] Add navigation menu (responsive with hamburger on mobile)
-- [ ] Implement language switcher (Gujarati, English, Hindi)
-- [ ] Add dark mode toggle
-- [ ] Create user profile dropdown placeholder
-- [ ] Add notification bell icon
+#### Navigation & Routing
+- [ ] Implement SPA routing (client-side navigation)
+- [ ] Add active page highlighting
+- [ ] Add breadcrumb navigation
+- [ ] Mobile hamburger menu toggle
+- [ ] Page transition animations
 
-#### Footer Component
-- [ ] Create footer with quick links
-- [ ] Add social media icons
-- [ ] Add copyright information
-- [ ] Ensure dark mode compatibility
-
-#### Translations
-- [ ] Complete Gujarati translations for home page
-- [ ] Complete Hindi translations for home page
-- [ ] Verify cultural appropriateness
-
-### Phase 1B - Authentication Pages (Week 2-3)
+### Phase 1B - Authentication Pages (Week 3)
 
 #### Login Page
-- [ ] Create login form page with email/phone input
-- [ ] Add password input with show/hide toggle
-- [ ] Add "Forgot Password?" link
-- [ ] Add "Sign in with Google" button
-- [ ] Add "Don't have account? Register" link
-- [ ] Add form validation and error messages
-- [ ] Responsive design testing
-- [ ] Translation for Gujarati and Hindi
+- [ ] Create login form layout
+- [ ] Email/phone input field
+- [ ] Password input with show/hide toggle
+- [ ] "Forgot Password?" link
+- [ ] "Sign in with Google" button
+- [ ] Form validation
+- [ ] Error messages display
+- [ ] Remember me checkbox
 
-#### Registration Page (3-step form)
-- [ ] Step 1: Email/Phone input form
-  - [ ] Email and phone number inputs
-  - [ ] Validation (email format, phone format)
-  - [ ] "Next" button
-  - [ ] Resend OTP option (if applicable)
-  
-### Phase 1C - Dashboard & Profile Pages (Week 3-4)
-  - [ ] Password input with requirements display
-  - [ ] Confirm password input
-  - [ ] Password strength indicator
-  - [ ] "Next" button
-  
-- [ ] Step 3: OTP verification form
-  - [ ] OTP input field (6 digits)
-  - [ ] Countdown timer for OTP expiry
-  - [ ] "Resend OTP" button
-  - [ ] "Verify & Complete Registration" button
+#### Sign Up Page
+- [ ] Multi-step registration form (3 steps)
+- [ ] Step 1: Email/Phone input
+- [ ] Step 2: Password with requirements display
+- [ ] Step 3: OTP verification
+- [ ] Form validation on each step
+- [ ] Progress indicator
+- [ ] Success confirmation page
 
-#### Dashboard Layout
-- [ ] Create dashboard wrapper/layout
-- [ ] Add sidebar navigation (collapsible on mobile)
-- [ ] Sidebar menu items: Dashboard, Family Tree, Events, Announcements, Settings
-- [ ] Main content area placeholder
-- [ ] Responsive design
+#### User Profile Pages
+- [ ] User profile display page
+- [ ] Profile edit form
+- [ ] Account settings page
+- [ ] Password change form
+- [ ] Delete account option
 
-#### Profile Pages (Basic Structure)
-### Phase 1D - Supporting Pages (Week 4)
+### Phase 1C - Core Feature Pages (Week 4)
 
-#### Static Content Pages
+#### Family Management
+- [ ] Family tree visualization (basic version)
+- [ ] Add family member form
+- [ ] Family members list view
+- [ ] Family member detail page
+- [ ] Edit family member form
+- [ ] Delete confirmation modal
+
+#### Events Management
+- [ ] Events list view
+- [ ] Create event form
+- [ ] Event detail page
+- [ ] Event calendar view
+- [ ] Edit event form
+- [ ] RSVP interface
+
+#### Members & Relationships
+- [ ] Members list with filters
+- [ ] Member search functionality
+- [ ] Relationship types management
+- [ ] Add relationship form
+- [ ] Relationship visualizer
+
+### Phase 1D - Static & Supporting Pages (Week 4)
+
+#### Static Content
 - [ ] About Us page
 - [ ] Contact Us page with form
 - [ ] Privacy Policy page
 - [ ] Terms of Service page
-- [ ] Community Guidelines page
 - [ ] FAQ page
-
-#### Error Pages
-### Phase 1E - Components Library (Ongoing)
-### Phase 1B - Supporting Pages (Week 3-4)
-
-#### Static Content Pages
-- [ ] About Us page
-- [ ] Contact Us page with form
-- [ ] Privacy Policy page
-- [ ] Terms of Service page
 - [ ] Community Guidelines page
-- [ ] FAQ page
 
-#### Error Pages
-- [ ] 404 Not Found page
+#### Additional Pages
 - [ ] 500 Server Error page
-- [ ] Unauthorized/403 page
+- [ ] Offline page
+- [ ] Coming Soon page
 
-#### Loading States
-- [ ] Loading skeleton screens
-- [ ] Loading spinners/animations
-- [ ] Progress indicators
-
-### Phase 1C - Components Library (Ongoing)
+### Phase 1E - Components Library (Ongoing)
 
 #### Form Components
 - [ ] Reusable text input component
@@ -220,7 +156,6 @@ This roadmap tracks the development progress of the Parkar Halani Parivar family
 - [ ] Select/dropdown component
 - [ ] Checkbox and radio components
 - [ ] Date picker component
-- [ ] Text area component
 - [ ] File upload component
 - [ ] Form error message display
 
@@ -228,10 +163,8 @@ This roadmap tracks the development progress of the Parkar Halani Parivar family
 - [ ] Alert/notification component
 - [ ] Modal/dialog component
 - [ ] Toast notification component
-- [ ] Dropdown menu component
 - [ ] Tabs component
 - [ ] Accordion component
-- [ ] Breadcrumbs component
 - [ ] Pagination component
 - [ ] Badge/tag component
 - [ ] Avatar component
@@ -239,139 +172,130 @@ This roadmap tracks the development progress of the Parkar Halani Parivar family
 
 #### Layout Components
 - [ ] Hero section variations
-- [ ] Card variations (hover states, icons)
+- [ ] Card variations with hover states
 - [ ] Stats card component
 - [ ] Timeline component
-
-### Phase 2A - Authentication UI Enhancements (After MVP)
-- [ ] Password reset flow UI
-- [ ] Email verification page
-- [ ] Phone verification page
-- [ ] Account recovery page
-- [ ] Two-factor authentication setup page
-
-### Phase 2B - Family Tree UI (After MVP)
-- [ ] Family tree canvas/SVG renderer
-- [ ] Person node component
-- [ ] Relationship line component
-- [ ] Tree controls (zoom, pan, fit-to-screen)
-- [ ] Add person modal
-- [ ] Add relationship modal
-- [ ] Filter and search overlay
-
-### Phase 2C - Events & Calendar (After MVP)
-- [ ] Calendar component (month view)
-- [ ] Event card component
-- [ ] Event detail modal
-- [ ] Event creation form
-- [ ] RSVP interface
-- [ ] Event list view
-
-### Phase 2D - Announcements (After MVP)
-- [ ] Announcement feed layout
-- [ ] Announcement card component
-- [ ] Announcement detail page
-- [ ] Create announcement form
-- [ ] Comment section UI
-
-### Phase 2E - Admin Panel (After MVP)
-- [ ] Admin dashboard layout
-- [ ] User management table
-- [ ] Content moderation interface
-- [ ] Analytics dashboard
-- [ ] System settings page
+- [ ] Sidebar layout
+- [ ] Dashboard layout
 
 ---
 
-## 🔄 FUTURE IMPLEMENTATION
+## 📊 Task Statistics
 
-### Phase 3 - Backend Integration (Months 2)
-- [ ] Connect authentication UI to backend endpoints
-- [ ] Setup API interceptors for token handling
-- [ ] Implement error handling from API responses
-- [ ] Setup form submission to backend
-- [ ] Session management integration
-- [ ] OAuth flow implementation
-
-### Phase 4 - Family Tree Feature (Months 3)
-- [ ] D3.js family tree visualization
-- [ ] Interactive tree interactions
-- [ ] Relationship management UI
-- [ ] Advanced filtering
-
-### Phase 5 - Mobile App (Months 4-5)
-- [ ] React Native/Flutter setup
-- [ ] Core UI porting
-- [ ] Mobile-specific features
-
-### Phase 6 - Performance & Optimization (Months 5-6)
-- [ ] Image optimization
-- [ ] Code splitting
-- [ ] Lazy loading
-- [ ] Caching strategy
-- [ ] Performance monitoring
-## 📊 Statistics
-
-### Overall Progress
-- **Total Tasks Completed:** 5
-- **Total Tasks In Progress:** 1
-- **Total Tasks Pending:** 70+
-- **Current Phase Completion:** 1%
-- **Last Updated:** December 13, 2025
-
-### Phase 1 Progress
-- **Completed:** 1 task (Next.js initialization)
-- **In Progress:** 1 task (Tailwind configuration)
-- **Pending:** 68+ tasks
-- **Phase Completion:** 2%
-- **In Progress:** 5 tasks
-- **Pending:** 30+ tasks
-- **Phase Completion:** 15%
-## 📝 Notes & Decisions
-
-### December 10, 2025
-- **Repository Reset:** Cleaned entire repository, keeping only essential planning documents
-- **Development Strategy:** Focus on UI first, then backend integration later
-- **Workflow Established:** Tasks → Code → Test → Commit → Update Roadmap → Repeat
-- **Documentation:** Created PROJECT_REQUIREMENTS.md (detailed specs) and ROADMAP.md (progress tracking)
-- **Ready to Start:** Clean slate with clear roadmap and task management system in place
-
-### December 13, 2025
-- **Task #1 Completed:** Next.js 14 frontend initialized successfully
-  - TypeScript configured with strict mode
-  - Tailwind CSS pre-installed
-  - App Router with src directory structure
-  - ESLint configured for code quality
-  - Import alias @/* configured
-- **Moving to Task #2:** Configure Tailwind CSS with custom theme
-- Established clear workflow: Tasks → Code → Test → Commit → Update Roadmap
-- Setup ROADMAP.md for continuous progress tracking
-- Home page UI work started (hero section created, CSS issues to fix)
+| Phase | Status | Completed | Total | % Done |
+|-------|--------|-----------|-------|--------|
+| Phase 0 | ✅ Done | 5 | 5 | 100% |
+| Phase 1 Initial | ✅ Done | 11 | 11 | 100% |
+| Phase 1A | ⏳ Pending | 0 | 14 | 0% |
+| Phase 1B | ⏳ Pending | 0 | 13 | 0% |
+| Phase 1C | ⏳ Pending | 0 | 11 | 0% |
+| Phase 1D | ⏳ Pending | 0 | 6 | 0% |
+| Phase 1E | ⏳ Pending | 0 | 19 | 0% |
+| **TOTAL** | **IN PROGRESS** | **16** | **105** | **15%** |
 
 ---
 
-## 🎓 Lessons Learned & Best Practices
+## 🔄 Recent Activity Log
 
-(To be updated as project progresses)
+| Date | Task | Status |
+|------|------|--------|
+| Dec 13, 2025 | Recreate frontend with Vite (vanilla) | ✅ Complete |
+| Dec 13, 2025 | Setup i18next with 3 languages | ✅ Complete |
+| Dec 13, 2025 | Create home page (hero + features) | ✅ Complete |
+| Dec 13, 2025 | Add responsive navigation | ✅ Complete |
+| Dec 13, 2025 | Verify all languages working | ✅ Complete |
 
-### Development Approach
-1. Focus on one area at a time (UI now, backend later)
-2. Test each completed feature thoroughly
-3. Update documentation before committing
-4. Keep translations in sync across all languages
-5. Delete temporary/debug files to keep repo clean
+---
+
+## 🎯 Next Steps
+
+1. **Phase 1A (Week 2):** Create additional pages and enhance home page
+2. **Phase 1B (Week 3):** Build authentication flows (login, signup)
+3. **Phase 1C (Week 4):** Create core feature pages (families, events, members)
+4. **Phase 1D (Week 4):** Add static pages and error handling
+5. **Phase 1E (Ongoing):** Build reusable components library
+
+---
+
+## 🏗️ Tech Stack Decision (Updated)
+
+### Frontend
+- **Framework:** Vite (vanilla HTML/CSS/JS)
+- **Build Tool:** Vite v7.2.7
+- **Languages:** HTML5, CSS3, JavaScript (ES6+)
+- **Localization:** i18next v23.7.0
+- **API Client:** axios v1.13.2
+- **Styling:** Custom CSS with variables and gradients
+- **Responsive:** Mobile-first design with media queries
+
+### Backend
+- **Framework:** NestJS (TypeScript)
+- **Database:** PostgreSQL with Prisma ORM
+- **Auth:** JWT + OAuth2 (Google)
+
+### Version Control
+- **Git:** GitHub with main/develop branches
+
+---
+
+## 📝 Implementation Notes
+
+### December 13, 2025 - Architecture Change
+**Decision:** Switched from Next.js → Vite + Vanilla HTML/CSS/JS
+**Reasons:**
+1. Simpler, faster development cycle
+2. No build complexity issues (middleware 404 problems)
+3. Pure HTML/CSS/JS is more flexible for custom designs
+4. Easier to debug and maintain
+5. Lighter bundle size
+6. Better control over everything
+
+**Backup:** Old Next.js setup preserved in `frontend.backup.old/` (can be deleted)
+
+### Frontend Structure
+```
+frontend/
+├── index.html                 # Main entry point
+├── package.json              # Dependencies
+├── .env.local                # Environment variables
+├── vite.config.js            # Vite configuration
+├── src/
+│   ├── main.js              # Application entry
+│   ├── style.css            # Global styles
+│   ├── i18n.js              # i18next setup
+│   ├── api.js               # Axios API client
+│   ├── utils.js             # DOM utilities
+│   └── locales/             # Translation files
+│       ├── en.json
+│       ├── gu.json
+│       └── hi.json
+└── public/                   # Static assets
+```
+
+### Localization Strategy
+- **Default Language:** Gujarati (gu)
+- **Supported Languages:** English (en), Hindi (hi), Gujarati (gu)
+- **Storage:** localStorage for user preference
+- **Implementation:** i18next with data-i18n attributes
+
+### API Integration
+- **Base URL:** Configured via VITE_API_URL
+- **Auth:** Bearer token in Authorization header
+- **Interceptors:** Automatic token injection and 401 handling
+- **Backend:** Expected at http://localhost:3001/api
 
 ---
 
 ## 🚀 Quick Links
 
-- **PROJECT_REQUIREMENTS.md** - Detailed project specifications and technical architecture
-- **Frontend Path:** `frontend/src/`
-- **Backend Path:** `backend/src/`
-- **Messages (i18n):** `frontend/messages/`
+- **PROJECT_REQUIREMENTS.md** - Detailed project specifications
+- **Frontend:** `c:\Harsh\Privet Folder\Project\Parakar-Halani-Parivar\frontend`
+- **Backend:** `c:\Harsh\Privet Folder\Project\Parakar-Halani-Parivar\backend`
+- **Dev Server:** npm run dev (port 5173)
+- **Build:** npm run build
 
 ---
 
-**Last Sync:** December 10, 2025, 04:45 PM  
-**Next Review:** After completing current In Progress sprint  
+**Last Sync:** December 13, 2025  
+**Next Review:** After completing Phase 1A  
 **Maintainer:** Development Team
