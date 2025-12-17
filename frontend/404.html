@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>404 - Page Not Found | Parakar Halani Parivar</title>
+    <link rel="stylesheet" href="/src/style.css" />
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav id="navbar" class="navbar">
+        <div class="container navbar-flex">
+            <div class="navbar-brand">
+                <a href="/" class="logo">🌳 Parakar Halani Parivar</a>
+            </div>
+            
+            <!-- Mobile profile icon -->
+            <button id="profile-btn-mobile" class="profile-icon mobile-only auth-logged-in" aria-label="Profile" title="Profile">👤</button>
+            
+            <!-- Desktop nav items and actions (hidden on mobile) -->
+            <div class="nav-desktop">
+                <ul id="nav-menu" class="nav-menu">
+                    <li><a href="/app.html" data-i18n="nav.home">Home</a></li>
+                    <li><a href="/families.html" data-i18n="nav.families">Families</a></li>
+                    <li><a href="/announcements.html" data-i18n="nav.announcements">Announcements</a></li>
+                    <li><a href="/members.html" data-i18n="nav.members">Members</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <div class="lang-dropdown" id="lang-dropdown" aria-label="Language" aria-haspopup="true" aria-expanded="false">
+                        <button class="lang-trigger" id="lang-trigger">
+                            <span id="lang-current">English</span>
+                            <span class="caret">▼</span>
+                        </button>
+                        <div class="lang-menu" id="lang-menu" role="menu">
+                            <button class="lang-item" role="menuitem" data-lang="gu">Gujarati (ગુજરાતી)</button>
+                            <button class="lang-item" role="menuitem" data-lang="en">English</button>
+                            <button class="lang-item" role="menuitem" data-lang="hi">Hindi (हिन्दी)</button>
+                        </div>
+                    </div>
+                    <!-- Logged out state -->
+                    <button id="login-btn" class="btn btn-primary auth-logged-out" data-i18n="nav.login">Login</button>
+                    <!-- Logged in state with profile icon -->
+                    <div class="user-menu auth-logged-in" style="display: none;">
+                        <button id="profile-btn-desktop" class="profile-icon" aria-label="Profile" title="Profile">👤</button>
+                        <span class="user-greeting" id="user-greeting"><span data-i18n="auth.hello">Hello</span>, <span id="user-name">User</span></span>
+                        <button id="logout-btn" class="btn btn-outline" data-i18n="nav.logout">Logout</button>
+                    </div>
+                </div>
+            </div>
+            
+            <button id="sidebar-toggle" class="hamburger" aria-label="Open Menu" aria-controls="sidebar" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Sliding Sidebar -->
+    <aside id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <span class="logo">🌳 Parakar Halani Parivar</span>
+            <button id="sidebar-close" class="sidebar-close" aria-label="Close Menu">&times;</button>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="/app.html" data-i18n="nav.home">Home</a>
+            <a href="/families.html" data-i18n="nav.families">Families</a>
+            <a href="/announcements.html" data-i18n="nav.announcements">Announcements</a>
+            <a href="/members.html" data-i18n="nav.members">Members</a>
+        </nav>
+        <div class="sidebar-actions">
+            <div class="lang-dropdown" id="sidebar-lang-dropdown" aria-label="Language" aria-haspopup="true" aria-expanded="false">
+                <button class="lang-trigger" id="sidebar-lang-trigger">
+                    <span id="sidebar-lang-current">English</span>
+                    <span class="caret">▼</span>
+                </button>
+                <div class="lang-menu" id="sidebar-lang-menu" role="menu">
+                    <button class="lang-item" role="menuitem" data-lang="gu">Gujarati (ગુજરાતી)</button>
+                    <button class="lang-item" role="menuitem" data-lang="en">English</button>
+                    <button class="lang-item" role="menuitem" data-lang="hi">Hindi (હિન્દી)</button>
+                </div>
+            </div>
+            <!-- Logged out state -->
+            <button class="btn btn-primary auth-logged-out" id="sidebar-login" data-i18n="nav.login">Login</button>
+            <!-- Logged in state -->
+            <div class="auth-logged-in" style="display: none;">
+                <div class="user-info-sidebar">
+                    <button id="sidebar-profile-btn" class="sidebar-profile-link" aria-label="Profile">
+                        <span class="profile-icon-small">👤</span>
+                        <span class="user-greeting" id="sidebar-user-greeting"><span data-i18n="auth.hello">Hello</span>, <span id="sidebar-user-name">User</span></span>
+                    </button>
+                </div>
+                <button id="sidebar-logout-btn" class="btn btn-outline btn-block" data-i18n="nav.logout">Logout</button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- 404 Error Content -->
+    <main class="error-page">
+        <div class="container">
+            <div class="error-content">
+                <div class="error-icon">🔍</div>
+                <h1 class="error-code">404</h1>
+                <h2 class="error-title" data-i18n="errors.404.title">Page Not Found</h2>
+                <p class="error-message" data-i18n="errors.404.message">
+                    The page you're looking for doesn't exist or has been moved.
+                </p>
+                <div class="error-actions">
+                    <a href="/" class="btn btn-primary" data-i18n="errors.goHome">Go to Home</a>
+                    <a href="/app.html" class="btn btn-outline" data-i18n="errors.goDashboard">Go to Dashboard</a>
+                </div>
+                <div class="error-suggestions">
+                    <p data-i18n="errors.suggestions">Here are some helpful links instead:</p>
+                    <div class="suggestion-links">
+                        <a href="/families.html" class="suggestion-link">
+                            <span class="suggestion-icon">👨‍👩‍👧‍👦</span>
+                            <span data-i18n="nav.families">Families</span>
+                        </a>
+                        <a href="/members.html" class="suggestion-link">
+                            <span class="suggestion-icon">👥</span>
+                            <span data-i18n="nav.members">Members</span>
+                        </a>
+                        <a href="/announcements.html" class="suggestion-link">
+                            <span class="suggestion-icon">📣</span>
+                            <span data-i18n="nav.announcements">Announcements</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Initialize page -->
+    <script type="module">
+        import { auth } from '/src/api.js';
+        import i18next from '/src/i18n.js';
+        import { $, on, addClass, removeClass } from '/src/utils.js';
+
+        // Update auth UI
+        function updateAuthUI() {
+            const isAuth = auth.isAuthenticated();
+            const user = auth.getUser();
+            document.querySelectorAll('.auth-logged-out').forEach(el => el.style.display = isAuth ? 'none' : '');
+            document.querySelectorAll('.auth-logged-in').forEach(el => el.style.display = isAuth ? '' : 'none');
+            if (isAuth && user) {
+                const userName = user.name || user.email?.split('@')[0] || 'User';
+                const userNameEl = $('#user-name');
+                const sidebarUserNameEl = $('#sidebar-user-name');
+                if (userNameEl) userNameEl.textContent = userName;
+                if (sidebarUserNameEl) sidebarUserNameEl.textContent = userName;
+            }
+        }
+
+        updateAuthUI();
+
+        // Logout handlers
+        const logoutBtn = $('#logout-btn');
+        const sidebarLogoutBtn = $('#sidebar-logout-btn');
+        if (logoutBtn) on(logoutBtn, 'click', () => { auth.logout(); window.location.href = '/'; });
+        if (sidebarLogoutBtn) on(sidebarLogoutBtn, 'click', () => { auth.logout(); window.location.href = '/'; });
+
+        // Sidebar toggle
+        const sidebar = $('#sidebar');
+        const sidebarToggle = $('#sidebar-toggle');
+        const sidebarClose = $('#sidebar-close');
+        if (sidebar && sidebarToggle && sidebarClose) {
+            on(sidebarToggle, 'click', () => { addClass(sidebar, 'active'); sidebarToggle.setAttribute('aria-expanded', 'true'); });
+            on(sidebarClose, 'click', () => { removeClass(sidebar, 'active'); sidebarToggle.setAttribute('aria-expanded', 'false'); });
+            document.querySelectorAll('.sidebar-nav a').forEach((link) => {
+                on(link, 'click', () => { removeClass(sidebar, 'active'); sidebarToggle.setAttribute('aria-expanded', 'false'); });
+            });
+        }
+
+        // Language handling
+        function menuLabelFor(code) {
+            switch (code) {
+                case 'gu': return 'Gujarati (ગુજરાતી)';
+                case 'hi': return 'Hindi (हिन्दी)';
+                default: return 'English';
+            }
+        }
+
+        function setLanguage(newLang) {
+            localStorage.setItem('language', newLang);
+            i18next.changeLanguage(newLang, () => {
+                updateTranslations();
+                document.documentElement.lang = newLang;
+                const langCurrent = $('#lang-current');
+                const sidebarLangCurrent = $('#sidebar-lang-current');
+                if (langCurrent) langCurrent.textContent = menuLabelFor(newLang);
+                if (sidebarLangCurrent) sidebarLangCurrent.textContent = menuLabelFor(newLang);
+            });
+        }
+
+        function initLangDropdown(dropdownId, triggerId, menuId) {
+            const dropdown = $(dropdownId);
+            const trigger = $(triggerId);
+            const menu = $(menuId);
+            if (!dropdown || !trigger || !menu) return;
+            const currentLabel = dropdown.querySelector('span#' + (dropdownId.includes('sidebar') ? 'sidebar-lang-current' : 'lang-current'));
+            if (currentLabel) currentLabel.textContent = menuLabelFor(i18next.language);
+            on(trigger, 'click', (e) => {
+                e.stopPropagation();
+                menu.classList.toggle('active');
+                dropdown.setAttribute('aria-expanded', menu.classList.contains('active'));
+            });
+            menu.querySelectorAll('.lang-item').forEach((item) => {
+                on(item, 'click', () => {
+                    const code = item.getAttribute('data-lang');
+                    setLanguage(code);
+                    menu.classList.remove('active');
+                    dropdown.setAttribute('aria-expanded', 'false');
+                });
+            });
+        }
+
+        function updateTranslations() {
+            document.querySelectorAll('[data-i18n]').forEach((el) => {
+                const key = el.getAttribute('data-i18n');
+                el.textContent = i18next.t(key);
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                const translated = i18next.t(key);
+                if (translated) el.setAttribute('placeholder', translated);
+            });
+        }
+
+        initLangDropdown('#lang-dropdown', '#lang-trigger', '#lang-menu');
+        initLangDropdown('#sidebar-lang-dropdown', '#sidebar-lang-trigger', '#sidebar-lang-menu');
+
+        on(document, 'click', () => {
+            ['#lang-menu', '#sidebar-lang-menu'].forEach((id) => { const el = $(id); if (el) el.classList.remove('active'); });
+            ['#lang-dropdown', '#sidebar-lang-dropdown'].forEach((id) => { const dd = $(id); if (dd) dd.setAttribute('aria-expanded', 'false'); });
+        });
+
+        updateTranslations();
+    </script>
+</body>
+
+</html>

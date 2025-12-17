@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Track family announcements, events, and celebrations - Stay connected with important dates" />
+    <title>Announcements - Parakar Halani Parivar</title>
+    <link rel="preload" href="/src/style.css" as="style" />
+    <link rel="stylesheet" href="/src/style.css" />
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav id="navbar" class="navbar">
+        <div class="container navbar-flex">
+            <div class="navbar-brand">
+                <a href="/" class="logo">🌳 Parakar Halani Parivar</a>
+            </div>
+            
+            <!-- Mobile profile icon -->
+            <button id="profile-btn-mobile" class="profile-icon mobile-only auth-logged-in" aria-label="Profile" title="Profile">👤</button>
+            
+            <!-- Desktop nav items and actions (hidden on mobile) -->
+            <div class="nav-desktop">
+                <ul id="nav-menu" class="nav-menu">
+                    <li><a href="/app.html" data-i18n="nav.home">Home</a></li>
+                    <li><a href="/families.html" data-i18n="nav.families">Families</a></li>
+                    <li><a href="/announcements.html" class="active" data-i18n="nav.announcements">Announcements</a></li>
+                    <li><a href="/members.html" data-i18n="nav.members">Members</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <div class="lang-dropdown" id="lang-dropdown" aria-label="Language" aria-haspopup="true"
+                        aria-expanded="false">
+                        <button class="lang-trigger" id="lang-trigger">
+                            <span id="lang-current">English</span>
+                            <span class="caret">▼</span>
+                        </button>
+                        <div class="lang-menu" id="lang-menu" role="menu">
+                            <button class="lang-item" role="menuitem" data-lang="gu">Gujarati (ગુજરાતી)</button>
+                            <button class="lang-item" role="menuitem" data-lang="en">English</button>
+                            <button class="lang-item" role="menuitem" data-lang="hi">Hindi (हिन्दी)</button>
+                        </div>
+                    </div>
+                    <!-- Logged out state -->
+                    <button id="login-btn" class="btn btn-primary auth-logged-out" data-i18n="nav.login">Login</button>
+                    <!-- Logged in state with profile icon -->
+                    <div class="user-menu auth-logged-in" style="display: none;">
+                        <button id="profile-btn-desktop" class="profile-icon" aria-label="Profile" title="Profile">👤</button>
+                        <span class="user-greeting" id="user-greeting"><span data-i18n="auth.hello">Hello</span>, <span id="user-name">User</span></span>
+                        <button id="logout-btn" class="btn btn-outline" data-i18n="nav.logout">Logout</button>
+                    </div>
+                </div>
+            </div>
+            
+            <button id="sidebar-toggle" class="hamburger" aria-label="Open Menu" aria-controls="sidebar"
+                aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Profile Modal -->
+    <div id="profile-modal" class="modal" style="display: none;">
+        <div class="modal-content profile-modal-content">
+            <button class="modal-close" id="profile-close">&times;</button>
+            <div class="profile-modal-header">
+                <div class="profile-avatar">👤</div>
+                <h2 id="profile-name">User</h2>
+                <p id="profile-email">user@email.com</p>
+            </div>
+            <div class="profile-modal-menu">
+                <button class="profile-menu-item" data-i18n="profile.viewProfile">View Profile</button>
+                <button class="profile-menu-item" data-i18n="profile.editProfile">Edit Profile</button>
+                <button class="profile-menu-item" data-i18n="profile.settings">Settings</button>
+                <hr>
+                <button class="profile-menu-item logout-item" id="profile-logout-btn" data-i18n="nav.logout">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sliding Sidebar -->
+    <aside id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <span class="logo">🌳 Parakar Halani Parivar</span>
+            <button id="sidebar-close" class="sidebar-close" aria-label="Close Menu">&times;</button>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="/app.html" data-i18n="nav.home">Home</a>
+            <a href="/families.html" data-i18n="nav.families">Families</a>
+            <a href="/announcements.html" class="active" data-i18n="nav.announcements">Announcements</a>
+            <a href="/members.html" data-i18n="nav.members">Members</a>
+        </nav>
+        <div class="sidebar-actions">
+            <div class="lang-dropdown" id="sidebar-lang-dropdown" aria-label="Language" aria-haspopup="true"
+                aria-expanded="false">
+                <button class="lang-trigger" id="sidebar-lang-trigger">
+                    <span id="sidebar-lang-current">English</span>
+                    <span class="caret">▼</span>
+                </button>
+                <div class="lang-menu" id="sidebar-lang-menu" role="menu">
+                    <button class="lang-item" role="menuitem" data-lang="gu">Gujarati (ગુજરાતી)</button>
+                    <button class="lang-item" role="menuitem" data-lang="en">English</button>
+                    <button class="lang-item" role="menuitem" data-lang="hi">Hindi (हिन्दी)</button>
+                </div>
+            </div>
+            <!-- Logged out state -->
+            <button class="btn btn-primary auth-logged-out" id="sidebar-login" data-i18n="nav.login">Login</button>
+            <!-- Logged in state -->
+            <div class="auth-logged-in" style="display: none;">
+                <div class="user-info-sidebar">
+                    <button id="sidebar-profile-btn" class="sidebar-profile-link" aria-label="Profile">
+                        <span class="profile-icon-small">👤</span>
+                        <span class="user-greeting" id="sidebar-user-greeting"><span data-i18n="auth.hello">Hello</span>, <span id="sidebar-user-name">User</span></span>
+                    </button>
+                </div>
+                <button id="sidebar-logout-btn" class="btn btn-outline btn-block" data-i18n="nav.logout">Logout</button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Announcements Page Content -->
+    <main class="page-content">
+        <div class="container">
+            <!-- Page Header -->
+            <header class="page-header">
+                <div class="page-header-content">
+                    <h1 data-i18n="announcements.title">Announcements</h1>
+                    <p class="page-subtitle" data-i18n="announcements.subtitle">Track and manage family announcements</p>
+                </div>
+                <button id="add-announcement-btn" class="btn btn-primary">
+                    <span class="btn-icon">➕</span>
+                    <span data-i18n="announcements.addAnnouncement">Add Announcement</span>
+                </button>
+            </header>
+
+            <!-- Search and Filter Section -->
+            <div class="search-filter-bar">
+                <div class="search-box">
+                    <input type="text" id="announcement-search" placeholder="Search announcements..." data-i18n-placeholder="announcements.searchPlaceholder">
+                    <span class="search-icon">🔍</span>
+                </div>
+                <div class="filter-group">
+                    <select id="announcement-sort" class="filter-select">
+                        <option value="date" data-i18n="announcements.sortByDate">Sort by Date</option>
+                        <option value="type" data-i18n="announcements.sortByType">Sort by Type</option>
+                        <option value="recent" data-i18n="announcements.sortByRecent">Recently Added</option>
+                    </select>
+                    <select id="announcement-filter" class="filter-select">
+                        <option value="" data-i18n="announcements.filterAll">All Announcements</option>
+                        <option value="birthday" data-i18n="announcements.typeBirthday">Birthday</option>
+                        <option value="anniversary" data-i18n="announcements.typeAnniversary">Anniversary</option>
+                        <option value="wedding" data-i18n="announcements.typeWedding">Wedding</option>
+                        <option value="celebration" data-i18n="announcements.typeCelebration">Celebration</option>
+                        <option value="death" data-i18n="announcements.typeDeath">Death</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Empty State (shown when no announcements) -->
+            <div id="empty-state" class="empty-state">
+                <div class="empty-icon">📢</div>
+                <h2 data-i18n="announcements.noAnnouncements">No Announcements Yet</h2>
+                <p data-i18n="announcements.noAnnouncementsDesc">Start by adding your first family announcement</p>
+                <button class="btn btn-primary" id="add-announcement-empty" data-i18n="announcements.addFirstAnnouncement">Add Your First Announcement</button>
+            </div>
+
+            <!-- Announcements Grid -->
+            <div id="announcements-grid" class="announcements-grid">
+                <!-- Announcement cards will be dynamically inserted here -->
+            </div>
+
+            <!-- Skeleton Loading State -->
+            <div id="skeleton-loading" class="announcements-grid" style="display: none;">
+                <div class="skeleton-announcement-card">
+                    <div class="skeleton-announcement-header">
+                        <div class="skeleton skeleton-badge"></div>
+                        <div class="skeleton-announcement-info">
+                            <div class="skeleton skeleton-announcement-title"></div>
+                            <div class="skeleton skeleton-date-line"></div>
+                        </div>
+                    </div>
+                    <div class="skeleton-body">
+                        <div class="skeleton skeleton-text"></div>
+                        <div class="skeleton skeleton-text"></div>
+                    </div>
+                </div>
+                <div class="skeleton-announcement-card">
+                    <div class="skeleton-announcement-header">
+                        <div class="skeleton skeleton-badge"></div>
+                        <div class="skeleton-announcement-info">
+                            <div class="skeleton skeleton-announcement-title"></div>
+                            <div class="skeleton skeleton-date-line"></div>
+                        </div>
+                    </div>
+                    <div class="skeleton-body">
+                        <div class="skeleton skeleton-text"></div>
+                        <div class="skeleton skeleton-text"></div>
+                    </div>
+                </div>
+                <div class="skeleton-announcement-card">
+                    <div class="skeleton-announcement-header">
+                        <div class="skeleton skeleton-badge"></div>
+                        <div class="skeleton-announcement-info">
+                            <div class="skeleton skeleton-announcement-title"></div>
+                            <div class="skeleton skeleton-date-line"></div>
+                        </div>
+                    </div>
+                    <div class="skeleton-body">
+                        <div class="skeleton skeleton-text"></div>
+                        <div class="skeleton skeleton-text"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Announcement Modal -->
+    <div id="add-announcement-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="modal-close" id="add-announcement-close">&times;</button>
+            <div class="modal-header">
+                <h2 data-i18n="announcements.addAnnouncement">Add Announcement</h2>
+            </div>
+            <form id="add-announcement-form" class="modal-form">
+                <div class="form-group">
+                    <label for="announcement-name-input" data-i18n="announcements.announcementName">Announcement Name</label>
+                    <input type="text" id="announcement-name-input" required placeholder="Enter announcement name" data-i18n-placeholder="announcements.announcementNamePlaceholder">
+                </div>
+                <div class="form-group">
+                    <label for="announcement-date-input" data-i18n="announcements.announcementDate">Date</label>
+                    <input type="date" id="announcement-date-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="announcement-type-input" data-i18n="announcements.announcementType">Announcement Type</label>
+                    <select id="announcement-type-input" required>
+                        <option value="">Select type...</option>
+                        <option value="birthday" data-i18n="announcements.typeBirthday">Birthday</option>
+                        <option value="anniversary" data-i18n="announcements.typeAnniversary">Anniversary</option>
+                        <option value="wedding" data-i18n="announcements.typeWedding">Wedding</option>
+                        <option value="celebration" data-i18n="announcements.typeCelebration">Celebration</option>
+                        <option value="death" data-i18n="announcements.typeDeath">Death</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="announcement-attendees-input">
+                        <span data-i18n="announcements.attendees">Attendees</span>
+                        <span class="optional-label" data-i18n="announcements.optional">(Optional)</span>
+                    </label>
+                    <input type="number" id="announcement-attendees-input" min="0" placeholder="Number of attendees" data-i18n-placeholder="announcements.attendeesPlaceholder">
+                </div>
+                <div class="form-group">
+                    <label for="announcement-desc-input" data-i18n="announcements.description">Description</label>
+                    <textarea id="announcement-desc-input" rows="3" placeholder="Announcement details..." data-i18n-placeholder="announcements.descriptionPlaceholder"></textarea>
+                </div>
+                <div class="form-status" id="add-announcement-status" role="status" aria-live="polite"></div>
+                <button type="submit" class="btn btn-primary btn-block" data-i18n="announcements.createAnnouncement">Create Announcement</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Initialize announcements page -->
+    <script type="module">
+        import { auth } from '/src/api.js';
+        import api from '/src/api.js';
+        import i18next from '/src/i18n.js';
+        import { $, on, addClass, removeClass, setActiveNav } from '/src/utils.js';
+        
+        // Check if authenticated, redirect if not
+        if (!auth.isAuthenticated()) {
+            window.location.href = '/';
+        } else {
+            // Helper function to update auth UI
+            function updateAuthUI() {
+                const isAuth = auth.isAuthenticated();
+                const user = auth.getUser();
+
+                document.querySelectorAll('.auth-logged-out').forEach(el => {
+                    el.style.display = isAuth ? 'none' : '';
+                });
+                document.querySelectorAll('.auth-logged-in').forEach(el => {
+                    el.style.display = isAuth ? '' : 'none';
+                });
+
+                if (isAuth && user) {
+                    const userName = user.name || user.email?.split('@')[0] || 'User';
+                    const userNameEl = $('#user-name');
+                    const sidebarUserNameEl = $('#sidebar-user-name');
+                    
+                    if (userNameEl) userNameEl.textContent = userName;
+                    if (sidebarUserNameEl) sidebarUserNameEl.textContent = userName;
+                }
+            }
+
+            updateAuthUI();
+            setActiveNav();
+
+            // Setup logout handlers
+            const logoutBtn = $('#logout-btn');
+            const sidebarLogoutBtn = $('#sidebar-logout-btn');
+
+            if (logoutBtn) {
+                on(logoutBtn, 'click', () => {
+                    auth.logout();
+                    window.location.href = '/';
+                });
+            }
+
+            if (sidebarLogoutBtn) {
+                on(sidebarLogoutBtn, 'click', () => {
+                    auth.logout();
+                    window.location.href = '/';
+                });
+            }
+
+            // Initialize sidebar toggle
+            const sidebar = $('#sidebar');
+            const sidebarToggle = $('#sidebar-toggle');
+            const sidebarClose = $('#sidebar-close');
+            if (sidebar && sidebarToggle && sidebarClose) {
+                on(sidebarToggle, 'click', () => {
+                    addClass(sidebar, 'active');
+                    sidebarToggle.setAttribute('aria-expanded', 'true');
+                });
+                on(sidebarClose, 'click', () => {
+                    removeClass(sidebar, 'active');
+                    sidebarToggle.setAttribute('aria-expanded', 'false');
+                });
+                document.querySelectorAll('.sidebar-nav a').forEach((link) => {
+                    on(link, 'click', () => {
+                        removeClass(sidebar, 'active');
+                        sidebarToggle.setAttribute('aria-expanded', 'false');
+                    });
+                });
+            }
+
+            // Initialize language selector
+            function setLanguage(newLang) {
+                localStorage.setItem('language', newLang);
+                i18next.changeLanguage(newLang, () => {
+                    updateTranslations();
+                    document.documentElement.lang = newLang;
+                    const langCurrent = $('#lang-current');
+                    const sidebarLangCurrent = $('#sidebar-lang-current');
+                    if (langCurrent) langCurrent.textContent = menuLabelFor(newLang);
+                    if (sidebarLangCurrent) sidebarLangCurrent.textContent = menuLabelFor(newLang);
+                });
+            }
+
+            function menuLabelFor(code) {
+                switch (code) {
+                    case 'gu': return 'Gujarati (ગુજરાતી)';
+                    case 'hi': return 'Hindi (हिन्दी)';
+                    default: return 'English';
+                }
+            }
+
+            function updateTranslations() {
+                document.querySelectorAll('[data-i18n]').forEach((el) => {
+                    const key = el.getAttribute('data-i18n');
+                    el.textContent = i18next.t(key);
+                });
+            }
+
+            function initLangDropdown(dropdownId, triggerId, menuId) {
+                const dropdown = $(dropdownId);
+                const trigger = $(triggerId);
+                const menu = $(menuId);
+                if (!dropdown || !trigger || !menu) return;
+
+                const currentLabel = dropdown.querySelector('span#' + (dropdownId.includes('sidebar') ? 'sidebar-lang-current' : 'lang-current'));
+                if (currentLabel) currentLabel.textContent = menuLabelFor(i18next.language);
+
+                on(trigger, 'click', (e) => {
+                    e.stopPropagation();
+                    menu.classList.toggle('active');
+                    dropdown.setAttribute('aria-expanded', menu.classList.contains('active'));
+                });
+
+                menu.querySelectorAll('.lang-item').forEach((item) => {
+                    on(item, 'click', () => {
+                        const code = item.getAttribute('data-lang');
+                        setLanguage(code);
+                        menu.classList.remove('active');
+                        dropdown.setAttribute('aria-expanded', 'false');
+                    });
+                });
+            }
+
+            initLangDropdown('#lang-dropdown', '#lang-trigger', '#lang-menu');
+            initLangDropdown('#sidebar-lang-dropdown', '#sidebar-lang-trigger', '#sidebar-lang-menu');
+
+            // Profile Modal handlers
+            const profileModal = $('#profile-modal');
+            const profileCloseBtn = $('#profile-close');
+            const profileBtnMobile = $('#profile-btn-mobile');
+            const profileBtnDesktop = $('#profile-btn-desktop');
+            const profileUserGreeting = $('#user-greeting');
+            const sidebarProfileBtn = $('#sidebar-profile-btn');
+
+            function openProfileModal() {
+                if (profileModal) {
+                    const user = auth.getUser();
+                    const profileName = $('#profile-name');
+                    const profileEmail = $('#profile-email');
+                    if (profileName) profileName.textContent = user?.name || 'User';
+                    if (profileEmail) profileEmail.textContent = user?.email || 'user@email.com';
+                    profileModal.style.display = 'flex';
+                    addClass(profileModal, 'active');
+                }
+            }
+
+            function closeProfileModal() {
+                if (profileModal) {
+                    removeClass(profileModal, 'active');
+                    setTimeout(() => { profileModal.style.display = 'none'; }, 300);
+                }
+            }
+
+            if (profileBtnMobile) on(profileBtnMobile, 'click', openProfileModal);
+            if (profileBtnDesktop) on(profileBtnDesktop, 'click', openProfileModal);
+            if (profileUserGreeting) on(profileUserGreeting, 'click', openProfileModal);
+            if (sidebarProfileBtn) {
+                on(sidebarProfileBtn, 'click', (e) => {
+                    e.preventDefault();
+                    openProfileModal();
+                    removeClass(sidebar, 'active');
+                    if (sidebarToggle) sidebarToggle.setAttribute('aria-expanded', 'false');
+                });
+            }
+            if (profileCloseBtn) on(profileCloseBtn, 'click', closeProfileModal);
+            if (profileModal) {
+                on(profileModal, 'click', (e) => {
+                    if (e.target === profileModal) closeProfileModal();
+                });
+            }
+
+            const profileLogoutBtn = $('#profile-logout-btn');
+            if (profileLogoutBtn) {
+                on(profileLogoutBtn, 'click', () => {
+                    auth.logout();
+                    closeProfileModal();
+                    window.location.href = '/';
+                });
+            }
+
+            on(document, 'click', (e) => {
+                ['#lang-menu', '#sidebar-lang-menu'].forEach((id) => {
+                    const el = $(id);
+                    if (el) el.classList.remove('active');
+                });
+                ['#lang-dropdown', '#sidebar-lang-dropdown'].forEach((id) => {
+                    const dd = $(id);
+                    if (dd) dd.setAttribute('aria-expanded', 'false');
+                });
+            });
+
+            updateTranslations();
+
+            // Announcements Page Functionality
+            const addAnnouncementBtn = $('#add-announcement-btn');
+            const addAnnouncementEmpty = $('#add-announcement-empty');
+            const addAnnouncementModal = $('#add-announcement-modal');
+            const addAnnouncementClose = $('#add-announcement-close');
+            const addAnnouncementForm = $('#add-announcement-form');
+            const addAnnouncementStatus = $('#add-announcement-status');
+            const announcementsGrid = $('#announcements-grid');
+            const emptyState = $('#empty-state');
+            const skeletonLoading = $('#skeleton-loading');
+            const announcementSearch = $('#announcement-search');
+            const announcementFilter = $('#announcement-filter');
+            const announcementSort = $('#announcement-sort');
+
+            const setStatus = (el, type = '', message = '') => {
+                if (!el) return;
+                el.textContent = message;
+                el.className = 'form-status';
+                if (type) el.classList.add(type);
+            };
+
+            let announcements = [];
+
+            function getTypeEmoji(type) {
+                const typeEmojis = {
+                    'birthday': '🎂',
+                    'anniversary': '💑',
+                    'wedding': '💒',
+                    'celebration': '🎉',
+                    'death': '🕊️'
+                };
+                return typeEmojis[type] || '📢';
+            }
+
+            function formatDate(dateStr) {
+                const date = new Date(dateStr);
+                return date.toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    day: 'numeric', 
+                    year: 'numeric' 
+                });
+            }
+
+            async function loadAnnouncements() {
+                if (skeletonLoading) skeletonLoading.style.display = 'grid';
+                if (announcementsGrid) announcementsGrid.style.display = 'none';
+                try {
+                    const { data } = await api.get('/announcements');
+                    announcements = Array.isArray(data) ? data : [];
+                    renderAnnouncements(
+                        announcementSearch?.value || '',
+                        announcementFilter?.value || '',
+                        announcementSort?.value || 'recent'
+                    );
+                } catch (error) {
+                    console.error('Failed to load announcements', error);
+                    setStatus(addAnnouncementStatus, 'error', 'Failed to load announcements.');
+                } finally {
+                    if (skeletonLoading) skeletonLoading.style.display = 'none';
+                    if (announcementsGrid) announcementsGrid.style.display = 'grid';
+                }
+            }
+
+            function openAddAnnouncementModal() {
+                if (addAnnouncementModal) {
+                    addAnnouncementModal.style.display = 'flex';
+                    addClass(addAnnouncementModal, 'active');
+                }
+            }
+
+            function closeAddAnnouncementModal() {
+                if (addAnnouncementModal) {
+                    removeClass(addAnnouncementModal, 'active');
+                    setTimeout(() => { addAnnouncementModal.style.display = 'none'; }, 300);
+                }
+                if (addAnnouncementForm) addAnnouncementForm.reset();
+                setStatus(addAnnouncementStatus, '', '');
+            }
+
+            if (addAnnouncementBtn) on(addAnnouncementBtn, 'click', openAddAnnouncementModal);
+            if (addAnnouncementEmpty) on(addAnnouncementEmpty, 'click', openAddAnnouncementModal);
+            if (addAnnouncementClose) on(addAnnouncementClose, 'click', closeAddAnnouncementModal);
+            if (addAnnouncementModal) {
+                on(addAnnouncementModal, 'click', (e) => {
+                    if (e.target === addAnnouncementModal) closeAddAnnouncementModal();
+                });
+            }
+
+            // Render announcements grid
+            function renderAnnouncements(searchQuery = '', typeFilter = '', sort = 'recent') {
+                if (!announcementsGrid) return;
+
+                let filtered = announcements.filter((a) => {
+                    const text = `${a.name} ${a.description || ''}`.toLowerCase();
+                    const matchesSearch = text.includes(searchQuery.toLowerCase());
+                    const matchesType = !typeFilter || a.type === typeFilter;
+                    return matchesSearch && matchesType;
+                });
+
+                if (sort === 'date') filtered.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+                if (sort === 'type') filtered.sort((a, b) => a.type.localeCompare(b.type));
+                if (sort === 'recent') filtered.sort((a, b) => b.id - a.id);
+
+                if (filtered.length === 0) {
+                    if (emptyState) emptyState.style.display = 'flex';
+                    announcementsGrid.style.display = 'none';
+                    return;
+                }
+
+                if (emptyState) emptyState.style.display = 'none';
+                announcementsGrid.style.display = 'grid';
+                
+                announcementsGrid.innerHTML = filtered.map((announcement) => `
+                    <div class="announcement-card" data-id="${announcement.id}">
+                        <div class="announcement-card-header">
+                            <div class="announcement-type-badge">${getTypeEmoji(announcement.type)}</div>
+                            <div class="announcement-card-actions">
+                                <button class="btn-icon" title="Edit" data-action="edit" data-id="${announcement.id}">✏️</button>
+                                <button class="btn-icon" title="Delete" data-action="delete" data-id="${announcement.id}">🗑️</button>
+                            </div>
+                        </div>
+                        <h3 class="announcement-name">${announcement.name}</h3>
+                        <div class="announcement-card-body">
+                            <div class="announcement-info">
+                                <span class="announcement-icon">📅</span>
+                                <span class="announcement-date">${formatDate(announcement.date)}</span>
+                            </div>
+                            ${announcement.attendees ? `
+                            <div class="announcement-info">
+                                <span class="announcement-icon">👥</span>
+                                <span class="announcement-attendees">${announcement.attendees} <span data-i18n="announcements.attendeesLabel">attendees</span></span>
+                            </div>
+                            ` : ''}
+                        </div>
+                        ${announcement.description ? `<p class="announcement-description">${announcement.description}</p>` : ''}
+                        <div class="announcement-card-footer">
+                            <button class="btn btn-outline btn-sm" data-action="view" data-id="${announcement.id}" data-i18n="announcements.viewDetails">View Details</button>
+                        </div>
+                    </div>
+                `).join('');
+
+                announcementsGrid.querySelectorAll('[data-action]').forEach((btn) => {
+                    on(btn, 'click', handleAnnouncementAction);
+                });
+
+                updateTranslations();
+            }
+
+            // Handle announcement card actions
+            async function handleAnnouncementAction(e) {
+                const action = e.currentTarget.getAttribute('data-action');
+                const id = parseInt(e.currentTarget.getAttribute('data-id'));
+                
+                if (action === 'delete') {
+                    if (!confirm('Are you sure you want to delete this announcement?')) return;
+                    try {
+                        await api.delete(`/announcements/${id}`);
+                        announcements = announcements.filter((a) => a.id !== id);
+                        renderAnnouncements(
+                            announcementSearch?.value || '',
+                            announcementFilter?.value || '',
+                            announcementSort?.value || 'recent'
+                        );
+                    } catch (error) {
+                        console.error('Failed to delete announcement', error);
+                        alert('Failed to delete announcement. Please try again.');
+                    }
+                }
+            }
+
+            // Handle add announcement form submission
+            if (addAnnouncementForm) {
+                on(addAnnouncementForm, 'submit', async (e) => {
+                    e.preventDefault();
+
+                    const name = $('#announcement-name-input')?.value.trim();
+                    const date = $('#announcement-date-input')?.value;
+                    const type = $('#announcement-type-input')?.value;
+                    const attendeesVal = $('#announcement-attendees-input')?.value;
+                    const attendees = attendeesVal ? parseInt(attendeesVal, 10) : undefined;
+                    const description = $('#announcement-desc-input')?.value.trim();
+
+                    if (!name || !date || !type) {
+                        setStatus(addAnnouncementStatus, 'error', 'Name, date, and type are required.');
+                        return;
+                    }
+
+                    try {
+                        setStatus(addAnnouncementStatus, '', '');
+                        const { data } = await api.post('/announcements', {
+                            name,
+                            date,
+                            type,
+                            attendees,
+                            description,
+                        });
+                        announcements.push(data);
+                        renderAnnouncements(
+                            announcementSearch?.value || '',
+                            announcementFilter?.value || '',
+                            announcementSort?.value || 'recent'
+                        );
+                        closeAddAnnouncementModal();
+                    } catch (error) {
+                        console.error('Failed to create announcement', error);
+                        const message = error?.response?.data?.message || 'Failed to create announcement. Please try again.';
+                        setStatus(addAnnouncementStatus, 'error', message);
+                    }
+                });
+            }
+
+            // Search, filter, sort functionality
+            if (announcementSearch) {
+                on(announcementSearch, 'input', (e) => {
+                    renderAnnouncements(e.target.value, announcementFilter?.value || '', announcementSort?.value || 'recent');
+                });
+            }
+
+            if (announcementFilter) {
+                on(announcementFilter, 'change', (e) => {
+                    renderAnnouncements(announcementSearch?.value || '', e.target.value, announcementSort?.value || 'recent');
+                });
+            }
+
+            if (announcementSort) {
+                on(announcementSort, 'change', (e) => {
+                    renderAnnouncements(announcementSearch?.value || '', announcementFilter?.value || '', e.target.value);
+                });
+            }
+
+            // Initial load
+            loadAnnouncements();
+
+            console.log('✨ Announcements page loaded successfully!');
+        }
+    </script>
+</body>
+
+</html>

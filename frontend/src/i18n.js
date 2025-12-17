@@ -7,16 +7,16 @@ import hiTranslations from './locales/hi.json';
 const savedLang = localStorage.getItem('language') || 'gu';
 
 i18next.init({
-  lng: savedLang,
-  fallbackLng: 'gu',
-  resources: {
-    en: { translation: enTranslations },
-    gu: { translation: guTranslations },
-    hi: { translation: hiTranslations }
-  },
-  interpolation: {
-    escapeValue: false
-  }
+    lng: savedLang,
+    fallbackLng: 'gu',
+    resources: {
+        en: { translation: enTranslations },
+        gu: { translation: guTranslations },
+        hi: { translation: hiTranslations }
+    },
+    interpolation: {
+        escapeValue: false
+    }
 });
 
 export default i18next;

@@ -1,82 +1,303 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Family Tree Management System for Parakar Halani Parivar - Connect, organize, and share your family's stories" />
     <title>Parakar Halani Parivar - Family Tree Management</title>
-  </head>
-  <body>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/src/style.css" as="style" />
+    <link rel="preload" href="/src/main.js" as="script" />
+</head>
+
+<body>
     <!-- Navigation -->
     <nav id="navbar" class="navbar">
-      <div class="container">
-        <div class="navbar-brand">
-          <span class="logo">🌳 Parakar Halani Parivar</span>
+        <div class="container navbar-flex">
+            <div class="navbar-brand">
+                <span class="logo">🌳 Parakar Halani Parivar</span>
+            </div>
+            
+            <!-- Mobile profile icon -->
+            <button id="profile-btn-mobile" class="profile-icon mobile-only auth-logged-in" aria-label="Profile" title="Profile">👤</button>
+            
+            <!-- Desktop nav items and actions (hidden on mobile) -->
+            <div class="nav-desktop">
+                <ul id="nav-menu" class="nav-menu">
+                    <li><a href="#home" data-i18n="nav.home">Home</a></li>
+                    <li><a href="#families" data-i18n="nav.families">Families</a></li>
+                    <li><a href="#announcements" data-i18n="nav.announcements">Announcements</a></li>
+                    <li><a href="#members" data-i18n="nav.members">Members</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <div class="lang-dropdown" id="lang-dropdown" aria-label="Language" aria-haspopup="true"
+                        aria-expanded="false">
+                        <button class="lang-trigger" id="lang-trigger">
+                            <span id="lang-current">English</span>
+                            <span class="caret">▼</span>
+                        </button>
+                        <div class="lang-menu" id="lang-menu" role="menu">
+                            <button class="lang-item" role="menuitem" data-lang="gu">Gujarati (ગુજરાતી)</button>
+                            <button class="lang-item" role="menuitem" data-lang="en">English</button>
+                            <button class="lang-item" role="menuitem" data-lang="hi">Hindi (हिन्दी)</button>
+                        </div>
+                    </div>
+                    <!-- Logged out state -->
+                    <button id="login-btn" class="btn btn-primary auth-logged-out" data-i18n="nav.login">Login</button>
+                    <!-- Logged in state with profile icon -->
+                    <div class="user-menu auth-logged-in" style="display: none;">
+                        <button id="profile-btn-desktop" class="profile-icon" aria-label="Profile" title="Profile">👤</button>
+                        <span class="user-greeting" id="user-greeting"><span data-i18n="auth.hello">Hello</span>, <span id="user-name">User</span></span>
+                        <button id="logout-btn" class="btn btn-outline" data-i18n="nav.logout">Logout</button>
+                    </div>
+                </div>
+            </div>
+            
+            <button id="sidebar-toggle" class="hamburger" aria-label="Open Menu" aria-controls="sidebar"
+                aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
-        <ul id="nav-menu" class="nav-menu">
-          <li><a href="#home" data-i18n="nav.home">Home</a></li>
-          <li><a href="#families" data-i18n="nav.families">Families</a></li>
-          <li><a href="#events" data-i18n="nav.events">Events</a></li>
-          <li><a href="#members" data-i18n="nav.members">Members</a></li>
-        </ul>
-        <div class="nav-actions">
-          <select id="language-selector" class="language-selector">
-            <option value="gu">Gujarati (ગુજરાતી)</option>
-            <option value="en">English</option>
-            <option value="hi">Hindi (हिन्दी)</option>
-          </select>
-          <button id="login-btn" class="btn btn-primary" data-i18n="nav.login">Login</button>
-        </div>
-      </div>
     </nav>
+    
+    <!-- Profile Modal -->
+    <div id="profile-modal" class="modal" style="display: none;">
+        <div class="modal-content profile-modal-content">
+            <button class="modal-close" id="profile-close">&times;</button>
+            <div class="profile-modal-header">
+                <div class="profile-avatar">👤</div>
+                <h2 id="profile-name">User</h2>
+                <p id="profile-email">user@email.com</p>
+            </div>
+            <div class="profile-modal-menu">
+                <button class="profile-menu-item" data-i18n="profile.viewProfile">View Profile</button>
+                <button class="profile-menu-item" data-i18n="profile.editProfile">Edit Profile</button>
+                <button class="profile-menu-item" data-i18n="profile.settings">Settings</button>
+                <hr>
+                <button class="profile-menu-item logout-item" id="profile-logout-btn" data-i18n="nav.logout">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sliding Sidebar -->
+    <aside id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <span class="logo">🌳 Parakar Halani Parivar</span>
+            <button id="sidebar-close" class="sidebar-close" aria-label="Close Menu">&times;</button>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#home" data-i18n="nav.home">Home</a>
+            <a href="#families" data-i18n="nav.families">Families</a>
+            <a href="#announcements" data-i18n="nav.announcements">Announcements</a>
+            <a href="#members" data-i18n="nav.members">Members</a>
+        </nav>
+        <div class="sidebar-actions">
+            <div class="lang-dropdown" id="sidebar-lang-dropdown" aria-label="Language" aria-haspopup="true"
+                aria-expanded="false">
+                <button class="lang-trigger" id="sidebar-lang-trigger">
+                    <span id="sidebar-lang-current">English</span>
+                    <span class="caret">▼</span>
+                </button>
+                <div class="lang-menu" id="sidebar-lang-menu" role="menu">
+                    <button class="lang-item" role="menuitem" data-lang="gu">Gujarati (ગુજરાતી)</button>
+                    <button class="lang-item" role="menuitem" data-lang="en">English</button>
+                    <button class="lang-item" role="menuitem" data-lang="hi">Hindi (हिन्दी)</button>
+                </div>
+            </div>
+            <!-- Logged out state -->
+            <button class="btn btn-primary auth-logged-out" id="sidebar-login" data-i18n="nav.login">Login</button>
+            <!-- Logged in state -->
+            <div class="auth-logged-in" style="display: none;">
+                <div class="user-info-sidebar">
+                    <span class="user-greeting" id="sidebar-user-greeting" data-i18n="auth.hello">Hello</span>,
+                    <span id="sidebar-user-name">User</span>
+                </div>
+                <button id="sidebar-logout-btn" class="btn btn-outline btn-block" data-i18n="nav.logout">Logout</button>
+            </div>
+        </div>
+    </aside>
 
     <!-- Hero Section -->
     <section id="home" class="hero">
-      <div class="container">
-        <div class="hero-content">
-          <h1 id="hero-title" data-i18n="hero.title">Family Tree Management</h1>
-          <p id="hero-subtitle" data-i18n="hero.subtitle">Connect, organize, and share your family's stories</p>
-          <button id="cta-btn" class="btn btn-lg" data-i18n="hero.cta">Get Started</button>
+        <div class="container">
+            <div class="hero-content">
+                <h1 id="hero-title" data-i18n="hero.title">Family Tree Management</h1>
+                <p id="hero-subtitle" data-i18n="hero.subtitle">Connect, organize, and share your family's stories</p>
+                <button id="cta-btn" class="btn btn-lg" data-i18n="hero.cta">Get Started</button>
+            </div>
         </div>
-      </div>
     </section>
 
     <!-- Features Section -->
     <section id="features" class="features">
-      <div class="container">
-        <h2 id="features-title" data-i18n="features.title">Features</h2>
-        <div class="features-grid">
-          <!-- Family Management Card -->
-          <div class="feature-card">
-            <div class="feature-icon">👨‍👩‍👧‍👦</div>
-            <h3 id="feature-family-title" data-i18n="features.family">Family Management</h3>
-            <p id="feature-family-desc" data-i18n="features.familyDesc">Create and manage multiple family trees with ease</p>
-          </div>
+        <div class="container">
+            <h2 id="features-title" data-i18n="features.title">Features</h2>
+            <div class="features-grid">
+                <!-- Family Management Card -->
+                <div class="feature-card">
+                    <div class="feature-icon">👨‍👩‍👧‍👦</div>
+                    <h3 id="feature-family-title" data-i18n="features.family">Family Management</h3>
+                    <p id="feature-family-desc" data-i18n="features.familyDesc">Create and manage multiple family trees
+                        with ease
+                    </p>
+                </div>
 
-          <!-- Events Card -->
-          <div class="feature-card">
-            <div class="feature-icon">🎉</div>
-            <h3 id="feature-events-title" data-i18n="features.events">Event Tracking</h3>
-            <p id="feature-events-desc" data-i18n="features.eventsDesc">Track important family events and celebrations</p>
-          </div>
+                <!-- Events Card -->
+                <div class="feature-card">
+                    <div class="feature-icon">🎉</div>
+                    <h3 id="feature-events-title" data-i18n="features.events">Event Tracking</h3>
+                    <p id="feature-events-desc" data-i18n="features.eventsDesc">Track important family events and
+                        celebrations</p>
+                </div>
 
-          <!-- Relationships Card -->
-          <div class="feature-card">
-            <div class="feature-icon">🔗</div>
-            <h3 id="feature-relationships-title" data-i18n="features.relationships">Relationships</h3>
-            <p id="feature-relationships-desc" data-i18n="features.relationshipsDesc">Map connections and relationships between members</p>
-          </div>
+                <!-- Relationships Card -->
+                <div class="feature-card">
+                    <div class="feature-icon">🔗</div>
+                    <h3 id="feature-relationships-title" data-i18n="features.relationships">Relationships</h3>
+                    <p id="feature-relationships-desc" data-i18n="features.relationshipsDesc">Map connections and
+                        relationships
+                        between members</p>
+                </div>
+            </div>
         </div>
-      </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-      <div class="container">
-        <p id="footer-copyright" data-i18n="footer.copyright">© 2025 Parakar Halani Parivar. All rights reserved.</p>
-      </div>
+        <div class="container">
+            <p id="footer-copyright" data-i18n="footer.copyright">© 2025 Parakar Halani Parivar. All rights reserved.
+            </p>
+        </div>
     </footer>
 
+    <!-- Modal Overlay -->
+    <div id="modal-overlay" class="modal-overlay"></div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="login-close">&times;</button>
+            <div class="modal-header">
+                <h2 data-i18n="auth.loginTitle">Welcome Back</h2>
+            </div>
+            <form id="login-form" class="modal-form">
+                <div class="form-group">
+                    <label for="login-email" data-i18n="auth.email">Email</label>
+                    <input type="email" id="login-email" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="login-password" data-i18n="auth.password">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="login-password" required placeholder="••••••••">
+                        <button type="button" class="toggle-password" id="login-toggle-pwd"
+                            aria-label="Toggle password visibility">🙈</button>
+                    </div>
+                </div>
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="login-remember">
+                    <label for="login-remember" data-i18n="auth.rememberMe">Remember me</label>
+                </div>
+                <div class="form-status" id="login-status" role="status" aria-live="polite"></div>
+                <button type="submit" class="btn btn-primary btn-block" data-i18n="auth.loginBtn">Login</button>
+                <div class="form-footer">
+                    <a href="#" class="link" data-i18n="auth.forgotPassword">Forgot password?</a>
+                </div>
+            </form>
+            <div class="modal-divider">OR</div>
+            <button class="btn btn-outline btn-block" data-i18n="auth.loginGoogle">Sign in with Google</button>
+            <div class="modal-footer">
+                <span data-i18n="auth.noAccount">Don't have an account?</span>
+                <button type="button" class="link-btn" id="switch-to-signup" data-i18n="auth.signupLink">Sign
+                    up</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signup-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="signup-close">&times;</button>
+            <div class="modal-header">
+                <h2 data-i18n="auth.signupTitle">Join Parakar Halani Parivar</h2>
+                <div class="progress-indicator">
+                    <div class="step active" data-step="1" data-i18n="auth.step1">Email & Phone</div>
+                    <div class="step" data-step="2" data-i18n="auth.step2">Password</div>
+                    <div class="step" data-step="3" data-i18n="auth.step3">Verify</div>
+                    <div class="progress-line"><span class="progress-line-fill"></span></div>
+                </div>
+            </div>
+
+            <!-- Step 1: Email & Phone -->
+            <form id="signup-step1" class="modal-form signup-step active">
+                <div class="form-group">
+                    <label for="signup-email" data-i18n="auth.email">Email</label>
+                    <input type="email" id="signup-email" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="signup-phone" data-i18n="auth.phone">Phone Number</label>
+                    <input type="tel" id="signup-phone" required placeholder="+1 (555) 000-0000">
+                </div>
+                <button type="button" class="btn btn-primary btn-block next-step" data-i18n="auth.nextBtn">Next</button>
+            </form>
+
+            <!-- Step 2: Password -->
+            <form id="signup-step2" class="modal-form signup-step">
+                <div class="form-group">
+                    <label for="signup-password" data-i18n="auth.password">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="signup-password" required placeholder="••••••••">
+                        <button type="button" class="toggle-password" id="signup-toggle-pwd"
+                            aria-label="Toggle password visibility">🙈</button>
+                    </div>
+                    <small data-i18n="auth.passwordRequirements">At least 8 characters, 1 uppercase, 1 number</small>
+                </div>
+                <div class="form-group">
+                    <label for="signup-confirm-password" data-i18n="auth.confirmPassword">Confirm Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="signup-confirm-password" required placeholder="••••••••">
+                        <button type="button" class="toggle-password" id="signup-toggle-confirm"
+                            aria-label="Toggle confirm password visibility">🙈</button>
+                    </div>
+                </div>
+                <div class="form-status" id="signup-step2-status" role="status" aria-live="polite"></div>
+                <div class="form-buttons">
+                    <button type="button" class="btn btn-outline btn-block prev-step"
+                        data-i18n="auth.previousBtn">Previous</button>
+                    <button type="button" class="btn btn-primary btn-block next-step"
+                        data-i18n="auth.nextBtn">Next</button>
+                </div>
+            </form>
+
+            <!-- Step 3: OTP Verification -->
+            <form id="signup-step3" class="modal-form signup-step">
+                <p class="otp-message" data-i18n="auth.otpSent">OTP sent to your email</p>
+                <div class="form-group">
+                    <label for="signup-otp" data-i18n="auth.otp">Enter OTP</label>
+                    <input type="text" id="signup-otp" maxlength="6" placeholder="000000" required>
+                </div>
+                <button type="button" class="link-btn otp-resend" data-i18n="auth.resendOtp">Resend OTP</button>
+                <div class="form-status" id="signup-step3-status" role="status" aria-live="polite"></div>
+                <div class="form-buttons">
+                    <button type="button" class="btn btn-outline btn-block prev-step"
+                        data-i18n="auth.previousBtn">Previous</button>
+                    <button type="submit" class="btn btn-primary btn-block" data-i18n="auth.verifyBtn">Verify &
+                        Complete</button>
+                </div>
+            </form>
+
+            <div class="modal-footer">
+                <span data-i18n="auth.haveAccount">Already have an account?</span>
+                <button type="button" class="link-btn" id="switch-to-login" data-i18n="auth.login">Login</button>
+            </div>
+        </div>
+    </div>
+
     <script type="module" src="/src/main.js"></script>
-  </body>
+</body>
+
 </html>

@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Manage and explore family trees - Add, edit, and organize family information" />
+    <title>Families - Parakar Halani Parivar</title>
+    <link rel="preload" href="/src/style.css" as="style" />
+    <link rel="stylesheet" href="/src/style.css" />
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav id="navbar" class="navbar">
+        <div class="container navbar-flex">
+            <div class="navbar-brand">
+                <a href="/" class="logo">🌳 Parakar Halani Parivar</a>
+            </div>
+            
+            <!-- Mobile profile icon -->
+            <button id="profile-btn-mobile" class="profile-icon mobile-only auth-logged-in" aria-label="Profile" title="Profile">👤</button>
+            
+            <!-- Desktop nav items and actions (hidden on mobile) -->
+            <div class="nav-desktop">
+                <ul id="nav-menu" class="nav-menu">
+                    <li><a href="/app.html" data-i18n="nav.home">Home</a></li>
+                    <li><a href="/families.html" class="active" data-i18n="nav.families">Families</a></li>
+                    <li><a href="/announcements.html" data-i18n="nav.announcements">Announcements</a></li>
+                    <li><a href="/members.html" data-i18n="nav.members">Members</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <div class="lang-dropdown" id="lang-dropdown" aria-label="Language" aria-haspopup="true"
+                        aria-expanded="false">
+                        <button class="lang-trigger" id="lang-trigger">
+                            <span id="lang-current">English</span>
+                            <span class="caret">▼</span>
+                        </button>
+                        <div class="lang-menu" id="lang-menu" role="menu">
+                            <button class="lang-item" role="menuitem" data-lang="gu">Gujarati (ગુજરાતી)</button>
+                            <button class="lang-item" role="menuitem" data-lang="en">English</button>
+                            <button class="lang-item" role="menuitem" data-lang="hi">Hindi (हिन्दी)</button>
+                        </div>
+                    </div>
+                    <!-- Logged out state -->
+                    <button id="login-btn" class="btn btn-primary auth-logged-out" data-i18n="nav.login">Login</button>
+                    <!-- Logged in state with profile icon -->
+                    <div class="user-menu auth-logged-in" style="display: none;">
+                        <button id="profile-btn-desktop" class="profile-icon" aria-label="Profile" title="Profile">👤</button>
+                        <span class="user-greeting" id="user-greeting"><span data-i18n="auth.hello">Hello</span>, <span id="user-name">User</span></span>
+                        <button id="logout-btn" class="btn btn-outline" data-i18n="nav.logout">Logout</button>
+                    </div>
+                </div>
+            </div>
+            
+            <button id="sidebar-toggle" class="hamburger" aria-label="Open Menu" aria-controls="sidebar"
+                aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Profile Modal -->
+    <div id="profile-modal" class="modal" style="display: none;">
+        <div class="modal-content profile-modal-content">
+            <button class="modal-close" id="profile-close">&times;</button>
+            <div class="profile-modal-header">
+                <div class="profile-avatar">👤</div>
+                <h2 id="profile-name">User</h2>
+                <p id="profile-email">user@email.com</p>
+            </div>
+            <div class="profile-modal-menu">
+                <button class="profile-menu-item" data-i18n="profile.viewProfile">View Profile</button>
+                <button class="profile-menu-item" data-i18n="profile.editProfile">Edit Profile</button>
+                <button class="profile-menu-item" data-i18n="profile.settings">Settings</button>
+                <hr>
+                <button class="profile-menu-item logout-item" id="profile-logout-btn" data-i18n="nav.logout">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sliding Sidebar -->
+    <aside id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <span class="logo">🌳 Parakar Halani Parivar</span>
+            <button id="sidebar-close" class="sidebar-close" aria-label="Close Menu">&times;</button>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="/app.html" data-i18n="nav.home">Home</a>
+            <a href="/families.html" class="active" data-i18n="nav.families">Families</a>
+            <a href="/announcements.html" data-i18n="nav.announcements">Announcements</a>
+            <a href="/members.html" data-i18n="nav.members">Members</a>
+        </nav>
+        <div class="sidebar-actions">
+            <div class="lang-dropdown" id="sidebar-lang-dropdown" aria-label="Language" aria-haspopup="true"
+                aria-expanded="false">
+                <button class="lang-trigger" id="sidebar-lang-trigger">
+                    <span id="sidebar-lang-current">English</span>
+                    <span class="caret">▼</span>
+                </button>
+                <div class="lang-menu" id="sidebar-lang-menu" role="menu">
+                    <button class="lang-item" role="menuitem" data-lang="gu">Gujarati (ગુજરાતી)</button>
+                    <button class="lang-item" role="menuitem" data-lang="en">English</button>
+                    <button class="lang-item" role="menuitem" data-lang="hi">Hindi (हिन્દી)</button>
+                </div>
+            </div>
+            <!-- Logged out state -->
+            <button class="btn btn-primary auth-logged-out" id="sidebar-login" data-i18n="nav.login">Login</button>
+            <!-- Logged in state -->
+            <div class="auth-logged-in" style="display: none;">
+                <div class="user-info-sidebar">
+                    <button id="sidebar-profile-btn" class="sidebar-profile-link" aria-label="Profile">
+                        <span class="profile-icon-small">👤</span>
+                        <span class="user-greeting" id="sidebar-user-greeting"><span data-i18n="auth.hello">Hello</span>, <span id="sidebar-user-name">User</span></span>
+                    </button>
+                </div>
+                <button id="sidebar-logout-btn" class="btn btn-outline btn-block" data-i18n="nav.logout">Logout</button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Families Page Content -->
+    <main class="page-content">
+        <div class="container">
+            <!-- Page Header -->
+            <header class="page-header">
+                <div class="page-header-content">
+                    <h1 data-i18n="families.title">Families</h1>
+                    <p class="page-subtitle" data-i18n="families.subtitle">Manage and explore family trees</p>
+                </div>
+                <button id="add-family-btn" class="btn btn-primary">
+                    <span class="btn-icon">➕</span>
+                    <span data-i18n="families.addFamily">Add Family</span>
+                </button>
+            </header>
+
+            <!-- Search and Filter Section -->
+            <div class="search-filter-bar">
+                <div class="search-box">
+                    <input type="text" id="family-search" placeholder="Search families..." data-i18n-placeholder="families.searchPlaceholder">
+                    <span class="search-icon">🔍</span>
+                </div>
+                <div class="filter-group">
+                    <select id="family-sort" class="filter-select">
+                        <option value="name" data-i18n="families.sortByName">Sort by Name</option>
+                        <option value="members" data-i18n="families.sortByMembers">Sort by Members</option>
+                        <option value="recent" data-i18n="families.sortByRecent">Recently Added</option>
+                    </select>
+                    <button id="view-toggle" class="btn btn-outline btn-icon" title="Toggle view">
+                        <span id="view-icon">📱</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Empty State (shown when no families) -->
+            <div id="empty-state" class="empty-state">
+                <div class="empty-icon">👨‍👩‍👧‍👦</div>
+                <h2 data-i18n="families.noFamilies">No Families Yet</h2>
+                <p data-i18n="families.noFamiliesDesc">Start by adding your first family tree</p>
+                <button class="btn btn-primary" id="add-family-empty" data-i18n="families.addFirstFamily">Add Your First Family</button>
+            </div>
+
+            <!-- Families Grid -->
+            <div id="families-grid" class="families-grid">
+                <!-- Family cards will be dynamically inserted here -->
+            </div>
+
+            <!-- Skeleton Loading State -->
+            <div id="skeleton-loading" class="families-grid" style="display: none;">
+                <div class="skeleton-card">
+                    <div class="skeleton-header">
+                        <div class="skeleton skeleton-title"></div>
+                        <div class="skeleton-actions">
+                            <div class="skeleton skeleton-btn"></div>
+                            <div class="skeleton skeleton-btn"></div>
+                        </div>
+                    </div>
+                    <div class="skeleton-body">
+                        <div class="skeleton-stat">
+                            <div class="skeleton skeleton-icon"></div>
+                            <div class="skeleton skeleton-value"></div>
+                            <div class="skeleton skeleton-label"></div>
+                        </div>
+                    </div>
+                    <div class="skeleton-footer">
+                        <div class="skeleton skeleton-button"></div>
+                    </div>
+                </div>
+                <div class="skeleton-card">
+                    <div class="skeleton-header">
+                        <div class="skeleton skeleton-title"></div>
+                        <div class="skeleton-actions">
+                            <div class="skeleton skeleton-btn"></div>
+                            <div class="skeleton skeleton-btn"></div>
+                        </div>
+                    </div>
+                    <div class="skeleton-body">
+                        <div class="skeleton-stat">
+                            <div class="skeleton skeleton-icon"></div>
+                            <div class="skeleton skeleton-value"></div>
+                            <div class="skeleton skeleton-label"></div>
+                        </div>
+                    </div>
+                    <div class="skeleton-footer">
+                        <div class="skeleton skeleton-button"></div>
+                    </div>
+                </div>
+                <div class="skeleton-card">
+                    <div class="skeleton-header">
+                        <div class="skeleton skeleton-title"></div>
+                        <div class="skeleton-actions">
+                            <div class="skeleton skeleton-btn"></div>
+                            <div class="skeleton skeleton-btn"></div>
+                        </div>
+                    </div>
+                    <div class="skeleton-body">
+                        <div class="skeleton-stat">
+                            <div class="skeleton skeleton-icon"></div>
+                            <div class="skeleton skeleton-value"></div>
+                            <div class="skeleton skeleton-label"></div>
+                        </div>
+                    </div>
+                    <div class="skeleton-footer">
+                        <div class="skeleton skeleton-button"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Family Modal -->
+    <div id="add-family-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="modal-close" id="add-family-close">&times;</button>
+            <div class="modal-header">
+                <h2 data-i18n="families.addFamily">Add Family</h2>
+            </div>
+            <form id="add-family-form" class="modal-form">
+                <div class="form-group">
+                    <label for="family-name-input" data-i18n="families.familyHead">Family Head First Name</label>
+                    <input type="text" id="family-name-input" required placeholder="Enter family head first name" data-i18n-placeholder="families.familyHeadPlaceholder">
+                </div>
+                <div class="form-group">
+                    <label for="family-city-input" data-i18n="families.city">City</label>
+                    <input type="text" id="family-city-input" required placeholder="Enter city" data-i18n-placeholder="families.cityPlaceholder">
+                </div>
+                <div class="form-group">
+                    <label for="family-desc-input" data-i18n="families.description">Description</label>
+                    <textarea id="family-desc-input" rows="3" placeholder="Optional description" data-i18n-placeholder="families.descriptionPlaceholder"></textarea>
+                </div>
+                <div class="form-status" id="add-family-status" role="status" aria-live="polite"></div>
+                <button type="submit" class="btn btn-primary btn-block" data-i18n="families.createFamily">Create Family</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Initialize families page -->
+    <script type="module">
+        import { auth } from '/src/api.js';
+        import api from '/src/api.js';
+        import i18next from '/src/i18n.js';
+        import { $, on, addClass, removeClass, setActiveNav } from '/src/utils.js';
+        
+        // Check if authenticated, redirect if not
+        if (!auth.isAuthenticated()) {
+            window.location.href = '/';
+        } else {
+            // Helper function to update auth UI
+            function updateAuthUI() {
+                const isAuth = auth.isAuthenticated();
+                const user = auth.getUser();
+
+                document.querySelectorAll('.auth-logged-out').forEach(el => {
+                    el.style.display = isAuth ? 'none' : '';
+                });
+                document.querySelectorAll('.auth-logged-in').forEach(el => {
+                    el.style.display = isAuth ? '' : 'none';
+                });
+
+                if (isAuth && user) {
+                    const userName = user.name || user.email?.split('@')[0] || 'User';
+                    const userNameEl = $('#user-name');
+                    const sidebarUserNameEl = $('#sidebar-user-name');
+                    
+                    if (userNameEl) userNameEl.textContent = userName;
+                    if (sidebarUserNameEl) sidebarUserNameEl.textContent = userName;
+                }
+            }
+
+            updateAuthUI();
+            setActiveNav();
+
+            // Setup logout handlers
+            const logoutBtn = $('#logout-btn');
+            const sidebarLogoutBtn = $('#sidebar-logout-btn');
+
+            if (logoutBtn) {
+                on(logoutBtn, 'click', () => {
+                    auth.logout();
+                    window.location.href = '/';
+                });
+            }
+
+            if (sidebarLogoutBtn) {
+                on(sidebarLogoutBtn, 'click', () => {
+                    auth.logout();
+                    window.location.href = '/';
+                });
+            }
+
+            // Initialize sidebar toggle
+            const sidebar = $('#sidebar');
+            const sidebarToggle = $('#sidebar-toggle');
+            const sidebarClose = $('#sidebar-close');
+            if (sidebar && sidebarToggle && sidebarClose) {
+                on(sidebarToggle, 'click', () => {
+                    addClass(sidebar, 'active');
+                    sidebarToggle.setAttribute('aria-expanded', 'true');
+                });
+                on(sidebarClose, 'click', () => {
+                    removeClass(sidebar, 'active');
+                    sidebarToggle.setAttribute('aria-expanded', 'false');
+                });
+                document.querySelectorAll('.sidebar-nav a').forEach((link) => {
+                    on(link, 'click', () => {
+                        removeClass(sidebar, 'active');
+                        sidebarToggle.setAttribute('aria-expanded', 'false');
+                    });
+                });
+            }
+
+            // Initialize language selector
+            function setLanguage(newLang) {
+                localStorage.setItem('language', newLang);
+                i18next.changeLanguage(newLang, () => {
+                    updateTranslations();
+                    document.documentElement.lang = newLang;
+                    const langCurrent = $('#lang-current');
+                    const sidebarLangCurrent = $('#sidebar-lang-current');
+                    if (langCurrent) langCurrent.textContent = menuLabelFor(newLang);
+                    if (sidebarLangCurrent) sidebarLangCurrent.textContent = menuLabelFor(newLang);
+                });
+            }
+
+            function menuLabelFor(code) {
+                switch (code) {
+                    case 'gu': return 'Gujarati (ગુજરાતી)';
+                    case 'hi': return 'Hindi (हिन्दी)';
+                    default: return 'English';
+                }
+            }
+
+            function updateTranslations() {
+                document.querySelectorAll('[data-i18n]').forEach((el) => {
+                    const key = el.getAttribute('data-i18n');
+                    el.textContent = i18next.t(key);
+                });
+            }
+
+            function initLangDropdown(dropdownId, triggerId, menuId) {
+                const dropdown = $(dropdownId);
+                const trigger = $(triggerId);
+                const menu = $(menuId);
+                if (!dropdown || !trigger || !menu) return;
+
+                const currentLabel = dropdown.querySelector('span#' + (dropdownId.includes('sidebar') ? 'sidebar-lang-current' : 'lang-current'));
+                if (currentLabel) currentLabel.textContent = menuLabelFor(i18next.language);
+
+                on(trigger, 'click', (e) => {
+                    e.stopPropagation();
+                    menu.classList.toggle('active');
+                    dropdown.setAttribute('aria-expanded', menu.classList.contains('active'));
+                });
+
+                menu.querySelectorAll('.lang-item').forEach((item) => {
+                    on(item, 'click', () => {
+                        const code = item.getAttribute('data-lang');
+                        setLanguage(code);
+                        menu.classList.remove('active');
+                        dropdown.setAttribute('aria-expanded', 'false');
+                    });
+                });
+            }
+
+            initLangDropdown('#lang-dropdown', '#lang-trigger', '#lang-menu');
+            initLangDropdown('#sidebar-lang-dropdown', '#sidebar-lang-trigger', '#sidebar-lang-menu');
+
+            // Profile Modal handlers
+            const profileModal = $('#profile-modal');
+            const profileCloseBtn = $('#profile-close');
+            const profileBtnMobile = $('#profile-btn-mobile');
+            const profileBtnDesktop = $('#profile-btn-desktop');
+            const profileUserGreeting = $('#user-greeting');
+            const sidebarProfileBtn = $('#sidebar-profile-btn');
+
+            function openProfileModal() {
+                if (profileModal) {
+                    const user = auth.getUser();
+                    const profileName = $('#profile-name');
+                    const profileEmail = $('#profile-email');
+                    if (profileName) profileName.textContent = user?.name || 'User';
+                    if (profileEmail) profileEmail.textContent = user?.email || 'user@email.com';
+                    profileModal.style.display = 'flex';
+                    addClass(profileModal, 'active');
+                }
+            }
+
+            function closeProfileModal() {
+                if (profileModal) {
+                    removeClass(profileModal, 'active');
+                    setTimeout(() => { profileModal.style.display = 'none'; }, 300);
+                }
+            }
+
+            if (profileBtnMobile) on(profileBtnMobile, 'click', openProfileModal);
+            if (profileBtnDesktop) on(profileBtnDesktop, 'click', openProfileModal);
+            if (profileUserGreeting) on(profileUserGreeting, 'click', openProfileModal);
+            if (sidebarProfileBtn) {
+                on(sidebarProfileBtn, 'click', (e) => {
+                    e.preventDefault();
+                    openProfileModal();
+                    removeClass(sidebar, 'active');
+                    if (sidebarToggle) sidebarToggle.setAttribute('aria-expanded', 'false');
+                });
+            }
+            if (profileCloseBtn) on(profileCloseBtn, 'click', closeProfileModal);
+            if (profileModal) {
+                on(profileModal, 'click', (e) => {
+                    if (e.target === profileModal) closeProfileModal();
+                });
+            }
+
+            const profileLogoutBtn = $('#profile-logout-btn');
+            if (profileLogoutBtn) {
+                on(profileLogoutBtn, 'click', () => {
+                    auth.logout();
+                    closeProfileModal();
+                    window.location.href = '/';
+                });
+            }
+
+            on(document, 'click', (e) => {
+                ['#lang-menu', '#sidebar-lang-menu'].forEach((id) => {
+                    const el = $(id);
+                    if (el) el.classList.remove('active');
+                });
+                ['#lang-dropdown', '#sidebar-lang-dropdown'].forEach((id) => {
+                    const dd = $(id);
+                    if (dd) dd.setAttribute('aria-expanded', 'false');
+                });
+            });
+
+            updateTranslations();
+
+            // Families Page Functionality
+            const addFamilyBtn = $('#add-family-btn');
+            const addFamilyEmpty = $('#add-family-empty');
+            const addFamilyModal = $('#add-family-modal');
+            const addFamilyClose = $('#add-family-close');
+            const addFamilyForm = $('#add-family-form');
+            const addFamilyStatus = $('#add-family-status');
+            const familiesGrid = $('#families-grid');
+            const emptyState = $('#empty-state');
+            const skeletonLoading = $('#skeleton-loading');
+            const familySearch = $('#family-search');
+
+            const formatFamilyName = (headName = '') => {
+                const first = headName.trim().split(' ')[0];
+                if (!first) return '';
+                const capitalized = first.charAt(0).toUpperCase() + first.slice(1);
+                return `${capitalized}'s family`;
+            };
+
+            const setStatus = (el, type = '', message = '') => {
+                if (!el) return;
+                el.textContent = message;
+                el.className = 'form-status';
+                if (type) el.classList.add(type);
+            };
+
+            let families = [];
+
+            function openAddFamilyModal() {
+                if (addFamilyModal) {
+                    addFamilyModal.style.display = 'flex';
+                    addClass(addFamilyModal, 'active');
+                }
+            }
+
+            function closeAddFamilyModal() {
+                if (addFamilyModal) {
+                    removeClass(addFamilyModal, 'active');
+                    setTimeout(() => { addFamilyModal.style.display = 'none'; }, 300);
+                }
+                if (addFamilyForm) addFamilyForm.reset();
+                setStatus(addFamilyStatus, '', '');
+            }
+
+            if (addFamilyBtn) on(addFamilyBtn, 'click', openAddFamilyModal);
+            if (addFamilyEmpty) on(addFamilyEmpty, 'click', openAddFamilyModal);
+            if (addFamilyClose) on(addFamilyClose, 'click', closeAddFamilyModal);
+            if (addFamilyModal) {
+                on(addFamilyModal, 'click', (e) => {
+                    if (e.target === addFamilyModal) closeAddFamilyModal();
+                });
+            }
+
+            async function loadFamilies() {
+                if (skeletonLoading) skeletonLoading.style.display = 'grid';
+                if (familiesGrid) familiesGrid.style.display = 'none';
+                try {
+                    const { data } = await api.get('/families');
+                    families = Array.isArray(data) ? data : [];
+                    renderFamilies(familySearch?.value || '');
+                } catch (error) {
+                    console.error('Failed to load families', error);
+                    setStatus(addFamilyStatus, 'error', 'Failed to load families.');
+                } finally {
+                    if (skeletonLoading) skeletonLoading.style.display = 'none';
+                    if (familiesGrid) familiesGrid.style.display = 'grid';
+                }
+            }
+
+            // Handle add family form submission
+            if (addFamilyForm) {
+                on(addFamilyForm, 'submit', async (e) => {
+                    e.preventDefault();
+                    const familyNameInput = $('#family-name-input');
+                    const familyCityInput = $('#family-city-input');
+                    const familyDescInput = $('#family-desc-input');
+
+                    const headFirstName = familyNameInput.value.trim();
+                    const city = familyCityInput.value.trim();
+                    const description = familyDescInput.value.trim();
+
+                    if (!headFirstName || !city) {
+                        setStatus(addFamilyStatus, 'error', 'Family head and city are required.');
+                        return;
+                    }
+
+                    try {
+                        setStatus(addFamilyStatus, '', '');
+                        const { data } = await api.post('/families', { headFirstName, city, description });
+                        families.push(data);
+                        renderFamilies(familySearch?.value || '');
+                        closeAddFamilyModal();
+                    } catch (error) {
+                        console.error('Failed to create family', error);
+                        const message = error?.response?.data?.message || 'Failed to create family. Please try again.';
+                        setStatus(addFamilyStatus, 'error', message);
+                    }
+                });
+            }
+
+            // Render families grid
+            function renderFamilies(filter = '') {
+                if (!familiesGrid) return;
+
+                const filtered = families.filter(f =>
+                    `${f.name} ${f.city || ''}`.toLowerCase().includes(filter.toLowerCase())
+                );
+
+                if (filtered.length === 0) {
+                    if (emptyState) emptyState.style.display = 'flex';
+                    familiesGrid.style.display = 'none';
+                } else {
+                    if (emptyState) emptyState.style.display = 'none';
+                    familiesGrid.style.display = 'grid';
+                    
+                    familiesGrid.innerHTML = filtered.map(family => `
+                        <div class="family-card" data-id="${family.id}">
+                            <div class="family-card-header">
+                                <div>
+                                    <h3 class="family-name">${family.name}</h3>
+                                    ${family.city ? `<div class="family-city">📍 ${family.city}</div>` : ''}
+                                </div>
+                                <div class="family-card-actions">
+                                    <button class="btn-icon" title="Edit" data-action="edit" data-id="${family.id}">✏️</button>
+                                    <button class="btn-icon" title="Delete" data-action="delete" data-id="${family.id}">🗑️</button>
+                                </div>
+                            </div>
+                            <div class="family-card-body">
+                                <div class="family-stat">
+                                    <span class="stat-icon">👤</span>
+                                    <span class="stat-value">${family.members ?? 0}</span>
+                                    <span class="stat-label" data-i18n="families.members">Members</span>
+                                </div>
+                            </div>
+                            ${family.description ? `<p class="family-description">${family.description}</p>` : ''}
+                            <div class="family-card-footer">
+                                <button class="btn btn-outline btn-sm" data-action="view" data-id="${family.id}" data-i18n="families.viewTree">View Tree</button>
+                            </div>
+                        </div>
+                    `).join('');
+
+                    familiesGrid.querySelectorAll('[data-action]').forEach(btn => {
+                        on(btn, 'click', handleFamilyAction);
+                    });
+
+                    updateTranslations();
+                }
+            }
+
+            // Handle family card actions
+            async function handleFamilyAction(e) {
+                const action = e.currentTarget.getAttribute('data-action');
+                const id = parseInt(e.currentTarget.getAttribute('data-id'));
+
+                if (action === 'delete') {
+                    if (!confirm('Are you sure you want to delete this family?')) return;
+                    try {
+                        await api.delete(`/families/${id}`);
+                        families = families.filter(f => f.id !== id);
+                        renderFamilies(familySearch?.value || '');
+                    } catch (error) {
+                        console.error('Failed to delete family', error);
+                        alert('Failed to delete family. Please try again.');
+                    }
+                }
+            }
+
+            // Search functionality
+            if (familySearch) {
+                on(familySearch, 'input', (e) => {
+                    renderFamilies(e.target.value);
+                });
+            }
+
+            // Initial load
+            loadFamilies();
+
+            console.log('✨ Families page loaded successfully!');
+        }
+    </script>
+</body>
+
+</html>

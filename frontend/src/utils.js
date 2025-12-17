@@ -54,3 +54,32 @@ export function addClass(el, className) {
 export function removeClass(el, className) {
   el.classList.remove(className);
 }
+
+// Highlight current nav link based on the active pathname/hash
+export function setActiveNav() {
+  const links = document.querySelectorAll('.nav-menu a, .sidebar-nav a');
+  if (!links.length) return;
+
+  const currentPath = window.location.pathname.replace(/\/index\.html$/, '/');
+  const currentHash = window.location.hash;
+
+  links.forEach((link) => removeClass(link, 'active'));
+
+  links.forEach((link) => {
+    const href = link.getAttribute('href') || '';
+    if (!href) return;
+
+    // Handle on-page anchors (home page)
+    if (href.startsWith('#')) {
+      if (currentPath === '/' && (!currentHash || currentHash === href || href === '#home')) {
+        addClass(link, 'active');
+      }
+      return;
+    }
+
+    const linkPath = new URL(href, window.location.origin).pathname.replace(/\/index\.html$/, '/');
+    if (linkPath === currentPath) {
+      addClass(link, 'active');
+    }
+  });
+}

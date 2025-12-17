@@ -2,7 +2,7 @@
 
 **Project Start Date:** December 10, 2025  
 **Current Phase:** Phase 1 - MVP Frontend UI Development  
-**Last Updated:** December 13, 2025
+**Last Updated:** December 17, 2025 (Evening)
 
 ---
 
@@ -21,7 +21,7 @@ This roadmap tracks the development progress of the Parkar Halani Parivar family
 
 ## 🎯 Phase 1 - MVP Frontend UI Development
 
-### Status: IN PROGRESS (15%)
+### Status: IN PROGRESS (42%)
 
 **Goal:** Create beautiful, functional UI for all essential pages using HTML/CSS/JS with Vite and i18next
 
@@ -39,8 +39,61 @@ This roadmap tracks the development progress of the Parkar Halani Parivar family
 - [x] Clean repository structure
 - [x] Initialize Next.js Frontend Project (TypeScript, Tailwind, App Router, ESLint)
 
-**Completed Count:** 5 tasks  
-**Last Completed:** December 13, 2025
+### Phase 1 Initial Setup (December 13, 2025)
+- [x] Recreate frontend with Vite (vanilla)
+- [x] Setup i18next with 3 languages
+- [x] Create home page (hero + features)
+- [x] Add responsive navigation
+- [x] Verify all languages working
+
+### Phase 1A - Authentication & Navigation (December 13-15, 2025)
+- [x] Login modal with validation
+- [x] Multi-step signup modal (3 steps)
+- [x] Password visibility toggle (emoji-based)
+- [x] Form validation with live error clearing
+- [x] Signup progress indicator with animations
+- [x] Custom language dropdown (themed)
+- [x] Mobile hamburger menu and sliding sidebar
+- [x] Language selector blended with navbar
+- [x] Add hover effects to feature cards
+- [x] Add smooth animations and transitions
+
+### Phase 1B - Backend Integration & Dashboard (December 15, 2025)
+- [x] Backend API integration for login (with dev mode bypass)
+- [x] Backend API integration for signup (with OTP mocking)
+- [x] JWT token management (storage, refresh, interceptors)
+- [x] User logout and token cleanup
+- [x] Post-login navbar state updates
+- [x] Auto-redirect to app.html on successful auth
+- [x] Create app.html dashboard page with stats grid
+- [x] Dashboard quick links (manage families/events/members)
+- [x] Mobile navbar layout fix (title + profile + hamburger only)
+- [x] Profile menu modal with user info
+- [x] Profile icon on navbar and sidebar (with click handlers)
+- [x] Profile icon accessible via sidebar user greeting
+
+### Phase 1C - Core Pages Creation (December 15, 2025)
+- [x] Create families.html page with sample data
+- [x] Create events.html page with sample data
+- [x] Add event translations (en/gu/hi)
+- [x] Event card styles and responsive grid
+- [x] Create announcements.html page (replaces events page)
+- [x] Create members.html page (compact cards, search/sort/filter)
+- [x] Role badges simplified to Married / Unmarried; family display normalized to "<FirstName>'s family"
+- [x] Profession tags via dropdown (seed list)
+- [x] Families form captures City; city shown and searchable
+- [x] Dashboard quick links point to Announcements and Members
+- [x] Overflow fixes across cards; members grid aligned to 3/row
+- [x] Locales (en/gu/hi) updated for new labels/fields
+
+### Phase 1D - Backend Scaffold (December 17, 2025)
+- [x] Create backend/ folder with NestJS skeleton (in-memory data)
+- [x] Families, Members, Announcements modules/controllers/services stubbed with sample data
+- [x] API base `/api` with CORS enabled
+- [ ] Replace in-memory data with database (PostgreSQL/Prisma)
+
+**Completed Count:** 38 tasks  
+**Last Completed:** December 15, 2025 (Evening)
 
 ---
 
@@ -55,18 +108,18 @@ None currently
 ### Phase 1A - Additional Pages & Features (Week 2)
 
 #### Create New Pages
-- [ ] Create login.html page
-- [ ] Create signup.html page  
-- [ ] Create app.html (dashboard skeleton)
-- [ ] Create families.html page
-- [ ] Create events.html page
+- [x] Create login modal (replaced separate page)
+- [x] Create signup modal (replaced separate page)
+- [x] Create app.html (dashboard skeleton)
+- [x] Create families.html page
+- [x] Create events.html page
 - [ ] Create members.html page
 - [ ] Create 404.html error page
 
 #### Home Page Enhancements
-- [ ] Add smooth scroll animations
-- [ ] Add fade-in animations to sections
-- [ ] Add hover effects to feature cards
+- [x] Add smooth scroll animations
+- [x] Add fade-in animations to sections
+- [x] Add hover effects to feature cards
 - [ ] Optimize CSS/JS loading performance
 - [ ] Add loading skeleton states
 - [ ] Verify Lighthouse score > 90
@@ -75,15 +128,15 @@ None currently
 - [ ] Implement SPA routing (client-side navigation)
 - [ ] Add active page highlighting
 - [ ] Add breadcrumb navigation
-- [ ] Mobile hamburger menu toggle
+- [x] Mobile hamburger menu toggle
 - [ ] Page transition animations
 
 ### Phase 1B - Authentication Pages (Week 3)
 
 #### Login Page
-- [ ] Create login form layout
-- [ ] Email/phone input field
-- [ ] Password input with show/hide toggle
+- [x] Create login form layout (modal)
+- [x] Email/phone input field
+- [x] Password input with show/hide toggle
 - [ ] "Forgot Password?" link
 - [ ] "Sign in with Google" button
 - [ ] Form validation
@@ -91,12 +144,12 @@ None currently
 - [ ] Remember me checkbox
 
 #### Sign Up Page
-- [ ] Multi-step registration form (3 steps)
-- [ ] Step 1: Email/Phone input
-- [ ] Step 2: Password with requirements display
-- [ ] Step 3: OTP verification
-- [ ] Form validation on each step
-- [ ] Progress indicator
+- [x] Multi-step registration form (3 steps)
+- [x] Step 1: Email/Phone input
+- [x] Step 2: Password with requirements display
+- [x] Step 3: OTP verification (UI ready)
+- [x] Form validation on each step
+- [x] Progress indicator
 - [ ] Success confirmation page
 
 #### User Profile Pages
@@ -185,13 +238,14 @@ None currently
 | Phase | Status | Completed | Total | % Done |
 |-------|--------|-----------|-------|--------|
 | Phase 0 | ✅ Done | 5 | 5 | 100% |
-| Phase 1 Initial | ✅ Done | 11 | 11 | 100% |
-| Phase 1A | ⏳ Pending | 0 | 14 | 0% |
-| Phase 1B | ⏳ Pending | 0 | 13 | 0% |
-| Phase 1C | ⏳ Pending | 0 | 11 | 0% |
-| Phase 1D | ⏳ Pending | 0 | 6 | 0% |
+| Phase 1 Initial | ✅ Done | 5 | 5 | 100% |
+| Phase 1A Auth/Nav | ✅ Done | 10 | 10 | 100% |
+| Phase 1B Backend | ✅ Done | 12 | 12 | 100% |
+| Phase 1C Pages | ✅ Done | 4 | 4 | 100% |
+| Phase 1A Pages | ⏳ Pending | 2 | 5 | 40% |
+| Phase 1D | ⏳ Pending | 0 | 11 | 0% |
 | Phase 1E | ⏳ Pending | 0 | 19 | 0% |
-| **TOTAL** | **IN PROGRESS** | **16** | **105** | **15%** |
+| **TOTAL** | **IN PROGRESS** | **38** | **76** | **50%** |
 
 ---
 
@@ -199,6 +253,23 @@ None currently
 
 | Date | Task | Status |
 |------|------|--------|
+| Dec 15, 2025 | Create events.html page with sample data | ✅ Complete |
+| Dec 15, 2025 | Add event translations (en/gu/hi) | ✅ Complete |
+| Dec 15, 2025 | Event card styles and responsive grid | ✅ Complete |
+| Dec 15, 2025 | Create families.html page with sample data | ✅ Complete |
+| Dec 15, 2025 | Mobile navbar layout fix (title + profile + hamburger) | ✅ Complete |
+| Dec 15, 2025 | Profile menu modal with user info and logout | ✅ Complete |
+| Dec 15, 2025 | Profile icon on navbar (desktop) and sidebar | ✅ Complete |
+| Dec 15, 2025 | Backend API integration for login/signup | ✅ Complete |
+| Dec 15, 2025 | JWT token management and refresh logic | ✅ Complete |
+| Dec 15, 2025 | Development mode bypass (VITE_DEV_MODE=true) | ✅ Complete |
+| Dec 15, 2025 | Auto-redirect to /app.html on auth success | ✅ Complete |
+| Dec 15, 2025 | Create app.html dashboard with stats and quick links | ✅ Complete |
+| Dec 15, 2025 | Custom language dropdown with theme | ✅ Complete |
+| Dec 15, 2025 | Mobile sliding sidebar with hamburger | ✅ Complete |
+| Dec 15, 2025 | Password toggle with emoji (🙈/👁️) | ✅ Complete |
+| Dec 15, 2025 | Multi-step signup with progress line | ✅ Complete |
+| Dec 15, 2025 | Login & signup modals with validation | ✅ Complete |
 | Dec 13, 2025 | Recreate frontend with Vite (vanilla) | ✅ Complete |
 | Dec 13, 2025 | Setup i18next with 3 languages | ✅ Complete |
 | Dec 13, 2025 | Create home page (hero + features) | ✅ Complete |
@@ -209,9 +280,10 @@ None currently
 
 ## 🎯 Next Steps
 
-1. **Phase 1A (Week 2):** Create additional pages and enhance home page
-2. **Phase 1B (Week 3):** Build authentication flows (login, signup)
-3. **Phase 1C (Week 4):** Create core feature pages (families, events, members)
+1. **Phase 1B Backend Integration:** Connect auth modals to backend API
+2. **Phase 1B Token Management:** JWT storage, refresh, and axios interceptors
+3. **Phase 1A Pages:** Create app.html dashboard and other pages
+4. **Phase 1C:** Build core feature pages (families, events, members)
 4. **Phase 1D (Week 4):** Add static pages and error handling
 5. **Phase 1E (Ongoing):** Build reusable components library
 
@@ -241,6 +313,28 @@ None currently
 ## 📝 Implementation Notes
 
 ### December 13, 2025 - Architecture Change
+
+### December 15, 2025 - Authentication UI Complete
+**Completed:**
+1. Modal-based authentication (login + 3-step signup)
+2. Live form validation with error clearing
+3. Emoji-based password visibility toggle (🙈 hidden / 👁️ visible)
+4. Animated progress indicator for signup steps
+5. Custom language dropdown with themed menu
+6. Mobile-first navigation with sliding sidebar
+7. Language sync across navbar and sidebar
+8. Accessibility-friendly focus states
+
+**Implementation Notes:**
+- Modal system: ModalManager class in modal.js
+- Validation: Per-field live validation
+- Translations: Added auth keys to en/gu/hi
+- Styling: Custom CSS with animations (fadeIn, slideIn, scale)
+- Password toggle: Inverted emoji semantics for better UX
+- Dropdown: Custom text+caret with outside-click/Escape handling
+
+**Next Priority:** Backend API integration for login/signup endpoints
+
 **Decision:** Switched from Next.js → Vite + Vanilla HTML/CSS/JS
 **Reasons:**
 1. Simpler, faster development cycle

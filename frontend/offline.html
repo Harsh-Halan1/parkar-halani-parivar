@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Offline | Parakar Halani Parivar</title>
+    <link rel="stylesheet" href="/src/style.css" />
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav id="navbar" class="navbar">
+        <div class="container navbar-flex">
+            <div class="navbar-brand">
+                <a href="/" class="logo">🌳 Parakar Halani Parivar</a>
+            </div>
+            
+            <button id="sidebar-toggle" class="hamburger" aria-label="Open Menu" aria-controls="sidebar" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Sliding Sidebar -->
+    <aside id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <span class="logo">🌳 Parakar Halani Parivar</span>
+            <button id="sidebar-close" class="sidebar-close" aria-label="Close Menu">&times;</button>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="/">Home</a>
+            <a href="/app.html">Dashboard</a>
+            <a href="/families.html">Families</a>
+            <a href="/announcements.html">Announcements</a>
+            <a href="/members.html">Members</a>
+        </nav>
+    </aside>
+
+    <!-- Offline Content -->
+    <main class="error-page">
+        <div class="container">
+            <div class="error-content">
+                <div class="error-icon">📡</div>
+                <h1 class="error-code">OFFLINE</h1>
+                <h2 class="error-title" data-i18n="errors.offline.title">You're Offline</h2>
+                <p class="error-message" data-i18n="errors.offline.message">
+                    Please check your internet connection and try again.
+                </p>
+                <div class="error-actions">
+                    <button onclick="location.reload()" class="btn btn-primary" data-i18n="errors.tryAgain">Try Again</button>
+                    <a href="/" class="btn btn-outline" data-i18n="errors.goHome">Go to Home</a>
+                </div>
+                <div class="error-suggestions">
+                    <p>Connection Tips:</p>
+                    <div class="suggestion-links">
+                        <div class="suggestion-link" style="pointer-events: none;">
+                            <span class="suggestion-icon">📶</span>
+                            <span>Check WiFi</span>
+                        </div>
+                        <div class="suggestion-link" style="pointer-events: none;">
+                            <span class="suggestion-icon">🔄</span>
+                            <span>Refresh Page</span>
+                        </div>
+                        <div class="suggestion-link" style="pointer-events: none;">
+                            <span class="suggestion-icon">⏰</span>
+                            <span>Try Later</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Initialize page -->
+    <script type="module">
+        import i18next from '/src/i18n.js';
+        import { $, on, addClass, removeClass } from '/src/utils.js';
+
+        // Sidebar toggle
+        const sidebar = $('#sidebar');
+        const sidebarToggle = $('#sidebar-toggle');
+        const sidebarClose = $('#sidebar-close');
+        if (sidebar && sidebarToggle && sidebarClose) {
+            on(sidebarToggle, 'click', () => { addClass(sidebar, 'active'); sidebarToggle.setAttribute('aria-expanded', 'true'); });
+            on(sidebarClose, 'click', () => { removeClass(sidebar, 'active'); sidebarToggle.setAttribute('aria-expanded', 'false'); });
+            document.querySelectorAll('.sidebar-nav a').forEach((link) => {
+                on(link, 'click', () => { removeClass(sidebar, 'active'); sidebarToggle.setAttribute('aria-expanded', 'false'); });
+            });
+        }
+
+        function updateTranslations() {
+            document.querySelectorAll('[data-i18n]').forEach((el) => {
+                const key = el.getAttribute('data-i18n');
+                el.textContent = i18next.t(key);
+            });
+        }
+
+        updateTranslations();
+
+        // Monitor online/offline status
+        window.addEventListener('online', () => {
+            location.reload();
+        });
+    </script>
+</body>
+
+</html>
