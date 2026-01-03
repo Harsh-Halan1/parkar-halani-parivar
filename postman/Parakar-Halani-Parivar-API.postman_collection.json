@@ -1,0 +1,295 @@
+{
+  "info": {
+    "name": "Parakar Halani Parivar API",
+    "description": "Complete API collection for testing all backend endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Families",
+      "item": [
+        {
+          "name": "Get All Families",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/families",
+              "host": ["{{BASE_URL}}"],
+              "path": ["families"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Family by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/families/{{FAMILY_ID}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["families", "{{FAMILY_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Family",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test Family\",\n  \"description\": \"Family created via Postman\",\n  \"village\": \"Test Village\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/families",
+              "host": ["{{BASE_URL}}"],
+              "path": ["families"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Family",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Family Name\",\n  \"description\": \"Updated description\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/families/{{FAMILY_ID}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["families", "{{FAMILY_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Family",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/families/{{FAMILY_ID}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["families", "{{FAMILY_ID}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Members",
+      "item": [
+        {
+          "name": "Get All Members",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/members",
+              "host": ["{{BASE_URL}}"],
+              "path": ["members"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Member by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/members/{{MEMBER_ID}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["members", "{{MEMBER_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Member",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Test\",\n  \"lastName\": \"Member\",\n  \"gender\": \"MALE\",\n  \"dateOfBirth\": \"1990-01-01T00:00:00.000Z\",\n  \"phone\": \"+919876543210\",\n  \"email\": \"test@example.com\",\n  \"address\": \"Test Address\",\n  \"city\": \"Test City\",\n  \"state\": \"Gujarat\",\n  \"country\": \"India\",\n  \"pincode\": \"123456\",\n  \"bloodGroup\": \"O_POSITIVE\",\n  \"occupation\": \"Software Engineer\",\n  \"education\": \"Bachelor of Technology\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/members",
+              "host": ["{{BASE_URL}}"],
+              "path": ["members"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Member",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Updated\",\n  \"lastName\": \"Name\",\n  \"phone\": \"+919999999999\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/members/{{MEMBER_ID}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["members", "{{MEMBER_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Member",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/members/{{MEMBER_ID}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["members", "{{MEMBER_ID}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Announcements",
+      "item": [
+        {
+          "name": "Get All Announcements",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/announcements",
+              "host": ["{{BASE_URL}}"],
+              "path": ["announcements"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Announcement by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/announcements/{{ANNOUNCEMENT_ID}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["announcements", "{{ANNOUNCEMENT_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Announcement",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Test Announcement\",\n  \"content\": \"This is a test announcement created via Postman\",\n  \"familyId\": \"{{FAMILY_ID}}\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/announcements",
+              "host": ["{{BASE_URL}}"],
+              "path": ["announcements"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Announcement",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Announcement\",\n  \"content\": \"Updated content\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/announcements/{{ANNOUNCEMENT_ID}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["announcements", "{{ANNOUNCEMENT_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Announcement",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/announcements/{{ANNOUNCEMENT_ID}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["announcements", "{{ANNOUNCEMENT_ID}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "http://localhost:3001",
+      "type": "string"
+    },
+    {
+      "key": "FAMILY_ID",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "MEMBER_ID",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "ANNOUNCEMENT_ID",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

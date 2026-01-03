@@ -1,0 +1,185 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// USERS & AUTHENTICATION
+// ============================================
+
+model User {
+  id            String    @id @default(cuid())
+  email         String?   @unique
+  phone         String?   @unique
+  passwordHash  String
+  firstName     String
+  lastName      String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastLogin     DateTime?
+
+  // Relations
+  member        Member?   @relation("UserToMember", fields: [memberId], references: [id])
+  memberId      String?   @unique
+
+  // Auth tokens (for session management)
+  refreshTokens RefreshToken[]
+
+  @@index([email])
+  @@index([phone])
+  @@map("users")
+}
+
+model RefreshToken {
+  id        String    @id @default(cuid())
+  token     String    @unique
+  expiresAt DateTime
+  createdAt DateTime  @default(now())
+  
+  // Relations
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+// ============================================
+// CORE ENTITIES: FAMILIES & MEMBERS
+// ============================================
+
+model Family {
+  id            String    @id @default(cuid())
+  name          String    @db.VarChar(255)
+  city          String?   @db.VarChar(100)
+  description   String?   @db.Text
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  familyMembers FamilyMember[]
+  relationships Relationship[]
+  announcements Announcement[]
+
+  @@index([city])
+  @@map("families")
+}
+
+model Member {
+  id            String    @id @default(cuid())
+  firstName     String    @db.VarChar(100)
+  lastName      String    @db.VarChar(100)
+  dateOfBirth   DateTime?
+  profession    String?   @db.VarChar(100)
+  maritalStatus String?   @db.VarChar(50) // "Married", "Unmarried", "Divorced", "Widowed", etc.
+  photoUrl      String?   @db.Text
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  families      FamilyMember[]
+  user          User?     @relation("UserToMember")
+  relationships Relationship[] @relation("RelationshipFrom")
+  relatedFrom   Relationship[] @relation("RelationshipTo")
+
+  @@index([firstName, lastName])
+  @@map("members")
+}
+
+// ============================================
+// FAMILY RELATIONSHIPS & CONNECTIONS
+// ============================================
+
+model FamilyMember {
+  id            String    @id @default(cuid())
+  
+  // Relations
+  family        Family    @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  familyId      String
+  member        Member    @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  memberId      String
+  
+  // Metadata
+  relationshipType String? @db.VarChar(100) // "Head", "Spouse", "Child", "Parent", "Sibling", etc.
+  joinedAt      DateTime  @default(now())
+
+  @@unique([familyId, memberId]) // A member can only be in a family once
+  @@index([familyId])
+  @@index([memberId])
+  @@map("family_members")
+}
+
+model Relationship {
+  id            String    @id @default(cuid())
+  
+  // Relations
+  fromMember    Member    @relation("RelationshipFrom", fields: [fromMemberId], references: [id], onDelete: Cascade)
+  fromMemberId  String
+  toMember      Member    @relation("RelationshipTo", fields: [toMemberId], references: [id], onDelete: Cascade)
+  toMemberId    String
+  
+  // Metadata
+  type          String    @db.VarChar(100) // "Parent", "Child", "Spouse", "Sibling", etc.
+  family        Family    @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  familyId      String
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@unique([fromMemberId, toMemberId, familyId]) // Prevent duplicate relationships
+  @@index([fromMemberId])
+  @@index([toMemberId])
+  @@index([familyId])
+  @@map("relationships")
+}
+
+// ============================================
+// ANNOUNCEMENTS & EVENTS
+// ============================================
+
+model Announcement {
+  id            String    @id @default(cuid())
+  title         String    @db.VarChar(255)
+  content       String    @db.Text
+  type          String    @db.VarChar(50) // "Birth", "Death", "Wedding", "Birthday", "General", etc.
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  family        Family    @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  familyId      String
+
+  @@index([type])
+  @@index([familyId])
+  @@index([createdAt])
+  @@map("announcements")
+}
+
+// ============================================
+// FILE STORAGE METADATA (for Supabase Storage)
+// ============================================
+
+model FileStorage {
+  id            String    @id @default(cuid())
+  fileName      String    @db.VarChar(255)
+  fileUrl       String    @db.Text
+  bucketPath    String    @db.VarChar(255) // e.g., "members/photos/", "documents/", etc.
+  fileSize      Int       // in bytes
+  mimeType      String    @db.VarChar(100)
+  uploadedBy    String    @db.VarChar(255) // user ID or email
+  createdAt     DateTime  @default(now())
+
+  // Optional: link to entity
+  memberId      String?   @db.VarChar(100)
+
+  @@index([bucketPath])
+  @@index([memberId])
+  @@map("file_storage")
+}

@@ -1,69 +1,85 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { Announcement } from '@prisma/client';
 
-export type AnnouncementType = 'birthday' | 'anniversary' | 'wedding' | 'celebration' | 'death' | 'other';
-
-export interface Announcement {
-  id: number;
-  name: string;
-  date: string;
-  type: AnnouncementType;
-  attendees?: number;
-  description?: string;
-}
+export type AnnouncementType = 'Birth' | 'Death' | 'Wedding' | 'Birthday' | 'General';
 
 export interface CreateAnnouncementDto {
-  name: string;
-  date: string;
+  title: string;
+  content: string;
   type: AnnouncementType;
-  attendees?: number;
-  description?: string;
+  familyId: string;
 }
 
 export interface UpdateAnnouncementDto extends Partial<CreateAnnouncementDto> {}
 
 @Injectable()
 export class AnnouncementsService {
-  private announcements: Announcement[] = [
-    { id: 1, name: 'Rohan Birthday', date: '2025-12-25', type: 'birthday', attendees: 25, description: 'Celebrate with family and friends' },
-    { id: 2, name: 'Meera Anniversary', date: '2026-01-12', type: 'anniversary', attendees: 50, description: '25th anniversary celebration' },
-    { id: 3, name: 'Kishan Wedding', date: '2026-02-10', type: 'wedding', description: 'Destination wedding' }
-  ];
+  constructor(private prisma: PrismaService) {}
 
-  findAll(): Announcement[] {
-    return this.announcements;
+  async findAll(): Promise<Announcement[]> {
+    return this.prisma.announcement.findMany({
+      include: {
+        family: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
   }
 
-  findOne(id: number): Announcement | undefined {
-    return this.announcements.find((a) => a.id === id);
+  async findOne(id: string): Promise<Announcement | null> {
+    return this.prisma.announcement.findUnique({
+      where: { id },
+      include: {
+        family: true,
+      },
+    });
   }
 
-  create(dto: CreateAnnouncementDto): Announcement {
-    const announcement: Announcement = {
-      id: Date.now(),
-      name: dto.name.trim(),
-      date: dto.date,
-      type: dto.type,
-      attendees: dto.attendees,
-      description: dto.description,
-    };
-    this.announcements.push(announcement);
-    return announcement;
+  async findByFamily(familyId: string): Promise<Announcement[]> {
+    return this.prisma.announcement.findMany({
+      where: { familyId },
+      include: {
+        family: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
   }
 
-  update(id: number, dto: UpdateAnnouncementDto): Announcement | undefined {
-    const announcement = this.findOne(id);
-    if (!announcement) return undefined;
-    if (dto.name !== undefined) announcement.name = dto.name.trim();
-    if (dto.date !== undefined) announcement.date = dto.date;
-    if (dto.type !== undefined) announcement.type = dto.type;
-    if (dto.attendees !== undefined) announcement.attendees = dto.attendees;
-    if (dto.description !== undefined) announcement.description = dto.description;
-    return announcement;
+  async create(dto: CreateAnnouncementDto): Promise<Announcement> {
+    return this.prisma.announcement.create({
+      data: {
+        title: dto.title.trim(),
+        content: dto.content.trim(),
+        type: dto.type,
+        familyId: dto.familyId,
+      },
+      include: {
+        family: true,
+      },
+    });
   }
 
-  remove(id: number): boolean {
-    const before = this.announcements.length;
-    this.announcements = this.announcements.filter((a) => a.id !== id);
-    return this.announcements.length < before;
+  async update(id: string, dto: UpdateAnnouncementDto): Promise<Announcement> {
+    return this.prisma.announcement.update({
+      where: { id },
+      data: {
+        title: dto.title?.trim(),
+        content: dto.content?.trim(),
+        type: dto.type,
+      },
+      include: {
+        family: true,
+      },
+    });
+  }
+
+  async remove(id: string): Promise<Announcement> {
+    return this.prisma.announcement.delete({
+      where: { id },
+    });
   }
 }

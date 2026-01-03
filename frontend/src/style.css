@@ -21,6 +21,8 @@
 
 html {
     scroll-behavior: smooth;
+    min-height: 100vh;
+    contain: layout;
 }
 
 body {
@@ -28,12 +30,16 @@ body {
     background: linear-gradient(135deg, var(--bg) 0%, #1a1f35 100%);
     color: var(--text);
     line-height: 1.6;
+    min-height: 100vh;
+    contain: layout style paint;
+    will-change: contents;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    contain: layout;
 }
 
 /* Navigation */
@@ -44,6 +50,7 @@ body {
     position: sticky;
     top: 0;
     z-index: 100;
+    contain: layout style;
 }
 
 .navbar .container {
@@ -123,11 +130,20 @@ body {
 /* Mobile-only utility class */
 .mobile-only {
     display: none;
+    contain: layout;
+    position: absolute;
+    width: 0;
+    height: 0;
+    visibility: hidden;
 }
 
 @media (max-width: 768px) {
     .mobile-only {
         display: inline-flex;
+        position: static;
+        width: auto;
+        height: auto;
+        visibility: visible;
     }
 }
 
@@ -137,11 +153,16 @@ body {
     align-items: center;
     gap: 2rem;
     flex: 1;
+    contain: layout;
 }
 
 @media (max-width: 768px) {
     .nav-desktop {
         display: none;
+        position: absolute;
+        width: 0;
+        height: 0;
+        visibility: hidden;
     }
 }
 
@@ -161,7 +182,7 @@ body {
 
 /* Profile Modal */
 .profile-modal-content {
-    max-width: 350px;
+    max-width: inherit;
     border-radius: 1rem;
 }
 
@@ -242,6 +263,21 @@ body {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    contain: layout;
+}
+
+/* Hide auth-logged-in elements from layout flow to prevent CLS */
+.auth-logged-in {
+    contain: paint;
+}
+
+.auth-logged-in[style*="display: none"] {
+    position: absolute !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
 }
 
 .lang-dropdown {
@@ -363,11 +399,13 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 600;
+    contain: layout style;
 }
 
 .btn-primary {
     background: var(--primary);
     color: white;
+    will-change: transform;
 }
 
 .btn-primary:hover {
@@ -397,10 +435,13 @@ body {
             rgba(139, 92, 246, 0.1) 50%,
             rgba(236, 72, 153, 0.05) 100%);
     padding: 4rem 0;
+    contain: layout style paint;
 }
 
 .hero-content {
     text-align: center;
+    contain: layout style;
+    min-height: 300px;
 }
 
 .hero h1 {
@@ -548,10 +589,13 @@ body {
     z-index: 1002;
     display: flex;
     flex-direction: column;
+    visibility: hidden;
+    contain: layout style paint;
 }
 
 .sidebar.active {
     transform: translateX(0);
+    visibility: visible;
 }
 
 .sidebar-header {
@@ -616,17 +660,22 @@ body {
     bottom: 0;
     background: rgba(0, 0, 0, 0.7);
     display: none;
+    opacity: 0;
+    visibility: hidden;
     z-index: 1000;
     animation: fadeIn 0.3s ease;
+    contain: paint layout;
 }
 
 .modal-overlay.active {
     display: block;
+    opacity: 1;
+    visibility: visible;
 }
 
 .modal {
     position: fixed;
-    top: 50%;
+    top: 30%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0.9);
     background: var(--bg-light);
@@ -637,12 +686,19 @@ body {
     width: 95%;
     z-index: 1001;
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
     transition: all 0.3s ease;
+    contain: layout style paint;
+}
+
+#profile-modal {
+    max-width: 300px;
 }
 
 .modal.active {
     opacity: 1;
+    visibility: visible;
     pointer-events: auto;
     transform: translate(-50%, -50%) scale(1);
 }
@@ -735,7 +791,7 @@ body {
 .modal-close {
     position: absolute;
     top: 1rem;
-    right: 1rem;
+    right: 1.2rem;
     background: none;
     border: none;
     font-size: 1.5rem;
@@ -2131,6 +2187,74 @@ button:focus-visible {
     }
 }
 
+/* Page Transitions - Router Animations */
+#app-content {
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    contain: layout style paint;
+    min-height: 60vh;
+}
+
+#home-content {
+    contain: layout style paint;
+    min-height: 60vh;
+}
+
+#app-content.page-exit {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+#app-content.page-enter {
+    animation: pageEnter 0.3s ease;
+}
+
+@keyframes pageEnter {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Breadcrumb Navigation */
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.breadcrumb-item a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.breadcrumb-item a:hover {
+    color: var(--secondary);
+    text-decoration: underline;
+}
+
+.breadcrumb-item.active {
+    color: var(--text);
+    font-weight: 600;
+}
+
+.breadcrumb-separator {
+    color: var(--text-muted);
+}
+
 @media (prefers-color-scheme: light) {
     :root {
         color: #213547;
@@ -2143,5 +2267,41 @@ button:focus-visible {
 
     button {
         background-color: #f9f9f9;
+    }
+}
+
+/* Mobile Performance Optimizations */
+@media (max-width: 768px) {
+    /* Reduce animation complexity on mobile for better TBT */
+    .page-transition {
+        animation-duration: 0.15s !important;
+    }
+    
+    /* Simplify transforms on mobile */
+    .btn-primary:hover,
+    .feature-card:hover {
+        transform: none !important;
+    }
+    
+    /* Reduce backdrop blur on mobile (expensive operation) */
+    .navbar {
+        backdrop-filter: blur(5px) !important;
+    }
+    
+    /* Mobile tap highlight */
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+
+/* Reduce motion preference */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 }

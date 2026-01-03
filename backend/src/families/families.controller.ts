@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post } from '@nestjs/common';
 import { CreateFamilyDto, FamiliesService, UpdateFamilyDto } from './families.service';
 
 @Controller('families')
@@ -11,8 +11,12 @@ export class FamiliesController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.families.findOne(id);
+  async findOne(@Param('id') id: string) {
+    const family = await this.families.findOne(id);
+    if (!family) {
+      throw new NotFoundException(`Family with ID ${id} not found`);
+    }
+    return family;
   }
 
   @Post()
@@ -21,12 +25,12 @@ export class FamiliesController {
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateFamilyDto) {
+  update(@Param('id') id: string, @Body() dto: UpdateFamilyDto) {
     return this.families.update(id, dto);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id') id: string) {
     return this.families.remove(id);
   }
 }

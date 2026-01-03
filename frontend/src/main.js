@@ -1,19 +1,23 @@
 import './style.css';
 import i18next from './i18n.js';
-import { $, on, addClass, removeClass } from './utils.js';
+import { $, on, addClass, removeClass, setActiveNav } from './utils.js';
 import api, { auth } from './api.js';
 import ModalManager from './modal.js';
+import router from './router.js';
 
 // Initialize i18next
 i18next.init;
 
 // Function to update all translated elements
-function updateTranslations() {
+export function updateTranslations() {
     document.querySelectorAll('[data-i18n]').forEach((el) => {
         const key = el.getAttribute('data-i18n');
         el.textContent = i18next.t(key);
     });
 }
+
+// Make it available globally for router
+window.updateTranslations = updateTranslations;
 
 // Initialize translations on page load
 updateTranslations();
@@ -216,12 +220,17 @@ function openProfileModal() {
         const profileEmail = $('#profile-email');
         if (profileName) profileName.textContent = user?.name || 'User';
         if (profileEmail) profileEmail.textContent = user?.email || 'user@email.com';
-        profileModal.style.display = 'flex';
+        // Show overlay and activate modal like login/signup
+        const overlay = $('#modal-overlay');
+        if (overlay) overlay.classList.add('active');
+        profileModal.classList.add('active');
     }
 }
 
 function closeProfileModal() {
-    if (profileModal) profileModal.style.display = 'none';
+    if (profileModal) profileModal.classList.remove('active');
+    const overlay = $('#modal-overlay');
+    if (overlay) overlay.classList.remove('active');
 }
 
 if (profileBtnMobile) {
@@ -309,8 +318,34 @@ if (auth.isAuthenticated()) {
 // Initialize auth UI state
 updateAuthUI();
 
+// Initialize SPA Router
+async function initializeRouter() {
+    // Register routes
+    router.register('/', 'index.html');
+    router.register('/app', 'app.html');
+    router.register('/families', 'families.html');
+    router.register('/members', 'members.html');
+    router.register('/announcements', 'announcements.html');
+    
+    // Initialize router
+    await router.init('#app-content');
+    
+    // Listen for route changes to update active nav
+    window.addEventListener('routeChanged', (e) => {
+        setActiveNav();
+        updateAuthUI();
+        updateTranslations();
+    });
+}
+
+// Only initialize router if content area exists (main app pages)
+if ($('#app-content')) {
+    initializeRouter().catch(console.error);
+}
+
 console.log('✨ Frontend loaded successfully!');
 console.log('🌐 Current language:', i18next.language);
 console.log('🔧 API Base URL:', import.meta.env.VITE_API_URL || 'http://localhost:3001/api');
 console.log('🔐 Modal system initialized');
 console.log('🔑 Auth system ready');
+console.log('🛣️ SPA Router initialized');

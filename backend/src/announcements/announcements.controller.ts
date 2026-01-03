@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post } from '@nestjs/common';
 import { AnnouncementsService, CreateAnnouncementDto, UpdateAnnouncementDto } from './announcements.service';
 
 @Controller('announcements')
@@ -11,8 +11,12 @@ export class AnnouncementsController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.announcements.findOne(id);
+  async findOne(@Param('id') id: string) {
+    const announcement = await this.announcements.findOne(id);
+    if (!announcement) {
+      throw new NotFoundException(`Announcement with ID ${id} not found`);
+    }
+    return announcement;
   }
 
   @Post()
@@ -21,12 +25,12 @@ export class AnnouncementsController {
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateAnnouncementDto) {
+  update(@Param('id') id: string, @Body() dto: UpdateAnnouncementDto) {
     return this.announcements.update(id, dto);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id') id: string) {
     return this.announcements.remove(id);
   }
 }

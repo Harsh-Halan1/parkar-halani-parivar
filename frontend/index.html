@@ -8,9 +8,21 @@
     <meta name="description" content="Family Tree Management System for Parakar Halani Parivar - Connect, organize, and share your family's stories" />
     <title>Parakar Halani Parivar - Family Tree Management</title>
     
-    <!-- Preload critical resources -->
-    <link rel="preload" href="/src/style.css" as="style" />
-    <link rel="preload" href="/src/main.js" as="script" />
+    <!-- Resource hints for faster loading -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    <link rel="preconnect" href="http://localhost:3000" crossorigin />
+    
+    <!-- Preload critical resources with priority -->
+    <link rel="preload" href="/src/style.css" as="style" fetchpriority="high" />
+    <link rel="preload" href="/src/main.js" as="script" fetchpriority="high" />
+    <style>
+        /* Critical inline CSS to prevent body shift */
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a 0%, #1a1f35 100%);
+        }
+    </style>
+    <link rel="stylesheet" href="/src/style.css" />
 </head>
 
 <body>
@@ -27,10 +39,11 @@
             <!-- Desktop nav items and actions (hidden on mobile) -->
             <div class="nav-desktop">
                 <ul id="nav-menu" class="nav-menu">
-                    <li><a href="#home" data-i18n="nav.home">Home</a></li>
-                    <li><a href="#families" data-i18n="nav.families">Families</a></li>
-                    <li><a href="#announcements" data-i18n="nav.announcements">Announcements</a></li>
-                    <li><a href="#members" data-i18n="nav.members">Members</a></li>
+                    <li class="auth-logged-out" style="display: none;"><a href="/" data-i18n="nav.home">Home</a></li>
+                    <li class="auth-logged-in" style="display: none;"><a href="/app" data-i18n="nav.home">Home</a></li>
+                    <li><a href="/families" data-i18n="nav.families">Families</a></li>
+                    <li><a href="/announcements" data-i18n="nav.announcements">Announcements</a></li>
+                    <li><a href="/members" data-i18n="nav.members">Members</a></li>
                 </ul>
                 <div class="nav-actions">
                     <div class="lang-dropdown" id="lang-dropdown" aria-label="Language" aria-haspopup="true"
@@ -66,7 +79,7 @@
     </nav>
     
     <!-- Profile Modal -->
-    <div id="profile-modal" class="modal" style="display: none;">
+    <div id="profile-modal" class="modal">
         <div class="modal-content profile-modal-content">
             <button class="modal-close" id="profile-close">&times;</button>
             <div class="profile-modal-header">
@@ -91,10 +104,11 @@
             <button id="sidebar-close" class="sidebar-close" aria-label="Close Menu">&times;</button>
         </div>
         <nav class="sidebar-nav">
-            <a href="#home" data-i18n="nav.home">Home</a>
-            <a href="#families" data-i18n="nav.families">Families</a>
-            <a href="#announcements" data-i18n="nav.announcements">Announcements</a>
-            <a href="#members" data-i18n="nav.members">Members</a>
+            <a href="/" class="auth-logged-out" style="display: none;" data-i18n="nav.home">Home</a>
+            <a href="/app" class="auth-logged-in" style="display: none;" data-i18n="nav.home">Home</a>
+            <a href="/families" data-i18n="nav.families">Families</a>
+            <a href="/announcements" data-i18n="nav.announcements">Announcements</a>
+            <a href="/members" data-i18n="nav.members">Members</a>
         </nav>
         <div class="sidebar-actions">
             <div class="lang-dropdown" id="sidebar-lang-dropdown" aria-label="Language" aria-haspopup="true"
@@ -122,8 +136,13 @@
         </div>
     </aside>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
+    <!-- SPA Content Area (for router) -->
+    <div id="app-content"></div>
+
+    <!-- Home Page Content (initial view) -->
+    <div id="home-content">
+        <!-- Hero Section -->
+        <section id="home" class="hero">
         <div class="container">
             <div class="hero-content">
                 <h1 id="hero-title" data-i18n="hero.title">Family Tree Management</h1>
@@ -297,7 +316,11 @@
         </div>
     </div>
 
-    <script type="module" src="/src/main.js"></script>
+    <!-- Close home content div -->
+    </div>
+
+    <!-- Load JavaScript with optimal strategy -->
+    <script type="module" src="/src/main.js" fetchpriority="high"></script>
 </body>
 
 </html>

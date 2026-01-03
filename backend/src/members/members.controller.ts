@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post } from '@nestjs/common';
 import { CreateMemberDto, MembersService, UpdateMemberDto } from './members.service';
 
 @Controller('members')
@@ -11,8 +11,12 @@ export class MembersController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.members.findOne(id);
+  async findOne(@Param('id') id: string) {
+    const member = await this.members.findOne(id);
+    if (!member) {
+      throw new NotFoundException(`Member with ID ${id} not found`);
+    }
+    return member;
   }
 
   @Post()
@@ -21,12 +25,12 @@ export class MembersController {
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateMemberDto) {
+  update(@Param('id') id: string, @Body() dto: UpdateMemberDto) {
     return this.members.update(id, dto);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id') id: string) {
     return this.members.remove(id);
   }
 }
