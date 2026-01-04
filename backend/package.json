@@ -33,6 +33,7 @@
     "@types/bcrypt": "^5.0.2",
     "@types/multer": "^2.0.0",
     "@types/node": "^20.11.30",
+    "@types/passport-jwt": "^4.0.1",
     "prisma": "^5.8.0",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",

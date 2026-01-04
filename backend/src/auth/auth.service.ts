@@ -184,7 +184,7 @@ export class AuthService {
     const user = await this.upsertUserFromSupabase({
       supabaseId: data.session.user.id,
       email,
-      phone: data.session.user.phone,
+      phone: data.session.user.phone ?? null,
       firstName: data.session.user.user_metadata?.firstName || 'Guest',
       lastName: data.session.user.user_metadata?.lastName || 'User',
       passwordHash,
