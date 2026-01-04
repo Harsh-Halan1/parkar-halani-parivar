@@ -1,7 +1,9 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { CreateMemberDto, MembersService, UpdateMemberDto } from './members.service';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('members')
+@UseGuards(JwtAuthGuard)
 export class MembersController {
   constructor(private readonly members: MembersService) {}
 

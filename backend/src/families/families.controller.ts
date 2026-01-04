@@ -1,7 +1,9 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { CreateFamilyDto, FamiliesService, UpdateFamilyDto } from './families.service';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('families')
+@UseGuards(JwtAuthGuard)
 export class FamiliesController {
   constructor(private readonly families: FamiliesService) {}
 

@@ -1,0 +1,142 @@
+{
+  "info": {
+    "name": "Parakar Auth (Minimal)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Minimal auth smoke requests for Parakar backend"
+  },
+  "item": [
+    {
+      "name": "OTP Request",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"phone\": \"+15555550123\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/otp/request",
+          "host": ["{{baseUrl}}"],
+          "path": ["auth", "otp", "request"]
+        }
+      }
+    },
+    {
+      "name": "OTP Verify",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"phone\": \"+15555550123\",\n  \"token\": \"123456\",\n  \"rememberMe\": true,\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john@example.com\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/otp/verify",
+          "host": ["{{baseUrl}}"],
+          "path": ["auth", "otp", "verify"]
+        }
+      }
+    },
+    {
+      "name": "Email Sign-Up",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"Passw0rd!\",\n  \"firstName\": \"Test\",\n  \"lastName\": \"User\",\n  \"phone\": \"+15555550123\",\n  \"rememberMe\": true\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/email/sign-up",
+          "host": ["{{baseUrl}}"],
+          "path": ["auth", "email", "sign-up"]
+        }
+      }
+    },
+    {
+      "name": "Email Sign-In",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"Passw0rd!\",\n  \"rememberMe\": true\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/email/sign-in",
+          "host": ["{{baseUrl}}"],
+          "path": ["auth", "email", "sign-in"]
+        }
+      }
+    },
+    {
+      "name": "Refresh Token",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"refreshToken\": \"<insert-from-login>\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/refresh",
+          "host": ["{{baseUrl}}"],
+          "path": ["auth", "refresh"]
+        }
+      }
+    },
+    {
+      "name": "Logout",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"userId\": \"<insert-user-id>\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/logout",
+          "host": ["{{baseUrl}}"],
+          "path": ["auth", "logout"]
+        }
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3001/api"
+    }
+  ]
+}
