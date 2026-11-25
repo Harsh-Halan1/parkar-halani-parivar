@@ -1,33 +1,27 @@
 <!doctype html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Browse and manage family members - View profiles, search, and add new members" />
+    <meta name="description" content="Member management" />
     <title>Members - Parakar Halani Parivar</title>
     <link rel="preload" href="/src/style.css" as="style" />
     <link rel="stylesheet" href="/src/style.css" />
 </head>
-
 <body>
     <!-- Navigation -->
     <nav id="navbar" class="navbar">
         <div class="container navbar-flex">
             <div class="navbar-brand">
-                <a href="/" class="logo">🌳 Parakar Halani Parivar</a>
+                <a href="/index.html" class="logo">🌳 Parakar Halani Parivar</a>
             </div>
-
-            <!-- Mobile profile icon -->
-            <button id="profile-btn-mobile" class="profile-icon mobile-only auth-logged-in" aria-label="Profile" title="Profile">👤</button>
-
-            <!-- Desktop nav items and actions (hidden on mobile) -->
+            <button id="profile-btn-mobile" class="profile-icon mobile-only" aria-label="Profile">👤</button>
             <div class="nav-desktop">
                 <ul id="nav-menu" class="nav-menu">
-                    <li><a href="/app.html" data-i18n="nav.home">Home</a></li>
-                    <li><a href="/families.html" data-i18n="nav.families">Families</a></li>
-                    <li><a href="/announcements.html" data-i18n="nav.announcements">Announcements</a></li>
-                    <li><a href="/members.html" class="active" data-i18n="nav.members">Members</a></li>
+                    <li><a href="/app.html">Home</a></li>
+                    <li><a href="/families.html">Families</a></li>
+                    <li><a href="/announcements.html">Announcements</a></li>
+                    <li><a href="/members.html" class="active">Members</a></li>
                 </ul>
                 <div class="nav-actions">
                     <div class="lang-dropdown" id="lang-dropdown" aria-label="Language" aria-haspopup="true" aria-expanded="false">
@@ -38,30 +32,24 @@
                         <div class="lang-menu" id="lang-menu" role="menu">
                             <button class="lang-item" role="menuitem" data-lang="gu">Gujarati (ગુજરાતી)</button>
                             <button class="lang-item" role="menuitem" data-lang="en">English</button>
-                            <button class="lang-item" role="menuitem" data-lang="hi">Hindi (हिन्दी)</button>
+                            <button class="lang-item" role="menuitem" data-lang="hi">Hindi (हिन्દી)</button>
                         </div>
                     </div>
-                    <!-- Logged out state -->
-                    <button id="login-btn" class="btn btn-primary auth-logged-out" data-i18n="nav.login">Login</button>
-                    <!-- Logged in state with profile icon -->
-                    <div class="user-menu auth-logged-in" style="display: none;">
-                        <button id="profile-btn-desktop" class="profile-icon" aria-label="Profile" title="Profile">👤</button>
+                    <div class="user-menu">
+                        <button id="profile-btn-desktop" class="profile-icon" aria-label="Profile">👤</button>
                         <span class="user-greeting" id="user-greeting"><span data-i18n="auth.hello">Hello</span>, <span id="user-name">User</span></span>
                         <button id="logout-btn" class="btn btn-outline" data-i18n="nav.logout">Logout</button>
                     </div>
                 </div>
             </div>
-
             <button id="sidebar-toggle" class="hamburger" aria-label="Open Menu" aria-controls="sidebar" aria-expanded="false">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span></span><span></span><span></span>
             </button>
         </div>
     </nav>
 
     <!-- Profile Modal -->
-    <div id="profile-modal" class="modal" style="display: none;">
+    <div id="profile-modal" class="modal">
         <div class="modal-content profile-modal-content">
             <button class="modal-close" id="profile-close">&times;</button>
             <div class="profile-modal-header">
@@ -70,8 +58,6 @@
                 <p id="profile-email">user@email.com</p>
             </div>
             <div class="profile-modal-menu">
-                <button class="profile-menu-item" data-i18n="profile.viewProfile">View Profile</button>
-                <button class="profile-menu-item" data-i18n="profile.editProfile">Edit Profile</button>
                 <button class="profile-menu-item" data-i18n="profile.settings">Settings</button>
                 <hr>
                 <button class="profile-menu-item logout-item" id="profile-logout-btn" data-i18n="nav.logout">Logout</button>
@@ -79,17 +65,17 @@
         </div>
     </div>
 
-    <!-- Sliding Sidebar -->
+    <!-- Sidebar -->
     <aside id="sidebar" class="sidebar">
         <div class="sidebar-header">
             <span class="logo">🌳 Parakar Halani Parivar</span>
             <button id="sidebar-close" class="sidebar-close" aria-label="Close Menu">&times;</button>
         </div>
         <nav class="sidebar-nav">
-            <a href="/app.html" data-i18n="nav.home">Home</a>
-            <a href="/families.html" data-i18n="nav.families">Families</a>
-            <a href="/announcements.html" data-i18n="nav.announcements">Announcements</a>
-            <a href="/members.html" class="active" data-i18n="nav.members">Members</a>
+            <a href="/app.html">Home</a>
+            <a href="/families.html">Families</a>
+            <a href="/announcements.html">Announcements</a>
+            <a href="/members.html">Members</a>
         </nav>
         <div class="sidebar-actions">
             <div class="lang-dropdown" id="sidebar-lang-dropdown" aria-label="Language" aria-haspopup="true" aria-expanded="false">
@@ -100,610 +86,282 @@
                 <div class="lang-menu" id="sidebar-lang-menu" role="menu">
                     <button class="lang-item" role="menuitem" data-lang="gu">Gujarati (ગુજરાતી)</button>
                     <button class="lang-item" role="menuitem" data-lang="en">English</button>
-                    <button class="lang-item" role="menuitem" data-lang="hi">Hindi (हिन्दी)</button>
+                    <button class="lang-item" role="menuitem" data-lang="hi">Hindi (हिन્દી)</button>
                 </div>
             </div>
-            <!-- Logged out state -->
-            <button class="btn btn-primary auth-logged-out" id="sidebar-login" data-i18n="nav.login">Login</button>
-            <!-- Logged in state -->
-            <div class="auth-logged-in" style="display: none;">
-                <div class="user-info-sidebar">
-                    <button id="sidebar-profile-btn" class="sidebar-profile-link" aria-label="Profile">
-                        <span class="profile-icon-small">👤</span>
-                        <span class="user-greeting" id="sidebar-user-greeting"><span data-i18n="auth.hello">Hello</span>, <span id="sidebar-user-name">User</span></span>
-                    </button>
-                </div>
-                <button id="sidebar-logout-btn" class="btn btn-outline btn-block" data-i18n="nav.logout">Logout</button>
-            </div>
+            <button id="sidebar-logout-btn" class="btn btn-outline btn-block" data-i18n="nav.logout">Logout</button>
         </div>
     </aside>
 
-    <!-- Members Page Content -->
-    <main class="page-content">
+    <!-- Members Content -->
+    <main id="members-page" class="page-content">
         <div class="container">
-            <!-- Page Header -->
             <header class="page-header">
                 <div class="page-header-content">
                     <h1 data-i18n="members.title">Members</h1>
-                    <p class="page-subtitle" data-i18n="members.subtitle">Quickly browse and manage family members</p>
+                    <p class="page-subtitle" data-i18n="members.subtitle">View and manage family members</p>
                 </div>
-                <button id="add-member-btn" class="btn btn-primary">
-                    <span class="btn-icon">➕</span>
-                    <span data-i18n="members.addMember">Add Member</span>
-                </button>
+                <button id="add-member-btn" class="btn btn-primary" data-i18n="members.addMember">Add Member</button>
             </header>
 
-            <!-- Search and Filter Section -->
-            <div class="search-filter-bar">
-                <div class="search-box">
-                    <input type="text" id="member-search" placeholder="Search members..." data-i18n-placeholder="members.searchPlaceholder">
-                    <span class="search-icon">🔍</span>
-                </div>
-                <div class="filter-group">
-                    <select id="member-sort" class="filter-select">
-                        <option value="name" data-i18n="members.sortByName">Sort by Name</option>
-                        <option value="age" data-i18n="members.sortByAge">Sort by Age</option>
-                        <option value="recent" data-i18n="members.sortByRecent">Recently Added</option>
-                    </select>
-                    <select id="member-filter" class="filter-select">
-                        <option value="" data-i18n="members.filterAll">All Roles</option>
-                        <option value="married" data-i18n="members.filterMarried">Married</option>
-                        <option value="unmarried" data-i18n="members.filterUnmarried">Unmarried</option>
-                    </select>
-                </div>
+            <div class="search-bar">
+                <input type="text" id="member-search" placeholder="Search members..." data-i18n-placeholder="members.search">
             </div>
 
-            <!-- Empty State -->
-            <div id="empty-state" class="empty-state">
-                <div class="empty-icon">👥</div>
-                <h2 data-i18n="members.noMembers">No Members Yet</h2>
-                <p data-i18n="members.noMembersDesc">Start by adding your first member</p>
-                <button class="btn btn-primary" id="add-member-empty" data-i18n="members.addFirstMember">Add Your First Member</button>
-            </div>
-
-            <!-- Members Grid -->
-            <div id="members-grid" class="members-grid">
-                <!-- Member cards will be inserted here -->
-            </div>
-
-            <!-- Skeleton Loading State -->
-            <div id="skeleton-loading" class="members-grid" style="display: none;">
-                <div class="skeleton-member-card">
-                    <div class="skeleton-member-top">
-                        <div class="skeleton skeleton-avatar"></div>
-                        <div class="skeleton-member-info">
-                            <div class="skeleton skeleton-member-name"></div>
-                            <div class="skeleton skeleton-member-sub"></div>
-                        </div>
-                        <div class="skeleton-actions">
-                            <div class="skeleton skeleton-btn"></div>
-                        </div>
-                    </div>
-                    <div class="skeleton-member-body">
-                        <div class="skeleton skeleton-member-meta"></div>
-                        <div class="skeleton-member-tags">
-                            <div class="skeleton skeleton-tag"></div>
-                            <div class="skeleton skeleton-tag"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="skeleton-member-card">
-                    <div class="skeleton-member-top">
-                        <div class="skeleton skeleton-avatar"></div>
-                        <div class="skeleton-member-info">
-                            <div class="skeleton skeleton-member-name"></div>
-                            <div class="skeleton skeleton-member-sub"></div>
-                        </div>
-                        <div class="skeleton-actions">
-                            <div class="skeleton skeleton-btn"></div>
-                        </div>
-                    </div>
-                    <div class="skeleton-member-body">
-                        <div class="skeleton skeleton-member-meta"></div>
-                        <div class="skeleton-member-tags">
-                            <div class="skeleton skeleton-tag"></div>
-                            <div class="skeleton skeleton-tag"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="skeleton-member-card">
-                    <div class="skeleton-member-top">
-                        <div class="skeleton skeleton-avatar"></div>
-                        <div class="skeleton-member-info">
-                            <div class="skeleton skeleton-member-name"></div>
-                            <div class="skeleton skeleton-member-sub"></div>
-                        </div>
-                        <div class="skeleton-actions">
-                            <div class="skeleton skeleton-btn"></div>
-                        </div>
-                    </div>
-                    <div class="skeleton-member-body">
-                        <div class="skeleton skeleton-member-meta"></div>
-                        <div class="skeleton-member-tags">
-                            <div class="skeleton skeleton-tag"></div>
-                            <div class="skeleton skeleton-tag"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="skeleton-member-card">
-                    <div class="skeleton-member-top">
-                        <div class="skeleton skeleton-avatar"></div>
-                        <div class="skeleton-member-info">
-                            <div class="skeleton skeleton-member-name"></div>
-                            <div class="skeleton skeleton-member-sub"></div>
-                        </div>
-                        <div class="skeleton-actions">
-                            <div class="skeleton skeleton-btn"></div>
-                        </div>
-                    </div>
-                    <div class="skeleton-member-body">
-                        <div class="skeleton skeleton-member-meta"></div>
-                        <div class="skeleton-member-tags">
-                            <div class="skeleton skeleton-tag"></div>
-                            <div class="skeleton skeleton-tag"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="skeleton-member-card">
-                    <div class="skeleton-member-top">
-                        <div class="skeleton skeleton-avatar"></div>
-                        <div class="skeleton-member-info">
-                            <div class="skeleton skeleton-member-name"></div>
-                            <div class="skeleton skeleton-member-sub"></div>
-                        </div>
-                        <div class="skeleton-actions">
-                            <div class="skeleton skeleton-btn"></div>
-                        </div>
-                    </div>
-                    <div class="skeleton-member-body">
-                        <div class="skeleton skeleton-member-meta"></div>
-                        <div class="skeleton-member-tags">
-                            <div class="skeleton skeleton-tag"></div>
-                            <div class="skeleton skeleton-tag"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="skeleton-member-card">
-                    <div class="skeleton-member-top">
-                        <div class="skeleton skeleton-avatar"></div>
-                        <div class="skeleton-member-info">
-                            <div class="skeleton skeleton-member-name"></div>
-                            <div class="skeleton skeleton-member-sub"></div>
-                        </div>
-                        <div class="skeleton-actions">
-                            <div class="skeleton skeleton-btn"></div>
-                        </div>
-                    </div>
-                    <div class="skeleton-member-body">
-                        <div class="skeleton skeleton-member-meta"></div>
-                        <div class="skeleton-member-tags">
-                            <div class="skeleton skeleton-tag"></div>
-                            <div class="skeleton skeleton-tag"></div>
-                        </div>
-                    </div>
-                </div>
+            <div id="members-list" class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th data-i18n="members.name">Name</th>
+                            <th data-i18n="members.family">Family</th>
+                            <th data-i18n="members.birthDate">Birth Date</th>
+                            <th data-i18n="members.actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="members-tbody">
+                        <tr><td colspan="4" style="text-align: center;" data-i18n="common.loading">Loading...</td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </main>
 
     <!-- Add Member Modal -->
-    <div id="add-member-modal" class="modal" style="display: none;">
+    <div id="add-member-modal" class="modal">
         <div class="modal-content">
-            <button class="modal-close" id="add-member-close">&times;</button>
-            <div class="modal-header">
-                <h2 data-i18n="members.addMember">Add Member</h2>
-            </div>
-            <form id="add-member-form" class="modal-form">
-                <div class="form-group">
-                    <label for="member-name-input" data-i18n="members.memberName">Member Name</label>
-                    <input type="text" id="member-name-input" required placeholder="Enter member name" data-i18n-placeholder="members.memberNamePlaceholder">
-                </div>
-                <div class="form-group">
-                    <label for="member-family-input" data-i18n="members.family">Family</label>
-                    <input type="text" id="member-family-input" required placeholder="Enter family name" data-i18n-placeholder="members.familyPlaceholder">
-                </div>
-                <div class="form-group">
-                    <label for="member-role-input" data-i18n="members.role">Role</label>
-                    <select id="member-role-input" required>
-                        <option value="">Select role...</option>
-                        <option value="married" data-i18n="members.filterMarried">Married</option>
-                        <option value="unmarried" data-i18n="members.filterUnmarried">Unmarried</option>
-                    </select>
-                </div>
-                <div class="form-group inline">
-                    <div class="form-control">
-                        <label for="member-age-input" data-i18n="members.age">Age</label>
-                        <input type="number" id="member-age-input" min="0" placeholder="Age" data-i18n-placeholder="members.age">
-                    </div>
-                </div>
-                <div class="form-group inline">
-                    <div class="form-control">
-                        <label for="member-phone-input">
-                            <span data-i18n="members.phone">Phone</span>
-                            <span class="optional-label" data-i18n="members.optional">(Optional)</span>
-                        </label>
-                        <input type="tel" id="member-phone-input" placeholder="Phone" data-i18n-placeholder="members.phone">
-                    </div>
-                    <div class="form-control">
-                        <label for="member-email-input">
-                            <span data-i18n="members.email">Email</span>
-                            <span class="optional-label" data-i18n="members.optional">(Optional)</span>
-                        </label>
-                        <input type="email" id="member-email-input" placeholder="Email" data-i18n-placeholder="members.email">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="member-profession-select">
-                        <span data-i18n="members.tags">Profession Tags</span>
-                        <span class="optional-label" data-i18n="members.optional">(Optional)</span>
-                    </label>
-                    <select id="member-profession-select" multiple>
-                        <option value="" disabled data-i18n="members.tagsPlaceholder">Select professions</option>
-                        <option value="Doctor">Doctor</option>
-                        <option value="Engineer">Engineer</option>
-                        <option value="Teacher">Teacher</option>
-                        <option value="Business">Business</option>
-                        <option value="Student">Student</option>
-                        <option value="Designer">Designer</option>
-                        <option value="Homemaker">Homemaker</option>
-                    </select>
-                </div>
-                <div class="form-status" id="add-member-status" role="status" aria-live="polite"></div>
-                <button type="submit" class="btn btn-primary btn-block" data-i18n="members.createMember">Create Member</button>
+            <button class="modal-close" id="close-add-member">&times;</button>
+            <h2 data-i18n="members.addMember">Add Member</h2>
+            <form id="add-member-form">
+                <input type="text" id="member-name-input" placeholder="Name" data-i18n-placeholder="members.name" required>
+                <input type="date" id="member-dob-input" data-i18n-placeholder="members.birthDate">
+                <select id="member-family-select" required>
+                    <option value="" disabled selected data-i18n="members.selectFamily">Select Family</option>
+                </select>
+                <button type="submit" class="btn btn-primary btn-block" data-i18n="common.save">Save</button>
             </form>
         </div>
     </div>
 
-    <!-- Initialize members page -->
     <script type="module">
         import { auth } from '/src/api.js';
         import api from '/src/api.js';
         import i18next from '/src/i18n.js';
-        import { $, on, addClass, removeClass, setActiveNav } from '/src/utils.js';
-
-        // Guard
+        import { $, on, addClass, removeClass } from '/src/utils.js';
+        
+        // Check authentication
         if (!auth.isAuthenticated()) {
-            window.location.href = '/';
-        } else {
-            function updateAuthUI() {
-                const isAuth = auth.isAuthenticated();
-                const user = auth.getUser();
-                document.querySelectorAll('.auth-logged-out').forEach(el => el.style.display = isAuth ? 'none' : '');
-                document.querySelectorAll('.auth-logged-in').forEach(el => el.style.display = isAuth ? '' : 'none');
-                if (isAuth && user) {
-                    const userName = user.name || user.email?.split('@')[0] || 'User';
-                    const userNameEl = $('#user-name');
-                    const sidebarUserNameEl = $('#sidebar-user-name');
-                    if (userNameEl) userNameEl.textContent = userName;
-                    if (sidebarUserNameEl) sidebarUserNameEl.textContent = userName;
-                }
-            }
-
-            updateAuthUI();
-            setActiveNav();
-
-            const logoutBtn = $('#logout-btn');
-            const sidebarLogoutBtn = $('#sidebar-logout-btn');
-            if (logoutBtn) on(logoutBtn, 'click', () => { auth.logout(); window.location.href = '/'; });
-            if (sidebarLogoutBtn) on(sidebarLogoutBtn, 'click', () => { auth.logout(); window.location.href = '/'; });
-
-            // Sidebar toggle
-            const sidebar = $('#sidebar');
-            const sidebarToggle = $('#sidebar-toggle');
-            const sidebarClose = $('#sidebar-close');
-            if (sidebar && sidebarToggle && sidebarClose) {
-                on(sidebarToggle, 'click', () => { addClass(sidebar, 'active'); sidebarToggle.setAttribute('aria-expanded', 'true'); });
-                on(sidebarClose, 'click', () => { removeClass(sidebar, 'active'); sidebarToggle.setAttribute('aria-expanded', 'false'); });
-                document.querySelectorAll('.sidebar-nav a').forEach((link) => {
-                    on(link, 'click', () => { removeClass(sidebar, 'active'); sidebarToggle.setAttribute('aria-expanded', 'false'); });
-                });
-            }
-
-            // Language handling
-            function menuLabelFor(code) {
-                switch (code) {
-                    case 'gu': return 'Gujarati (ગુજરાતી)';
-                    case 'hi': return 'Hindi (हिन्दी)';
-                    default: return 'English';
-                }
-            }
-
-            function setLanguage(newLang) {
-                localStorage.setItem('language', newLang);
-                i18next.changeLanguage(newLang, () => {
-                    updateTranslations();
-                    document.documentElement.lang = newLang;
-                    const langCurrent = $('#lang-current');
-                    const sidebarLangCurrent = $('#sidebar-lang-current');
-                    if (langCurrent) langCurrent.textContent = menuLabelFor(newLang);
-                    if (sidebarLangCurrent) sidebarLangCurrent.textContent = menuLabelFor(newLang);
-                });
-            }
-
-            function initLangDropdown(dropdownId, triggerId, menuId) {
-                const dropdown = $(dropdownId);
-                const trigger = $(triggerId);
-                const menu = $(menuId);
-                if (!dropdown || !trigger || !menu) return;
-                const currentLabel = dropdown.querySelector('span#' + (dropdownId.includes('sidebar') ? 'sidebar-lang-current' : 'lang-current'));
-                if (currentLabel) currentLabel.textContent = menuLabelFor(i18next.language);
-                on(trigger, 'click', (e) => {
-                    e.stopPropagation();
-                    menu.classList.toggle('active');
-                    dropdown.setAttribute('aria-expanded', menu.classList.contains('active'));
-                });
-                menu.querySelectorAll('.lang-item').forEach((item) => {
-                    on(item, 'click', () => {
-                        const code = item.getAttribute('data-lang');
-                        setLanguage(code);
-                        menu.classList.remove('active');
-                        dropdown.setAttribute('aria-expanded', 'false');
-                    });
-                });
-            }
-
-            function updateTranslations() {
-                document.querySelectorAll('[data-i18n]').forEach((el) => {
-                    const key = el.getAttribute('data-i18n');
-                    el.textContent = i18next.t(key);
-                });
-                document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
-                    const key = el.getAttribute('data-i18n-placeholder');
-                    const translated = i18next.t(key);
-                    if (translated) el.setAttribute('placeholder', translated);
-                });
-            }
-
-            initLangDropdown('#lang-dropdown', '#lang-trigger', '#lang-menu');
-            initLangDropdown('#sidebar-lang-dropdown', '#sidebar-lang-trigger', '#sidebar-lang-menu');
-
-            // Profile modal
-            const profileModal = $('#profile-modal');
-            const profileCloseBtn = $('#profile-close');
-            const profileBtnMobile = $('#profile-btn-mobile');
-            const profileBtnDesktop = $('#profile-btn-desktop');
-            const profileUserGreeting = $('#user-greeting');
-            const sidebarProfileBtn = $('#sidebar-profile-btn');
-
-            function openProfileModal() {
-                if (profileModal) {
-                    const user = auth.getUser();
-                    const profileName = $('#profile-name');
-                    const profileEmail = $('#profile-email');
-                    if (profileName) profileName.textContent = user?.name || 'User';
-                    if (profileEmail) profileEmail.textContent = user?.email || 'user@email.com';
-                    profileModal.style.display = 'flex';
-                    addClass(profileModal, 'active');
-                }
-            }
-
-            function closeProfileModal() {
-                if (profileModal) {
-                    removeClass(profileModal, 'active');
-                    setTimeout(() => { profileModal.style.display = 'none'; }, 300);
-                }
-            }
-
-            if (profileBtnMobile) on(profileBtnMobile, 'click', openProfileModal);
-            if (profileBtnDesktop) on(profileBtnDesktop, 'click', openProfileModal);
-            if (profileUserGreeting) on(profileUserGreeting, 'click', openProfileModal);
-            if (sidebarProfileBtn) on(sidebarProfileBtn, 'click', (e) => { e.preventDefault(); openProfileModal(); removeClass(sidebar, 'active'); if (sidebarToggle) sidebarToggle.setAttribute('aria-expanded', 'false'); });
-            if (profileCloseBtn) on(profileCloseBtn, 'click', closeProfileModal);
-            if (profileModal) on(profileModal, 'click', (e) => { if (e.target === profileModal) closeProfileModal(); });
-            const profileLogoutBtn = $('#profile-logout-btn');
-            if (profileLogoutBtn) on(profileLogoutBtn, 'click', () => { auth.logout(); closeProfileModal(); window.location.href = '/'; });
-
-            on(document, 'click', () => {
-                ['#lang-menu', '#sidebar-lang-menu'].forEach((id) => { const el = $(id); if (el) el.classList.remove('active'); });
-                ['#lang-dropdown', '#sidebar-lang-dropdown'].forEach((id) => { const dd = $(id); if (dd) dd.setAttribute('aria-expanded', 'false'); });
-            });
-
-            updateTranslations();
-
-            // Members Page Logic
-            const addMemberBtn = $('#add-member-btn');
-            const addMemberEmpty = $('#add-member-empty');
-            const addMemberModal = $('#add-member-modal');
-            const addMemberClose = $('#add-member-close');
-            const addMemberForm = $('#add-member-form');
-            const addMemberStatus = $('#add-member-status');
-            const membersGrid = $('#members-grid');
-            const emptyState = $('#empty-state');
-            const skeletonLoading = $('#skeleton-loading');
-            const memberSearch = $('#member-search');
-            const memberFilter = $('#member-filter');
-            const memberSort = $('#member-sort');
-
-            const professionOptions = ['Doctor', 'Engineer', 'Teacher', 'Business', 'Student', 'Designer', 'Homemaker'];
-
-            function formatFamilyName(headName = '') {
-                const first = headName.trim().split(' ')[0];
-                if (!first) return '';
-                const capitalized = first.charAt(0).toUpperCase() + first.slice(1);
-                return `${capitalized}'s family`;
-            }
-
-            function roleLabel(role) {
-                if (role === 'married') return i18next.t('members.roleMarried') || 'Married';
-                if (role === 'unmarried') return i18next.t('members.roleUnmarried') || 'Unmarried';
-                return role;
-            }
-
-            const setStatus = (el, type = '', message = '') => {
-                if (!el) return;
-                el.textContent = message;
-                el.className = 'form-status';
-                if (type) el.classList.add(type);
-            };
-
-            let members = [];
-
-            async function loadMembers() {
-                if (skeletonLoading) skeletonLoading.style.display = 'grid';
-                if (membersGrid) membersGrid.style.display = 'none';
-                try {
-                    const { data } = await api.get('/members');
-                    members = Array.isArray(data) ? data : [];
-                    renderMembers(memberSearch?.value || '', memberFilter?.value || '', memberSort?.value || 'name');
-                } catch (error) {
-                    console.error('Failed to load members', error);
-                    setStatus(addMemberStatus, 'error', 'Failed to load members.');
-                } finally {
-                    if (skeletonLoading) skeletonLoading.style.display = 'none';
-                    if (membersGrid) membersGrid.style.display = 'grid';
-                }
-            }
-
-            const professionSelect = $('#member-profession-select');
-            if (professionSelect) {
-                professionSelect.innerHTML = `
-                    <option value="" disabled data-i18n="members.tagsPlaceholder">Select professions</option>
-                    ${professionOptions.map(p => `<option value="${p}">${p}</option>`).join('')}
-                `;
-            }
-
-            function initials(name) {
-                return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
-            }
-
-            function renderMembers(search = '', role = '', sort = 'name') {
-                if (!membersGrid) return;
-                let filtered = members.filter(m => {
-                    const text = `${m.name} ${m.family} ${m.location || ''} ${(m.tags || []).join(' ')}`.toLowerCase();
-                    const matchesSearch = text.includes(search.toLowerCase());
-                    const matchesRole = !role || m.role === role;
-                    return matchesSearch && matchesRole;
-                });
-
-                // basic sorting
-                if (sort === 'name') filtered.sort((a, b) => a.name.localeCompare(b.name));
-                if (sort === 'age') filtered.sort((a, b) => (a.age || 0) - (b.age || 0));
-                if (sort === 'recent') filtered.sort((a, b) => b.id - a.id);
-
-                if (filtered.length === 0) {
-                    if (emptyState) emptyState.style.display = 'flex';
-                    membersGrid.style.display = 'none';
-                    return;
-                }
-
-                if (emptyState) emptyState.style.display = 'none';
-                membersGrid.style.display = 'grid';
-
-                membersGrid.innerHTML = filtered.map(member => `
-                    <div class="member-card" data-id="${member.id}">
-                        <div class="member-card-top">
-                            <div class="member-avatar">${initials(member.name)}</div>
-                            <div class="member-info">
-                                <div class="member-name-line">
-                                    <h3 class="member-name">${member.name}</h3>
-                                    <span class="member-role-badge">${roleLabel(member.role)}</span>
-                                </div>
-                                <div class="member-subline">
-                                    <span class="member-family">${member.family}</span>
-                                </div>
-                            </div>
-                            <div class="member-card-actions">
-                                <button class="btn-icon" title="Edit" data-action="edit" data-id="${member.id}">✏️</button>
-                                <button class="btn-icon" title="Delete" data-action="delete" data-id="${member.id}">🗑️</button>
-                            </div>
-                        </div>
-                        <div class="member-card-body">
-                            <div class="member-meta">
-                                ${member.age ? `<span>🎂 ${member.age} yrs</span>` : ''}
-                                ${member.location ? `<span>📍 ${member.location}</span>` : ''}
-                            </div>
-                            ${(member.phone || member.email) ? `<div class="member-contact">${member.phone ? `📞 ${member.phone}` : ''} ${member.email ? ` | 📧 ${member.email}` : ''}</div>` : ''}
-                            ${member.tags?.length ? `<div class="member-tags">${member.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>` : ''}
-                        </div>
-                        <div class="member-card-footer">
-                            <button class="btn btn-outline btn-sm" data-action="view" data-id="${member.id}" data-i18n="members.viewProfile">View Profile</button>
-                        </div>
-                    </div>
-                `).join('');
-
-                membersGrid.querySelectorAll('[data-action]').forEach(btn => on(btn, 'click', handleMemberAction));
-                updateTranslations();
-            }
-
-            async function handleMemberAction(e) {
-                const action = e.currentTarget.getAttribute('data-action');
-                const id = parseInt(e.currentTarget.getAttribute('data-id'));
-                if (action === 'delete') {
-                    if (!confirm('Delete this member?')) return;
-                    try {
-                        await api.delete(`/members/${id}`);
-                        members = members.filter(m => m.id !== id);
-                        renderMembers(memberSearch?.value || '', memberFilter?.value || '', memberSort?.value || 'name');
-                    } catch (error) {
-                        console.error('Failed to delete member', error);
-                        alert('Failed to delete member. Please try again.');
-                    }
-                }
-            }
-
-            function openAddMemberModal() {
-                if (addMemberModal) {
-                    addMemberModal.style.display = 'flex';
-                    addClass(addMemberModal, 'active');
-                }
-            }
-            
-            function closeAddMemberModal() {
-                if (addMemberModal) {
-                    removeClass(addMemberModal, 'active');
-                    setTimeout(() => { addMemberModal.style.display = 'none'; }, 300);
-                }
-                if (addMemberForm) addMemberForm.reset();
-            }
-
-            if (addMemberBtn) on(addMemberBtn, 'click', openAddMemberModal);
-            if (addMemberEmpty) on(addMemberEmpty, 'click', openAddMemberModal);
-            if (addMemberClose) on(addMemberClose, 'click', closeAddMemberModal);
-            if (addMemberModal) on(addMemberModal, 'click', (e) => { if (e.target === addMemberModal) closeAddMemberModal(); });
-
-            if (addMemberForm) on(addMemberForm, 'submit', async (e) => {
-                e.preventDefault();
-                const name = $('#member-name-input')?.value.trim();
-                const familyHead = $('#member-family-input')?.value.trim();
-                const family = formatFamilyName(familyHead);
-                const role = $('#member-role-input')?.value;
-                const age = parseInt($('#member-age-input')?.value || '0', 10) || undefined;
-                const phone = $('#member-phone-input')?.value.trim();
-                const email = $('#member-email-input')?.value.trim();
-                const tags = Array.from($('#member-profession-select')?.selectedOptions || []).map(o => o.value).filter(Boolean);
-                if (!name || !familyHead || !role) {
-                    setStatus(addMemberStatus, 'error', 'Name, family, and role are required.');
-                    return;
-                }
-                try {
-                    setStatus(addMemberStatus, '', '');
-                    const { data } = await api.post('/members', {
-                        name,
-                        familyHeadFirstName: familyHead,
-                        role,
-                        age,
-                        phone,
-                        email,
-                        tags
-                    });
-                    members.push(data);
-                    closeAddMemberModal();
-                    renderMembers(memberSearch?.value || '', memberFilter?.value || '', memberSort?.value || 'name');
-                } catch (error) {
-                    console.error('Failed to create member', error);
-                    const message = error?.response?.data?.message || 'Failed to create member. Please try again.';
-                    setStatus(addMemberStatus, 'error', message);
-                }
-            });
-
-            if (memberSearch) on(memberSearch, 'input', (e) => { renderMembers(e.target.value, memberFilter?.value || '', memberSort?.value || 'name'); });
-            if (memberFilter) on(memberFilter, 'change', (e) => { renderMembers(memberSearch?.value || '', e.target.value, memberSort?.value || 'name'); });
-            if (memberSort) on(memberSort, 'change', (e) => { renderMembers(memberSearch?.value || '', memberFilter?.value || '', e.target.value); });
-
-            loadMembers();
-            console.log('✨ Members page loaded successfully!');
+            window.location.href = '/index.html';
         }
+
+        const user = auth.getUser();
+        const userNameEl = $('#user-name');
+        if (userNameEl && user) {
+            const userName = user.name || user.email?.split('@')[0] || 'User';
+            userNameEl.textContent = userName;
+        }
+
+        // Profile modal
+        const profileModal = $('#profile-modal');
+        const profileBtnMobile = $('#profile-btn-mobile');
+        const profileBtnDesktop = $('#profile-btn-desktop');
+        const profileCloseBtn = $('#profile-close');
+        const profileLogoutBtn = $('#profile-logout-btn');
+        const sidebarLogoutBtn = $('#sidebar-logout-btn');
+
+        function openProfileModal() {
+            if (profileModal) {
+                const userInfo = auth.getUser();
+                const profileName = $('#profile-name');
+                const profileEmail = $('#profile-email');
+                if (profileName) profileName.textContent = userInfo?.name || 'User';
+                if (profileEmail) profileEmail.textContent = userInfo?.email || 'user@email.com';
+                profileModal.classList.add('active');
+            }
+        }
+
+        function closeProfileModal() {
+            if (profileModal) profileModal.classList.remove('active');
+        }
+
+        if (profileBtnMobile) on(profileBtnMobile, 'click', openProfileModal);
+        if (profileBtnDesktop) on(profileBtnDesktop, 'click', openProfileModal);
+        if (profileCloseBtn) on(profileCloseBtn, 'click', closeProfileModal);
+        if (profileLogoutBtn) {
+            on(profileLogoutBtn, 'click', () => {
+                auth.logout();
+                window.location.href = '/index.html';
+            });
+        }
+        if (sidebarLogoutBtn) {
+            on(sidebarLogoutBtn, 'click', () => {
+                auth.logout();
+                window.location.href = '/index.html';
+            });
+        }
+
+        // Sidebar
+        const sidebar = $('#sidebar');
+        const sidebarToggle = $('#sidebar-toggle');
+        const sidebarClose = $('#sidebar-close');
+
+        if (sidebar && sidebarToggle && sidebarClose) {
+            on(sidebarToggle, 'click', () => {
+                addClass(sidebar, 'active');
+                sidebarToggle.setAttribute('aria-expanded', 'true');
+            });
+            on(sidebarClose, 'click', () => {
+                removeClass(sidebar, 'active');
+                sidebarToggle.setAttribute('aria-expanded', 'false');
+            });
+        }
+
+        // Languages
+        function setLanguage(lang) {
+            localStorage.setItem('language', lang);
+            i18next.changeLanguage(lang);
+            document.documentElement.lang = lang;
+            updateTranslations();
+        }
+
+        function updateTranslations() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                el.textContent = i18next.t(key);
+            });
+        }
+
+        function initLangDropdown(dropdownId, triggerId, menuId) {
+            const dropdown = $(dropdownId);
+            const trigger = $(triggerId);
+            const menu = $(menuId);
+            if (!dropdown || !trigger || !menu) return;
+
+            on(trigger, 'click', (e) => {
+                e.stopPropagation();
+                menu.classList.toggle('active');
+            });
+
+            menu.querySelectorAll('.lang-item').forEach(item => {
+                on(item, 'click', () => {
+                    const lang = item.getAttribute('data-lang');
+                    setLanguage(lang);
+                    menu.classList.remove('active');
+                });
+            });
+        }
+
+        initLangDropdown('#lang-dropdown', '#lang-trigger', '#lang-menu');
+        initLangDropdown('#sidebar-lang-dropdown', '#sidebar-lang-trigger', '#sidebar-lang-menu');
+
+        // Members management
+        const addMemberBtn = $('#add-member-btn');
+        const addMemberModal = $('#add-member-modal');
+        const closeAddMemberBtn = $('#close-add-member');
+        const addMemberForm = $('#add-member-form');
+        const membersTableBody = $('#members-tbody');
+        const memberSearchInput = $('#member-search');
+        const familySelect = $('#member-family-select');
+
+        let members = [];
+        let families = [];
+
+        async function loadMembers() {
+            try {
+                const response = await api.get('/persons');
+                members = Array.isArray(response.data) ? response.data : [];
+                renderMembers(members);
+            } catch (error) {
+                console.error('Failed to load members:', error);
+                if (membersTableBody) membersTableBody.innerHTML = '<tr><td colspan="4">Failed to load members</td></tr>';
+            }
+        }
+
+        async function loadFamilies() {
+            try {
+                const response = await api.get('/families');
+                families = Array.isArray(response.data) ? response.data : [];
+                if (familySelect) {
+                    familySelect.innerHTML = '<option value="" disabled selected>Select Family</option>';
+                    families.forEach(f => {
+                        const option = document.createElement('option');
+                        option.value = f.id;
+                        option.textContent = f.name;
+                        familySelect.appendChild(option);
+                    });
+                }
+            } catch (error) {
+                console.error('Failed to load families:', error);
+            }
+        }
+
+        function renderMembers(list) {
+            if (!membersTableBody) return;
+            if (list.length === 0) {
+                membersTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">No members found</td></tr>';
+                return;
+            }
+            membersTableBody.innerHTML = list.map(member => {
+                const dob = member.dateOfBirth ? new Date(member.dateOfBirth).toLocaleDateString() : 'N/A';
+                const familyName = member.family?.name || 'N/A';
+                return `
+                    <tr>
+                        <td>${member.name || 'Unnamed'}</td>
+                        <td>${familyName}</td>
+                        <td>${dob}</td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-sm btn-outline edit-member" data-id="${member.id}">Edit</button>
+                                <button class="btn btn-sm btn-danger delete-member" data-id="${member.id}">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        if (addMemberBtn) on(addMemberBtn, 'click', () => {
+            if (addMemberModal) addMemberModal.classList.add('active');
+        });
+
+        if (closeAddMemberBtn) on(closeAddMemberBtn, 'click', () => {
+            if (addMemberModal) addMemberModal.classList.remove('active');
+        });
+
+        if (addMemberForm) {
+            on(addMemberForm, 'submit', async (e) => {
+                e.preventDefault();
+                const nameInput = $('#member-name-input');
+                const dobInput = $('#member-dob-input');
+                try {
+                    await api.post('/persons', {
+                        name: nameInput.value,
+                        dateOfBirth: dobInput.value,
+                        familyId: familySelect.value
+                    });
+                    nameInput.value = '';
+                    dobInput.value = '';
+                    familySelect.value = '';
+                    if (addMemberModal) addMemberModal.classList.remove('active');
+                    loadMembers();
+                } catch (error) {
+                    console.error('Failed to add member:', error);
+                    alert('Failed to add member');
+                }
+            });
+        }
+
+        if (memberSearchInput) {
+            on(memberSearchInput, 'input', (e) => {
+                const query = e.target.value.toLowerCase();
+                const filtered = members.filter(m => m.name?.toLowerCase().includes(query));
+                renderMembers(filtered);
+            });
+        }
+
+        updateTranslations();
+        loadFamilies();
+        loadMembers();
+        console.log('✨ Members page loaded');
     </script>
 </body>
-
 </html>

@@ -84,8 +84,16 @@ nano .env
 ```env
 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/parakar_halani_parivar"
 PORT=3001
-JWT_SECRET=your_jwt_secret_key_here_change_in_production
+JWT_ACCESS_SECRET=your_jwt_secret_key_here_change_in_production
+SUPABASE_URL=https://your-project-id.supabase.co
+SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+SUPABASE_BUCKET=parakar-storage
 ```
+
+**Using Supabase Postgres instead of local:**
+- In Supabase → Project Settings → Database → Connection string → copy the `URI` and append `?sslmode=require`
+- Example: `DATABASE_URL="postgresql://postgres:<password>@db.<id>.supabase.co:5432/postgres?sslmode=require"`
 
 ### Step 3: Install Dependencies
 

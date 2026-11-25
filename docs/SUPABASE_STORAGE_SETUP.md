@@ -71,13 +71,15 @@ Open `backend/.env` and add/update:
 ```env
 # Supabase Configuration
 SUPABASE_URL=https://your-project-id.supabase.co
-SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 SUPABASE_BUCKET=parakar-storage
 ```
 
 **Replace:**
 - `SUPABASE_URL` with your Project URL from Step 3.1
-- `SUPABASE_KEY` with your anon key from Step 3.2
+- `SUPABASE_ANON_KEY` with your anon key from Step 3.2 (used for public uploads)
+- `SUPABASE_SERVICE_ROLE_KEY` with your service role key (used server-side for deletes and admin tasks; keep it secret)
 - `SUPABASE_BUCKET` should match bucket name from Step 2.2
 
 ### 4.2 Verify Configuration
@@ -243,7 +245,7 @@ GET http://localhost:3001/storage/stats
 
 ### "Supabase client not initialized"
 **Fix:**
-1. Check `.env` file has `SUPABASE_URL` and `SUPABASE_KEY`
+1. Check `.env` file has `SUPABASE_URL`, `SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY`
 2. Restart backend: `npm run start:dev`
 3. Verify keys are correct (no extra spaces)
 

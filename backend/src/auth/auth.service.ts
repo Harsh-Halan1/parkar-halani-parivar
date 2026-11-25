@@ -297,17 +297,27 @@ export class AuthService {
     });
 
     if (existing) {
+      const updateData: any = {
+        supabaseId: payload.supabaseId,
+        firstName: payload.firstName || existing.firstName,
+        lastName: payload.lastName || existing.lastName,
+        passwordHash: payload.passwordHash || existing.passwordHash,
+        lastLogin: new Date(),
+      };
+
+      // Only update email if we have a non-null value AND it's different from existing
+      if (payload.email && payload.email !== existing.email) {
+        updateData.email = payload.email;
+      }
+
+      // Only update phone if we have a non-null value AND it's different from existing
+      if (payload.phone && payload.phone !== existing.phone) {
+        updateData.phone = payload.phone;
+      }
+
       return this.prisma.user.update({
         where: { id: existing.id },
-        data: {
-          supabaseId: payload.supabaseId,
-          email: payload.email ?? existing.email,
-          phone: payload.phone ?? existing.phone,
-          firstName: payload.firstName || existing.firstName,
-          lastName: payload.lastName || existing.lastName,
-          passwordHash: payload.passwordHash || existing.passwordHash,
-          lastLogin: new Date(),
-        },
+        data: updateData,
       });
     }
 
@@ -332,7 +342,8 @@ export class AuthService {
   }
 
   private toAuthUserPayload(user: { id: string; email: string | null; phone: string | null; supabaseId: string | null; firstName: string; lastName: string }) {
-    const needsContactInfo = !user.phone || !user.email;
+    // Complementary phone is now optional; only missing email should trigger the contact reminder
+    const needsContactInfo = !user.email;
     return {
       id: user.id,
       email: user.email,

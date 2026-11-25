@@ -1,8 +1,8 @@
 // Modal Management
 import api, { auth } from './api.js';
 
-const DEV_MODE = import.meta.env.VITE_DEV_MODE === 'true';
-
+// const DEV_MODE = import.meta.env.VITE_DEV_MODE === 'true';
+const DEV_MODE = false;
 export class ModalManager {
   constructor() {
     this.overlay = document.getElementById('modal-overlay');
@@ -71,7 +71,7 @@ export class ModalManager {
     });
 
     // Live validation to clear resolved errors
-    ['signup-email', 'signup-phone', 'signup-password', 'signup-confirm-password', 'signup-otp'].forEach((id) => {
+    ['signup-first-name', 'signup-last-name', 'signup-email', 'signup-phone', 'signup-password', 'signup-confirm-password'].forEach((id) => {
       const field = document.getElementById(id);
       if (field) {
         field.addEventListener('input', () => this.handleFieldInput(id));
@@ -85,7 +85,7 @@ export class ModalManager {
       this.handleLoginSubmit();
     });
 
-    document.getElementById('signup-step3').addEventListener('submit', (e) => {
+    document.getElementById('signup-step2').addEventListener('submit', (e) => {
       e.preventDefault();
       this.handleSignupSubmit();
     });
@@ -139,13 +139,10 @@ export class ModalManager {
   async nextSignupStep() {
     if (!this.validateCurrentStep()) return;
 
-    // If moving from step 2 to step 3, send OTP first
-    if (this.currentSignupStep === 2) {
-      const nextBtn = document.querySelector('#signup-step2 .next-step');
-      this.setButtonLoading(nextBtn, true, 'Sending OTP...');
-      const otpSent = await this.sendOTP();
-      this.setButtonLoading(nextBtn, false);
-      if (!otpSent) return;
+    if (this.currentSignupStep >= this.progressSteps.length) {
+      // Already on last step; submit
+      this.handleSignupSubmit();
+      return;
     }
 
     this.currentSignupStep++;
@@ -161,10 +158,24 @@ export class ModalManager {
 
   validateCurrentStep() {
     if (this.currentSignupStep === 1) {
+      this.clearError('signup-first-name');
+      this.clearError('signup-last-name');
       this.clearError('signup-email');
       this.clearError('signup-phone');
+      const firstName = document.getElementById('signup-first-name').value.trim();
+      const lastName = document.getElementById('signup-last-name').value.trim();
       const email = document.getElementById('signup-email').value;
       const phone = document.getElementById('signup-phone').value;
+
+      if (!firstName) {
+        this.showError('signup-first-name', 'First name is required');
+        return false;
+      }
+
+      if (!lastName) {
+        this.showError('signup-last-name', 'Last name is required');
+        return false;
+      }
 
       if (!this.isValidEmail(email)) {
         this.showError('signup-email', 'Invalid email address');
@@ -279,6 +290,10 @@ export class ModalManager {
     const value = document.getElementById(fieldId)?.value || '';
 
     switch (fieldId) {
+      case 'signup-first-name':
+      case 'signup-last-name':
+        if (value.trim()) this.clearError(fieldId);
+        break;
       case 'signup-email':
         if (this.isValidEmail(value)) this.clearError(fieldId);
         break;
@@ -295,9 +310,6 @@ export class ModalManager {
         if (value && value === pwd) this.clearError(fieldId);
         break;
       }
-      case 'signup-otp':
-        if (value.trim().length >= 4) this.clearError(fieldId);
-        break;
       default:
         this.clearError(fieldId);
     }
@@ -371,22 +383,40 @@ export class ModalManager {
         this.setStatus('login-status', 'success', 'Logged in successfully (Dev Mode).');
         setTimeout(() => {
           this.closeAll();
-          window.location.href = '/app.html';
+          window.location.href = '/app';
         }, 500);
         this.setButtonLoading(submitBtn, false);
         return;
       }
 
-      const response = await api.post('/auth/login', { email, password, remember });
-      const { accessToken, refreshToken, user } = response.data || {};
+      const response = await api.post('/auth/email/sign-in', { email, password, rememberMe: remember });
+      const { user, tokens, accessToken, refreshToken, access_token, refresh_token } = response.data || {};
 
-      auth.setTokens(accessToken, refreshToken);
+      // Be flexible with backend token shapes
+      const access = tokens?.accessToken || tokens?.token || accessToken || access_token;
+      const refresh = tokens?.refreshToken || tokens?.refresh || refreshToken || refresh_token;
+
+      auth.setTokens(access, refresh);
       if (user) auth.setUser(user);
 
       this.setStatus('login-status', 'success', 'Logged in successfully.');
       setTimeout(() => {
         this.closeAll();
-        window.location.href = '/app.html';
+        
+        // Check if there's a pending redirect from router
+        const router = window.router;
+        const pendingRedirect = router?.getPendingRedirect();
+        
+        if (pendingRedirect && pendingRedirect !== '/') {
+          router.navigateTo(pendingRedirect);
+        } else {
+          // Prefer SPA navigation to keep shell alive
+          if (router) {
+            router.navigateTo('/app');
+          } else {
+            window.location.href = '/app';
+          }
+        }
       }, 500);
     } catch (error) {
       const message = error?.response?.data?.message || 'Login failed. Please try again.';
@@ -396,48 +426,21 @@ export class ModalManager {
     }
   }
 
-  async sendOTP() {
+  async handleSignupSubmit() {
+    const firstName = document.getElementById('signup-first-name').value.trim();
+    const lastName = document.getElementById('signup-last-name').value.trim();
     const email = document.getElementById('signup-email').value.trim();
     const phone = document.getElementById('signup-phone').value.trim();
     const password = document.getElementById('signup-password').value;
+    const submitBtn = document.querySelector('#signup-step2 button[type="submit"]');
 
     this.setStatus('signup-step2-status', '', '');
 
-    try {
-      // DEV MODE: Mock OTP sent
-      if (DEV_MODE) {
-        await new Promise(resolve => setTimeout(resolve, 600));
-        this.setStatus('signup-step2-status', 'success', 'OTP: 123456 (Dev Mode).');
-        return true;
-      }
-
-      await api.post('/auth/send-otp', { email, phone, password });
-      this.setStatus('signup-step2-status', 'success', 'OTP sent to your email.');
-      return true;
-    } catch (error) {
-      const message = error?.response?.data?.message || 'Failed to send OTP. Please try again.';
-      this.setStatus('signup-step2-status', 'error', message);
-      return false;
-    }
-  }
-
-  async handleSignupSubmit() {
-    const email = document.getElementById('signup-email').value.trim();
-    const phone = document.getElementById('signup-phone').value.trim();
-    const password = document.getElementById('signup-password').value;
-    const otp = document.getElementById('signup-otp').value.trim();
-    const submitBtn = document.querySelector('#signup-step3 button[type="submit"]');
-
-    this.setStatus('signup-step3-status', '', '');
-    this.clearError('signup-otp');
-
-    // DEV MODE: Skip OTP validation
-    if (!DEV_MODE && (!otp || otp.length < 4)) {
-      this.showError('signup-otp', 'Valid OTP is required');
+    if (!this.validateCurrentStep()) {
       return;
     }
 
-    this.setButtonLoading(submitBtn, true, 'Verifying...');
+    this.setButtonLoading(submitBtn, true, 'Creating account...');
 
     try {
       // DEV MODE: Mock successful signup
@@ -445,36 +448,61 @@ export class ModalManager {
         await new Promise(resolve => setTimeout(resolve, 800));
         const mockUser = { 
           id: 2, 
-          name: email.split('@')[0], 
+          name: `${firstName} ${lastName}`.trim(),
           email,
           phone,
           role: 'user'
         };
         auth.setTokens('mock-access-token', 'mock-refresh-token');
         auth.setUser(mockUser);
-        this.setStatus('signup-step3-status', 'success', 'Account created (Dev Mode)!');
+        this.setStatus('signup-step2-status', 'success', 'Account created (Dev Mode)!');
         setTimeout(() => {
           this.closeAll();
-          window.location.href = '/app.html';
+          
+          // Check for pending redirect
+          const router = window.router;
+          const pendingRedirect = router?.getPendingRedirect();
+          
+          if (pendingRedirect && pendingRedirect !== '/') {
+            router.navigateTo(pendingRedirect);
+          } else {
+            window.location.href = '/app';
+          }
         }, 800);
         this.setButtonLoading(submitBtn, false);
         return;
       }
+      
+      const response = await api.post('/auth/email/sign-up', { email, password, firstName, lastName, phone });
+      const { user, tokens, accessToken, refreshToken, access_token, refresh_token } = response.data || {};
+      
+      const access = tokens?.accessToken || tokens?.token || accessToken || access_token;
+      const refresh = tokens?.refreshToken || tokens?.refresh || refreshToken || refresh_token;
 
-      const response = await api.post('/auth/register', { email, phone, password, otp });
-      const { accessToken, refreshToken, user } = response.data || {};
-
-      auth.setTokens(accessToken, refreshToken);
+      auth.setTokens(access, refresh);
       if (user) auth.setUser(user);
-
-      this.setStatus('signup-step3-status', 'success', 'Account created successfully!');
+      
+      this.setStatus('signup-step2-status', 'success', 'Account created successfully!');
       setTimeout(() => {
         this.closeAll();
-        window.location.href = '/app.html';
+        
+        // Check for pending redirect
+        const router = window.router;
+        const pendingRedirect = router?.getPendingRedirect();
+        
+        if (pendingRedirect && pendingRedirect !== '/') {
+          router.navigateTo(pendingRedirect);
+        } else {
+          if (router) {
+            router.navigateTo('/app');
+          } else {
+            window.location.href = '/app';
+          }
+        }
       }, 800);
     } catch (error) {
       const message = error?.response?.data?.message || 'Signup failed. Please try again.';
-      this.setStatus('signup-step3-status', 'error', message);
+      this.setStatus('signup-step2-status', 'error', message);
     } finally {
       this.setButtonLoading(submitBtn, false);
     }

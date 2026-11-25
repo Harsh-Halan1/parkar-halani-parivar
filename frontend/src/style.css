@@ -426,7 +426,7 @@ body {
 
 /* Hero Section */
 .hero {
-    min-height: 100vh;
+    min-height: 91vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -662,7 +662,7 @@ body {
     display: none;
     opacity: 0;
     visibility: hidden;
-    z-index: 1000;
+    z-index: 9998;
     animation: fadeIn 0.3s ease;
     contain: paint layout;
 }
@@ -675,7 +675,7 @@ body {
 
 .modal {
     position: fixed;
-    top: 30%;
+    top: 27%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0.9);
     background: var(--bg-light);
@@ -684,7 +684,7 @@ body {
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     max-width: 520px;
     width: 95%;
-    z-index: 1001;
+    z-index: 9999;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -706,13 +706,13 @@ body {
 .modal-content form {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.5rem;
 }
 
 .modal .form-group {
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
+    gap: 0.25rem;
 }
 
 .modal input,
@@ -804,8 +804,89 @@ body {
     color: var(--text);
 }
 
+/* Contact Info Toast */
+.contact-toast {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    width: min(420px, calc(100% - 1.5rem));
+    padding: 1rem 1.1rem;
+    background: rgba(15, 23, 42, 0.92);
+    border: 1px solid var(--border);
+    border-radius: 0.9rem;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    z-index: 1100;
+}
+
+.contact-toast__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.contact-toast__title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text);
+}
+
+.contact-toast__body {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.contact-toast__actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.contact-toast .btn-sm {
+    padding: 0.45rem 0.75rem;
+}
+
+@media (max-width: 640px) {
+    .contact-toast {
+        left: 0.75rem;
+        right: 0.75rem;
+        bottom: 0.75rem;
+        width: auto;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .contact-toast__actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+
+/* Contact Info Modal tweaks */
+.contact-modal-content {
+    max-width: 460px;
+}
+
+.contact-modal-content .modal-subtitle {
+    color: var(--text-muted);
+    margin-top: 0.35rem;
+    font-size: 0.95rem;
+}
+
+.contact-modal-content .form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+
 .modal-header {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     text-align: center;
 }
 
@@ -820,12 +901,12 @@ body {
     justify-content: space-between;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.5rem 0 1rem;
+    padding: 0 0 1rem;
 }
 
 .progress-line {
     position: absolute;
-    top: 60%;
+    top: 59%;
     left: 0;
     right: 0;
     height: 2px;
@@ -860,7 +941,7 @@ body {
     content: '';
     position: absolute;
     left: 50%;
-    bottom: -0.35rem;
+    bottom: -0.5rem;
     transform: translateX(-50%);
     width: 8px;
     height: 8px;
@@ -888,11 +969,21 @@ body {
 }
 
 .signup-step {
-    display: none;
+    display: none !important;
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
+    margin: 0;
 }
 
 .signup-step.active {
-    display: block;
+    display: flex !important;
+    flex-direction: column;
+    gap: 0.5rem;
+    visibility: visible;
+    height: auto;
+    overflow: visible;
+    margin: unset;
     animation: slideIn 0.3s ease;
 }
 
@@ -906,6 +997,7 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
+
 }
 
 @keyframes fadeIn {
@@ -919,7 +1011,7 @@ body {
 }
 
 .form-group {
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
 }
 
 .form-group label {
@@ -958,7 +1050,7 @@ body {
 }
 
 .form-status {
-    min-height: 1.1rem;
+    min-height: 0;
     margin: -0.25rem 0 0.75rem;
     font-size: 0.95rem;
     color: var(--text-muted);
@@ -975,8 +1067,11 @@ body {
 .form-group.checkbox {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     gap: 0.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
+    flex-direction: row;
+    padding-left: 1vh;
 }
 
 .form-group.checkbox input {
@@ -1039,9 +1134,24 @@ body {
     border-color: var(--primary);
 }
 
+.btn-danger {
+    background: var(--danger);
+    color: white;
+    border: 1px solid var(--danger);
+}
+
+.btn-danger:hover {
+    background: #dc2626;
+    border-color: #dc2626;
+}
+
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
 .form-footer {
     text-align: right;
-    margin-top: 1rem;
 }
 
 .link {
@@ -1074,7 +1184,7 @@ body {
 .modal-divider {
     text-align: center;
     color: var(--text-muted);
-    margin: 1.5rem 0;
+    margin: 0 0 1rem 0;
     position: relative;
 }
 
@@ -1095,9 +1205,9 @@ body {
 }
 
 .modal-footer {
-    text-align: center;
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
+        text-align: center;
+    margin-top: 1rem;
+    padding-top: 0.30rem;
     border-top: 1px solid var(--border);
     font-size: 0.875rem;
 }
@@ -1282,6 +1392,29 @@ button:focus-visible {
     transform: scale(1.2);
 }
 
+/* Search Bar */
+.search-bar {
+    margin-bottom: 2rem;
+}
+
+.search-bar input {
+    width: 100%;
+    max-width: 500px;
+    padding: 0.75rem 1rem;
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    color: var(--text);
+    font-size: 0.95rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-bar input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
 .search-filter-bar {
     display: flex;
     gap: 1rem;
@@ -1338,6 +1471,65 @@ button:focus-visible {
 .filter-select:focus {
     outline: none;
     border-color: var(--primary);
+}
+
+/* Table Styles */
+.table-container {
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: rgba(99, 102, 241, 0.1);
+    border-bottom: 2px solid var(--border);
+}
+
+thead th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text);
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background-color 0.2s ease;
+}
+
+tbody tr:last-child {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background: rgba(99, 102, 241, 0.05);
+}
+
+tbody td {
+    padding: 1rem;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+tbody td:first-child {
+    color: var(--text);
+    font-weight: 500;
+}
+
+.table-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
 }
 
 /* Empty State */
@@ -1685,11 +1877,6 @@ button:focus-visible {
     gap: 0.5rem;
 }
 
-.btn-sm {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-}
-
 /* Events Grid (Legacy - keeping for backward compatibility) */
 .events-grid {
     display: grid;
@@ -1797,13 +1984,45 @@ button:focus-visible {
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* clip children to rounded corners */
+    overflow: hidden;
 }
 
 .announcement-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 24px rgba(99, 102, 241, 0.2);
     border-color: var(--primary);
+}
+
+.announcement-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+    font-weight: 600;
+}
+
+.announcement-date {
+    color: var(--primary);
+    font-weight: 500;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.announcement-card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.announcement-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
 }
 
 .announcement-card-header {
@@ -2189,9 +2408,10 @@ button:focus-visible {
 
 /* Page Transitions - Router Animations */
 #app-content {
+    display: none;
     transition: opacity 0.15s ease, transform 0.15s ease;
     contain: layout style paint;
-    min-height: 60vh;
+    min-height: 0vh;
 }
 
 #home-content {

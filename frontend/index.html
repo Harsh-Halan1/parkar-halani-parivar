@@ -139,6 +139,18 @@
     <!-- SPA Content Area (for router) -->
     <div id="app-content"></div>
 
+    <!-- Contact Info Reminder Toast (session-scoped) -->
+    <div id="contact-info-toast" class="contact-toast" role="status" aria-live="polite" style="display: none;">
+        <div class="contact-toast__content">
+            <div class="contact-toast__title">Add a backup login</div>
+            <div class="contact-toast__body">Add email or phone so you have an extra way to sign in. Recommendation only.</div>
+        </div>
+        <div class="contact-toast__actions">
+            <button id="contact-toast-cta" class="btn btn-primary btn-sm" aria-label="Add contact info">Add now</button>
+            <button id="contact-toast-dismiss" class="btn btn-outline btn-sm" aria-label="Dismiss recommendation">Dismiss</button>
+        </div>
+    </div>
+
     <!-- Home Page Content (initial view) -->
     <div id="home-content">
         <!-- Hero Section -->
@@ -194,8 +206,38 @@
         </div>
     </footer>
 
+    
+
+    <!-- Close home content div -->
+    </div>
     <!-- Modal Overlay -->
     <div id="modal-overlay" class="modal-overlay"></div>
+
+    <!-- Contact Info Modal -->
+    <div id="contact-modal" class="modal" aria-hidden="true">
+        <div class="modal-content contact-modal-content">
+            <button class="modal-close" id="contact-close" aria-label="Close">&times;</button>
+            <div class="modal-header">
+                <h2>Add contact info</h2>
+                <p class="modal-subtitle">Provide an email or phone so you have another way to sign in.</p>
+            </div>
+            <form id="contact-info-form" class="modal-form">
+                <div class="form-group">
+                    <label for="contact-email">Email (optional)</label>
+                    <input type="email" id="contact-email" name="email" placeholder="you@email.com" autocomplete="email" />
+                </div>
+                <div class="form-group">
+                    <label for="contact-phone">Phone (optional)</label>
+                    <input type="tel" id="contact-phone" name="phone" placeholder="+91 98765 43210" autocomplete="tel" />
+                </div>
+                <div class="form-status" id="contact-status" role="status" aria-live="polite"></div>
+                <div class="form-buttons">
+                    <button type="button" class="btn btn-outline" id="contact-cancel">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="contact-submit">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- Login Modal -->
     <div id="login-modal" class="modal">
@@ -244,22 +286,29 @@
             <div class="modal-header">
                 <h2 data-i18n="auth.signupTitle">Join Parakar Halani Parivar</h2>
                 <div class="progress-indicator">
-                    <div class="step active" data-step="1" data-i18n="auth.step1">Email & Phone</div>
+                    <div class="step active" data-step="1" data-i18n="auth.step1">Details</div>
                     <div class="step" data-step="2" data-i18n="auth.step2">Password</div>
-                    <div class="step" data-step="3" data-i18n="auth.step3">Verify</div>
                     <div class="progress-line"><span class="progress-line-fill"></span></div>
                 </div>
             </div>
 
-            <!-- Step 1: Email & Phone -->
+            <!-- Step 1: Details -->
             <form id="signup-step1" class="modal-form signup-step active">
+                <div class="form-group">
+                    <label for="signup-first-name">First name</label>
+                    <input type="text" id="signup-first-name" required placeholder="First name">
+                </div>
+                <div class="form-group">
+                    <label for="signup-last-name">Last name</label>
+                    <input type="text" id="signup-last-name" required placeholder="Last name">
+                </div>
                 <div class="form-group">
                     <label for="signup-email" data-i18n="auth.email">Email</label>
                     <input type="email" id="signup-email" required placeholder="your@email.com">
                 </div>
                 <div class="form-group">
-                    <label for="signup-phone" data-i18n="auth.phone">Phone Number</label>
-                    <input type="tel" id="signup-phone" required placeholder="+1 (555) 000-0000">
+                    <label for="signup-phone">Phone Number</label>
+                    <input type="tel" id="signup-phone" required placeholder="+91 xxxxx xxxxx">
                 </div>
                 <button type="button" class="btn btn-primary btn-block next-step" data-i18n="auth.nextBtn">Next</button>
             </form>
@@ -287,25 +336,7 @@
                 <div class="form-buttons">
                     <button type="button" class="btn btn-outline btn-block prev-step"
                         data-i18n="auth.previousBtn">Previous</button>
-                    <button type="button" class="btn btn-primary btn-block next-step"
-                        data-i18n="auth.nextBtn">Next</button>
-                </div>
-            </form>
-
-            <!-- Step 3: OTP Verification -->
-            <form id="signup-step3" class="modal-form signup-step">
-                <p class="otp-message" data-i18n="auth.otpSent">OTP sent to your email</p>
-                <div class="form-group">
-                    <label for="signup-otp" data-i18n="auth.otp">Enter OTP</label>
-                    <input type="text" id="signup-otp" maxlength="6" placeholder="000000" required>
-                </div>
-                <button type="button" class="link-btn otp-resend" data-i18n="auth.resendOtp">Resend OTP</button>
-                <div class="form-status" id="signup-step3-status" role="status" aria-live="polite"></div>
-                <div class="form-buttons">
-                    <button type="button" class="btn btn-outline btn-block prev-step"
-                        data-i18n="auth.previousBtn">Previous</button>
-                    <button type="submit" class="btn btn-primary btn-block" data-i18n="auth.verifyBtn">Verify &
-                        Complete</button>
+                    <button type="submit" class="btn btn-primary btn-block" data-i18n="auth.verifyBtn">Create account</button>
                 </div>
             </form>
 
@@ -314,9 +345,6 @@
                 <button type="button" class="link-btn" id="switch-to-login" data-i18n="auth.login">Login</button>
             </div>
         </div>
-    </div>
-
-    <!-- Close home content div -->
     </div>
 
     <!-- Load JavaScript with optimal strategy -->

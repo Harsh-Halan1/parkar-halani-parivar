@@ -5,6 +5,15 @@ import api, { auth } from './api.js';
 import ModalManager from './modal.js';
 import router from './router.js';
 
+const CONTACT_TOAST_KEYS = {
+    dismissed: 'contactInfoToastDismissed',
+    expiresAt: 'contactInfoToastExpiresAt',
+};
+const CONTACT_TOAST_MS = 5 * 60 * 1000; // 5 minutes
+let contactToastTimer = null;
+// Cache dashboard stats between navigations to avoid flashing zeros
+const dashboardStats = { families: null, members: null, announcements: null };
+
 // Initialize i18next
 i18next.init;
 
@@ -200,7 +209,7 @@ export function updateAuthUI() {
     document.querySelectorAll('a[data-i18n="nav.home"]').forEach((link) => {
         const currentHref = link.getAttribute('href') || '';
         if (currentHref.includes('#home')) {
-            link.setAttribute('href', isAuth ? '/app.html' : '#home');
+            link.setAttribute('href', isAuth ? '/app' : '#home');
         }
     });
 }
@@ -277,6 +286,176 @@ if (profileLogoutBtn) {
     });
 }
 
+// Contact-info reminder + modal
+const contactToast = $('#contact-info-toast');
+const contactToastDismissBtn = $('#contact-toast-dismiss');
+const contactToastCta = $('#contact-toast-cta');
+const contactModal = $('#contact-modal');
+const contactCloseBtn = $('#contact-close');
+const contactCancelBtn = $('#contact-cancel');
+const contactForm = $('#contact-info-form');
+const contactEmailInput = $('#contact-email');
+const contactPhoneInput = $('#contact-phone');
+const contactStatus = $('#contact-status');
+const contactSubmitBtn = $('#contact-submit');
+
+function clearContactToastState() {
+    sessionStorage.removeItem(CONTACT_TOAST_KEYS.dismissed);
+    sessionStorage.removeItem(CONTACT_TOAST_KEYS.expiresAt);
+    if (contactToast) contactToast.style.display = 'none';
+    if (contactToastTimer) {
+        clearTimeout(contactToastTimer);
+        contactToastTimer = null;
+    }
+}
+
+function hideContactToast(reason = 'hidden') {
+    if (contactToast) contactToast.style.display = 'none';
+    if (contactToastTimer) {
+        clearTimeout(contactToastTimer);
+        contactToastTimer = null;
+    }
+    if (reason === 'dismissed' || reason === 'expired') {
+        sessionStorage.setItem(CONTACT_TOAST_KEYS.dismissed, '1');
+    }
+}
+
+function startContactToastTimer(remainingMs) {
+    if (contactToastTimer) clearTimeout(contactToastTimer);
+    contactToastTimer = setTimeout(() => hideContactToast('expired'), remainingMs);
+}
+
+function showContactToast() {
+    if (!contactToast) return;
+    const now = Date.now();
+    const storedExpiresAt = Number(sessionStorage.getItem(CONTACT_TOAST_KEYS.expiresAt) || 0);
+    const expiresAt = storedExpiresAt > now ? storedExpiresAt : now + CONTACT_TOAST_MS;
+    const remaining = Math.max(0, expiresAt - now);
+    sessionStorage.setItem(CONTACT_TOAST_KEYS.expiresAt, expiresAt.toString());
+
+    contactToast.style.display = 'flex';
+    startContactToastTimer(remaining || CONTACT_TOAST_MS);
+}
+
+function maybeShowContactToast() {
+    const user = auth.getUser();
+    if (!user?.needsContactInfo) {
+        hideContactToast();
+        return;
+    }
+
+    if (sessionStorage.getItem(CONTACT_TOAST_KEYS.dismissed) === '1') {
+        return;
+    }
+
+    const expiresAt = Number(sessionStorage.getItem(CONTACT_TOAST_KEYS.expiresAt) || 0);
+    if (expiresAt && Date.now() >= expiresAt) {
+        hideContactToast('expired');
+        return;
+    }
+
+    showContactToast();
+}
+
+function openContactModal() {
+    if (!contactModal) return;
+    contactModal.classList.add('active');
+    contactModal.setAttribute('aria-hidden', 'false');
+    if (modalOverlay) modalOverlay.classList.add('active');
+}
+
+function closeContactModal() {
+    if (!contactModal) return;
+    contactModal.classList.remove('active');
+    contactModal.setAttribute('aria-hidden', 'true');
+    if (modalOverlay) modalOverlay.classList.remove('active');
+}
+
+function setContactStatus(type = '', message = '') {
+    if (!contactStatus) return;
+    contactStatus.textContent = message;
+    contactStatus.className = 'form-status';
+    if (type) contactStatus.classList.add(type);
+}
+
+function setContactButtonLoading(isLoading) {
+    if (!contactSubmitBtn) return;
+    if (isLoading) {
+        contactSubmitBtn.dataset.originalText = contactSubmitBtn.textContent;
+        contactSubmitBtn.textContent = 'Saving...';
+        contactSubmitBtn.disabled = true;
+    } else {
+        contactSubmitBtn.textContent = contactSubmitBtn.dataset.originalText || contactSubmitBtn.textContent;
+        contactSubmitBtn.disabled = false;
+    }
+}
+
+if (contactToastDismissBtn) {
+    on(contactToastDismissBtn, 'click', () => hideContactToast('dismissed'));
+}
+
+if (contactToastCta) {
+    on(contactToastCta, 'click', () => {
+        openContactModal();
+    });
+}
+
+if (contactCloseBtn) {
+    on(contactCloseBtn, 'click', closeContactModal);
+}
+
+if (contactCancelBtn) {
+    on(contactCancelBtn, 'click', (e) => {
+        e.preventDefault();
+        closeContactModal();
+    });
+}
+
+if (modalOverlay) {
+    on(modalOverlay, 'click', closeContactModal);
+}
+
+if (contactForm) {
+    on(contactForm, 'submit', async (e) => {
+        e.preventDefault();
+        setContactStatus('', '');
+        const email = contactEmailInput?.value.trim() || '';
+        const phone = contactPhoneInput?.value.trim() || '';
+
+        if (!email && !phone) {
+            setContactStatus('error', 'Enter at least an email or phone.');
+            return;
+        }
+
+        const user = auth.getUser();
+        if (!user?.id) {
+            setContactStatus('error', 'User session missing. Please re-login.');
+            return;
+        }
+
+        setContactButtonLoading(true);
+        try {
+            const response = await api.post('/auth/update-contact', {
+                userId: user.id,
+                email: email || undefined,
+                phone: phone || undefined,
+            });
+
+            const updatedUser = response.data || {};
+            const mergedUser = { ...user, ...updatedUser, needsContactInfo: updatedUser?.needsContactInfo ?? false };
+            auth.setUser(mergedUser);
+            setContactStatus('success', 'Contact info saved.');
+            hideContactToast('dismissed');
+            setTimeout(() => closeContactModal(), 400);
+        } catch (err) {
+            const message = err?.response?.data?.message || 'Could not save contact info. Try again.';
+            setContactStatus('error', message);
+        } finally {
+            setContactButtonLoading(false);
+        }
+    });
+}
+
 // Logout button handlers
 const logoutBtn = $('#logout-btn');
 const sidebarLogoutBtn = $('#sidebar-logout-btn');
@@ -302,10 +481,12 @@ if (sidebarLogoutBtn) {
 window.addEventListener('auth:login', (e) => {
     console.log('✅ User logged in:', e.detail);
     updateAuthUI();
+    maybeShowContactToast();
 });
 
 window.addEventListener('auth:logout', () => {
     console.log('🚪 User logged out');
+    clearContactToastState();
     updateAuthUI();
 });
 
@@ -317,31 +498,17 @@ if (auth.isAuthenticated()) {
 
 // Initialize auth UI state
 updateAuthUI();
+maybeShowContactToast();
 
-// Initialize SPA Router
-async function initializeRouter() {
-    // Register routes
-    router.register('/', 'index.html');
-    router.register('/app', 'app.html');
-    router.register('/families', 'families.html');
-    router.register('/members', 'members.html');
-    router.register('/announcements', 'announcements.html');
-    
-    // Initialize router
-    await router.init('#app-content');
-    
-    // Listen for route changes to update active nav
-    window.addEventListener('routeChanged', (e) => {
-        setActiveNav();
-        updateAuthUI();
-        updateTranslations();
-    });
+// On home page, redirect authenticated users
+if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
+    if (auth.isAuthenticated()) {
+        window.location.href = '/app.html';
+    }
 }
 
-// Only initialize router if content area exists (main app pages)
-if ($('#app-content')) {
-    initializeRouter().catch(console.error);
-}
+// SPA Router disabled - using standalone pages instead
+// Each page loads and initializes independently
 
 console.log('✨ Frontend loaded successfully!');
 console.log('🌐 Current language:', i18next.language);

@@ -10,6 +10,10 @@ class Router {
         this.isTransitioning = false;
         this.contentArea = null;
         this.pageCache = new Map();
+        this.pendingRedirect = null; // Store intended destination for post-login redirect
+        
+        // Define protected routes that require authentication
+        this.protectedRoutes = ['/app', '/families', '/members', '/announcements'];
     }
 
     /**
@@ -50,12 +54,25 @@ class Router {
             this.contentArea.style.display = 'block';
             await this.navigateTo(initialPath, false);
         } else {
-            // For home page, show home content, hide app content
-            if (homeContent) homeContent.style.display = 'block';
-            this.contentArea.style.display = 'none';
-            this.currentRoute = '/';
-            window.history.replaceState({ path: '/' }, 'Home', '/');
-            this.updateActiveNav('/');
+            // For home page, check if user is logged in
+            if (this.isAuthenticated()) {
+                // Redirect logged-in users to /app
+                await this.navigateTo('/app', false);
+                // Fallback: if SPA navigation didn’t switch, hard redirect
+                if (this.currentRoute !== '/app') {
+                    window.location.href = '/app';
+                    return;
+                }
+            } else {
+                // For logged-out users on home page, show home content
+                if (homeContent) homeContent.style.display = 'block';
+                this.contentArea.style.display = 'none';
+                this.contentArea.style.minHeight = '0';
+                this.contentArea.innerHTML = ''; // Clear any content
+                this.currentRoute = '/';
+                window.history.replaceState({ path: '/' }, 'Home', '/');
+                this.updateActiveNav('/');
+            }
         }
     }
 
@@ -107,6 +124,25 @@ class Router {
             return;
         }
 
+        // Redirect logged-in users away from home page
+        if (normalizedPath === '/' && this.isAuthenticated()) {
+            console.log('Logged-in user on home page, redirecting to /app');
+            await this.navigateTo('/app', false);
+            return;
+        }
+
+        // Check if route requires authentication
+        if (this.isProtectedRoute(normalizedPath) && !this.isAuthenticated()) {
+            console.log('Protected route, redirecting to login');
+            this.pendingRedirect = normalizedPath;
+            this.showLoginModal();
+            // Redirect to home page in URL
+            if (window.location.pathname !== '/') {
+                window.history.replaceState({ path: '/' }, 'Home', '/');
+            }
+            return;
+        }
+
         this.isTransitioning = true;
 
         try {
@@ -119,10 +155,11 @@ class Router {
             const homeContent = document.querySelector('#home-content');
             
             if (normalizedPath === '/') {
-                // For home page, show the home content div
+                // For home page, show the home content div, hide and clear app content
                 if (homeContent) {
                     homeContent.style.display = 'block';
                     this.contentArea.style.display = 'none';
+                    this.contentArea.style.minHeight = '0';
                 }
                 content = '';
             } else {
@@ -370,6 +407,45 @@ class Router {
      */
     getRoutes() {
         return Array.from(this.routes.keys());
+    }
+
+    /**
+     * Check if a route requires authentication
+     */
+    isProtectedRoute(path) {
+        return this.protectedRoutes.includes(path);
+    }
+
+    /**
+     * Check if user is authenticated
+     */
+    isAuthenticated() {
+        // Fall back to stored user if token key differs
+        const token = localStorage.getItem('token');
+        const user = localStorage.getItem('user');
+        return !!(token || user);
+    }
+
+    /**
+     * Show login modal
+     */
+    showLoginModal() {
+        const loginModal = document.getElementById('login-modal');
+        const overlay = document.getElementById('modal-overlay');
+        if (loginModal && overlay) {
+            overlay.classList.add('active');
+            loginModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    /**
+     * Get pending redirect and clear it
+     */
+    getPendingRedirect() {
+        const redirect = this.pendingRedirect;
+        this.pendingRedirect = null;
+        return redirect;
     }
 }
 
